@@ -9,10 +9,17 @@
 
             $inputCard.mask('0000-0000-0000-0000');
 
-            $('form[role="presentSubmit"]').on('submit', function(){
+            function replaceMask(){
                 $inputCard.val($inputCard.val().replace(/-/g,''));
+            }
+
+            $('form[role="presentSubmit"]').on('submit', function(event){
+                replaceMask();
             });
 
+            $('form[role="donateSubmit"] .button').on('click', function(){
+                replaceMask();
+            });
         });
 
     });

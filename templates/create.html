@@ -47,17 +47,28 @@
 <script>
 $(function () {
 
-    $('#fileupload').fileupload({
-        dataType: 'json',
-        done: function (e, data) {
-            var imageUrl = $('#image')[0];
-			imageUrl.value = data.result.file.url;
-
+	function updateImage(data){
+		var imageUrl = $('#image')[0],
 			$wrapper = $('.present__photo');
+
+			if(data){
+				imageUrl.value = data.result.file.url
+			}
+
 			$wrapper.css('background-image', 'url(' + imageUrl.value + ')');
 			$('.present__icon').hide();
-			$('.form-item__error', $wrapper).removeClass('form-item__error--show');
 
+			if(imageUrl.value){
+				$('.form-item__error', $wrapper).removeClass('form-item__error--show');
+			}
+	}
+
+	updateImage();
+
+	$('#fileupload').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+			updateImage(data)
         }
     });
 
