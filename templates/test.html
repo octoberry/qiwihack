@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+{% block content %}
+<script src="http://yandex.st/jquery/2.1.1/jquery.js"></script>
+<script>
+function attemptTransfer($form) {
+    var form = $form[0];
+    var data = $form.serialize();
+    console.log(data);
+    $.ajax({
+        type: "POST",
+        url: "http://split2pay.ru:8080/splittpay/rest/attemptTransfer",
+        data: data,
+        success: function (response) {
+            console.log(response);
+            form.PaReq.value = response.paReq;
+            form.MD.value = response.md;
+            form.action = response.acsurl;
+            $form.submit();
+        }
+    });
+}
+
+$(function() {
+    var $form = $('form');
+    $('button').on('click', function(e) {
+        e.preventDefault();
+        attemptTransfer($form);
+    });
+})
+</script>
+<form action="/attempt" method="post">
+    <input type="hidden" name="card_destination" value="{{ event['owner_card_number'] }}">
+    <input type="hidden" name="member_id" value="{{ event['members'][0]['id_member'] }}">
+    <input type="hidden" name="event_id" value="{{ event['id_event'] }}">
+    <input type="hidden" name="TermUrl" value="http://split2pay.ru:8080/splittpay/rest/submitPayment">
+    <input type="hidden" name="PaReq" value="">
+    <input type="hidden" name="MD" value="">
+
+    <dl>
+        <dt>Сумма:</dt>
+        <dd><input type="text" name="transfer_amount" value="100"></dd>
+
+        <dt>Номер карты:</dt>
+        <dd><input type="text" name="card_source" value="4154817685289327"></dd>
+
+        <dt>Срок и CVV:</dt>
+        <dd>
+            <input type="text" name="card_source_expdate" value="201503">
+            <input type="text" name="cvv" value="696">
+        </dd>
+    </dl>
+
+    <p><button>submit</button></p>
+</form>
+{% endblock %}

@@ -5,10 +5,23 @@ h1,h2,h3,h4,h5,h6
 	padding 0
 	margin 0
 
+.float-left
+	float left
+
+.float-right
+	float right
+
 .title
 	&-h2
 		font-size 36px
 		font-weight lighter
+
+a
+	color $red
+	text-decoration none
+
+	&:hover
+		text-decoration underline
 
 textarea
 	border 0
@@ -47,6 +60,11 @@ input[type=text]
 
 	&:focus
 		outline-color $red
+
+.input
+	&--full
+		width 96%
+		padding 20px 2% !important
 
 .form-item
 	&__label
