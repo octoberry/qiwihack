@@ -67,8 +67,7 @@ def add_split_event(event_data):
 
 def get_event_income(event):
     split_event = splitpay.get_event(event.split_event_id)
-    print split_event
-    return float(event.amount) - float(split_event['members'][0]['credit'])
+    return float(split_event['members'][0]['debet'])
 
 @app.route('/success/<int:event_id>')
 @db_session
