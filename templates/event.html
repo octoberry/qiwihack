@@ -15,7 +15,11 @@
 </div>
 <div class="spacer spacer--big"></div>
 {% if status == 'ok' %}
-    <h2 class="title-h2">Спасибо, Ваш платеж принят!</h2>
+    <div class="thanks-page">
+        <h2 class="title-h2">Спасибо, Ваш платеж принят!</h2>
+        <div class="spacer spacer--small"></div>
+        <img src="/static/images/thanks.jpg" alt="Маша говорит &laquo;Спасибо!&raquo;"/>
+    </div>
 {% elif error %}
     <h2 class="title-h2">Произошла ошибка</h2>
 {% else %}
@@ -64,7 +68,7 @@
 	</div>
 	<div class="spacer spacer--big"></div>
 	<div class="form-item form-item--submit">
-		<input id="submit" class="button button__full-color" type="button" value="Отправить"/>
+		<input id="save" class="button button__full-color" type="button" value="Отправить"/>
 	</div>
 </form>
 {% endif %}
@@ -145,7 +149,7 @@
 
 	$(function() {
 		var $form = $('form');
-		$('#submit').on('click', function(e) {
+		$('#save').on('click', function(e) {
 			e.preventDefault();
 			attemptTransfer($form);
 		});
