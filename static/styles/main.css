@@ -385,3 +385,27 @@ input[type=text]:focus {
 .donate-form #cvv {
   width: 83px;
 }
+.donate-progressbar {
+  height: 50px;
+  border-bottom: 2px solid #7bd500;
+  background: #f6f6f6;
+}
+.donate-progressbar__value {
+  display: inline-block;
+  height: 100%;
+  line-height: 50px;
+  text-align: right;
+  padding-right: 15px;
+  width: 85px;
+  background: #7bd500;
+  color: #fff;
+  float: left;
+}
+.donate-progressbar__goal {
+  display: inline-block;
+  line-height: 50px;
+  color: #9b9b9b;
+  float: right;
+  padding-right: 30px;
+  background: url("/static/images/finish-icon.svg") no-repeat 105px 30px;
+}

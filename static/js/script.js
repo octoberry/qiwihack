@@ -13,7 +13,7 @@
                 $inputCard.val($inputCard.val().replace(/-/g,''));
             }
 
-            $('form[role="presentSubmit"]').on('submit', function(event){
+            $('form[role="presentSubmit"]').on('submit', function(){
                 replaceMask();
             });
 
@@ -21,7 +21,6 @@
                 replaceMask();
             });
         });
-
     });
 
 })();
