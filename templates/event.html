@@ -14,13 +14,18 @@
 	<div class="donate-progressbar__goal">{{ event.amount }} руб.</div>
 </div>
 <div class="spacer spacer--big"></div>
+{% if status == 'ok' %}
+    <h2 class="title-h2">Спасибо, Ваш платеж принят!</h2>
+{% elif error %}
+    <h2 class="title-h2">Произошла ошибка</h2>
+{% else %}
 <h2 class="title-h2">Скинуться</h2>
 <div class="spacer"></div>
 <form action="" class="donate-form" method="post" role="donateSubmit">
     <input type="hidden" name="card_destination" value="{{ event.card }}">
     <input type="hidden" name="member_id" value="{{ event.split_member_id }}">
     <input type="hidden" name="event_id" value="{{ event.split_event_id }}">
-    <input type="hidden" name="TermUrl" value="http://split2pay.ru:8080/splittpay/rest/submitPayment">
+    <input type="hidden" name="TermUrl" value="http://split2pay.ru:8080/p2papi/submitPayment">
     <input type="hidden" name="PaReq" value="">
     <input type="hidden" name="MD" value="">
     <input type="hidden" name="card_source_expdate" value="">
@@ -59,9 +64,10 @@
 	</div>
 	<div class="spacer spacer--big"></div>
 	<div class="form-item form-item--submit">
-		<input class="button button__full-color" type="submit" value="Отправить"/>
+		<input id="submit" class="button button__full-color" type="button" value="Отправить"/>
 	</div>
 </form>
+{% endif %}
 {% endblock %}
 {% block scripts %}
 <script>
@@ -93,26 +99,42 @@
 
 	})();
 
-
-
 	function attemptTransfer($form) {
 		var form = $form[0];
 		form.card_source_expdate.value = expdate($form);
-		var data = $form.serialize();
+		var data = form_data($form);
+        delete data.TermUrl;
+        data.term_url = 'http://chipin.dev.octoberry.ru/event/{{ event.id }}';
 		console.log(data);
 		$.ajax({
 			type: "POST",
-			url: "http://split2pay.ru:8080/splittpay/rest/attemptTransfer",
+			url: "http://split2pay.ru:8080/p2papi/invokePayment",
 			data: data,
 			success: function (response) {
-				console.log(response);
-				form.PaReq.value = response.paReq;
-				form.MD.value = response.md;
-				form.action = response.acsurl;
-				$form.submit();
-			}
+                console.log(response);
+                if (response.error) {
+                    alert(response.error)
+                } else {
+                    form.PaReq.value = response.paReq;
+                    form.MD.value = response.md;
+                    form.action = response.acsurl;
+                    $form.submit();
+                }
+            },
+            error: function() {
+                alert('Произошла ошибка');
+            }
 		});
 	}
+    function form_data($form) {
+        var fields = $form.find('input[name],select[name]');
+        var data = {};
+        for (var i in fields) {
+            var field = fields[i];
+            data[field.name] = field.value;
+        }
+        return data;
+    }
 
 	function expdate($form) {
 		var exp_month = $form.find('[name="exp_month"]').val();
@@ -122,7 +144,7 @@
 
 	$(function() {
 		var $form = $('form');
-		$('button').on('click', function(e) {
+		$('#submit').on('click', function(e) {
 			e.preventDefault();
 			attemptTransfer($form);
 		});

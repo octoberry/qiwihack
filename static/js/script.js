@@ -17,7 +17,7 @@
                 replaceMask();
             });
 
-            $('form[role="donateSubmit"] .button').on('click', function(){
+            $('#submit').on('click', function(){
                 replaceMask();
             });
         });

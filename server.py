@@ -82,7 +82,11 @@ def success(event_id):
 def event(event_id):
     event = Events.get(id=event_id)
     event.url = url_for('event', event_id=event_id, _external=True)
-    return render_template('event.html', event=event, income=get_event_income(event))
+    return render_template('event.html',
+                           event=event,
+                           income=get_event_income(event),
+                           error=request.args.get('error'),
+                           status=request.args.get('status'))
 
 
 @app.route('/upload', methods=['POST'])
