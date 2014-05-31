@@ -188,14 +188,94 @@ h6 {
   padding: 0;
   margin: 0;
 }
+.title-h2 {
+  font-size: 36px;
+  font-weight: lighter;
+}
+textarea {
+  border: 0;
+  background: #f6f6f6;
+  width: 100%;
+  height: 100%;
+padding-top
+}
+button {
+  font-size: 14px;
+  padding: 8px 15px;
+  border: 1px solid #fc3f6d;
+  background: #fff;
+  color: #fc3f6d;
+  font-weight: bold;
+}
+button:hover {
+  color: #fff;
+  background: #fc3f6d;
+}
+.form-item__label {
+  display: inline-block;
+  width: 130px;
+}
+.fileupload {
+  height: 34px;
+  width: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.fileupload input[type=file] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(20);
+  opacity: 0;
+  cursor: pointer;
+}
+.spacer {
+  font-size: 0;
+  line-height: 0;
+  height: 18px;
+}
+.spacer--big {
+  height: 46px;
+}
 .header {
   height: 100px;
   border-bottom: 2px solid #fc3f6d;
 }
-.header__title {
+.header__logo {
   font-family: 'Ubuntu', sans-serif;
   font-size: 48px;
   line-height: 100px;
   margin-left: 20px;
   color: #fc3f6d;
+}
+.main {
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 45px;
+}
+.present {
+  position: relative;
+  height: 250px;
+  text-align: center;
+}
+.present__photo {
+  width: 250px;
+  height: 100%;
+  background: #f6f6f6;
+  float: left;
+}
+.present__desc {
+  width: 390px;
+  height: 246px;
+  float: right;
+}
+.present__icon {
+  padding-top: 60px;
+  padding-bottom: 47px;
+}
+.present__fileupload {
+  margin: 0 auto;
 }
