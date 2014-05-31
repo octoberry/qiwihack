@@ -50,8 +50,14 @@ $(function () {
     $('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
-            var image_file = $('#image')[0];
-            image_file.value = data.result.file.url;
+            var imageUrl = $('#image')[0];
+			imageUrl.value = data.result.file.url;
+
+			$wrapper = $('.present__photo');
+			$wrapper.css('background-image', 'url(' + imageUrl.value + ')');
+			$('.present__icon').hide();
+			$('.form-item__error', $wrapper).removeClass('form-item__error--show');
+
         }
     });
 
@@ -84,7 +90,7 @@ $(function () {
 
 		$inputCard.mask('0000-0000-0000-0000');
 
-		$('form[role="presentSubmit"]').on('submit', function(event){
+		$('form[role="presentSubmit"]').on('submit', function(){
 			$inputCard.val($inputCard.val().replace(/-/g,''));
 		});
 

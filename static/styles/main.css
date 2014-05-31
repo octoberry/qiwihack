@@ -358,6 +358,7 @@ input[type=text]:focus {
   height: 100%;
   background: #f6f6f6;
   float: left;
+  z-index: 0;
 }
 .present__desc {
   width: 390px;
@@ -369,7 +370,9 @@ input[type=text]:focus {
   padding-bottom: 47px;
 }
 .present__fileupload {
-  margin: 0 auto;
+  position: absolute;
+  bottom: 36px;
+  left: 24px;
 }
 .link-page__link {
   line-height: 48px;
