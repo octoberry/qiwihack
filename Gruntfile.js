@@ -15,6 +15,7 @@ module.exports = function (grunt) {
 					host: 'localhost',
 					port: 8001,
 					base: '.',
+					keepalive: true
 				}
 			}
 		},
@@ -22,17 +23,17 @@ module.exports = function (grunt) {
 		stylus: {
 			compile: {
 				options: {
-					paths: ['static/styles'],
+					paths: ['static']
 				},
 				files: {
-					'main.css': 'main.styl'
+					'styles/main.css': 'styles/main.styl'
 				}
 			}
 		},
 
 		watch: {
 			css: {
-				files: ['static/styles/*'],
+				files: ['static/styles/', 'templates'],
 				tasks: ['stylus'],
 				options: {
 					livereload: true,
@@ -50,6 +51,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Tasks
-	grunt.registerTask('dev', ['connect', 'watch']);
+	grunt.registerTask('dev', ['connect']);
 
 }
