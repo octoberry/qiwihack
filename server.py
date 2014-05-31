@@ -13,6 +13,9 @@ db = Database('postgres', app.config['DATABASE'])
 
 class Events(db.Entity):
     description = Required(unicode)
+    amount = Required(int)
+    card = Required(int)
+    image = Required(unicode)
     updated_at = Required(datetime)
     created_at = Required(datetime)
 db.generate_mapping()
@@ -24,6 +27,9 @@ def create():
     form = CreateEventForm(request.form)
     if request.method == 'POST' and form.validate():
         Events(description=form.description.data,
+               amount=form.amount.data,
+               card=form.card.data,
+               image=form.image.data,
                created_at=datetime.now(),
                updated_at=datetime.now())
         return redirect(url_for('success'))
