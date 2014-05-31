@@ -47,6 +47,8 @@
 <script>
 $(function () {
 
+	$cardField = $('#present\\[cardnumber\\]');
+
 	function updateImage(data){
 		var imageUrl = $('#image')[0],
 			$wrapper = $('.present__photo');
@@ -92,6 +94,11 @@ $(function () {
 	if(errorList){
 		formValidate.showError();
 	};
+
+
+	formValidate.formNode.on('submit', function(event){
+		$cardField.val($cardField.val().replace(/-/g,''));
+	});
 
 });
 

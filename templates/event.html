@@ -43,7 +43,7 @@
 	</div>
 	<div class="spacer spacer--small"></div>
 	<div class="form-item">
-		<label class="form-item__label" for="card_source">Срок</label>
+		<label class="form-item__label" for="exp_month">Срок</label>
 		<select name="exp_month">
 			{% for m in range(1, 13) %}
 			<option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
@@ -104,6 +104,7 @@
 		form.card_source_expdate.value = expdate($form);
 		var data = form_data($form);
         delete data.TermUrl;
+		data.card_source = data.card_source.replace(/-/g,'');
         data.term_url = 'http://chipin.dev.octoberry.ru/event/{{ event.id }}';
 		console.log(data);
 		$.ajax({
@@ -146,10 +147,10 @@
 		var $form = $('form');
 		$('#submit').on('click', function(e) {
 			e.preventDefault();
-			replaceMask($('#card_source'));
 			attemptTransfer($form);
 		});
 	});
+
 
 </script>
 {% endblock %}
