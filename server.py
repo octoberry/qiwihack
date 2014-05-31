@@ -3,6 +3,7 @@ from forms import CreateEventForm
 from pony.orm import db_session, Database, Required, commit
 from datetime import datetime
 from config import config
+import splitpay
 
 app = Flask(__name__)
 app.config.update(config)
@@ -16,6 +17,9 @@ class Events(db.Entity):
     image = Required(unicode)
     updated_at = Required(datetime)
     created_at = Required(datetime)
+    split_event_id = Required(int)
+    split_owner_id = Required(int)
+    split_member_id = Required(int)
 
 
 db.generate_mapping()
@@ -26,16 +30,32 @@ db.generate_mapping()
 def create():
     form = CreateEventForm(request.form)
     if request.method == 'POST' and form.validate():
-        event = Events(description=form.description.data,
-                       amount=form.amount.data,
-                       card=form.card.data,
-                       image=form.image.data,
-                       created_at=datetime.now(),
-                       updated_at=datetime.now())
+        event_data = dict(
+            description=form.description.data,
+            amount=form.amount.data,
+            card=form.card.data,
+            image=form.image.data,
+            created_at=datetime.now(),
+            updated_at=datetime.now()
+        )
+        event_data = add_split_event(event_data)
+        event = Events(**event_data)
         commit()
         return redirect(url_for('event', event_id=event.id))
     return render_template('create.html', form=form)
 
+def add_split_event(event_data):
+    split_event = splitpay.add_event(
+        amount=event_data['amount'],
+        card_number=event_data['card'],
+        owner_name='Default owner',
+        members=[splitpay.default_member(event_data['amount'])]
+    )
+    if split_event:
+        event_data['split_event_id'] = split_event['id_event']
+        event_data['split_owner_id'] = split_event['owner_id']
+        event_data['split_member_id'] = split_event['members'][0]['id_member']
+    return event_data
 
 @app.route('/event/<int:event_id>')
 @db_session
@@ -47,8 +67,6 @@ def event(event_id):
 @app.route('/success', methods=['GET'])
 def success():
     return render_template('success.html')
-
-import splitpay
 
 @app.route('/test', methods=['GET'])
 def test_form():
