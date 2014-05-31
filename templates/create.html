@@ -30,7 +30,7 @@
     <div class="spacer spacer--small"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
-        {{ form.card(class="form-item__input-text", id='present[cardnumber]') }}
+        {{ form.card(class="form-item__input-text", id='present[cardnumber]', placeholder='XXXX-XXXX-XXXX-XXXX') }}
 		<span class="form-item__error"></span>
     </div>
     <div class="spacer spacer--big"></div>
@@ -40,12 +40,11 @@
 </form>
 {% endblock %}
 
-{% block sctipts %}
+{% block scripts %}
 <script src="/static/js/vendor/jquery.ui.widget.js"></script>
 <script src="/static/js/jquery.iframe-transport.js"></script>
 <script src="/static/js/jquery.fileupload.js"></script>
 <script>
-
 $(function () {
 
     $('#fileupload').fileupload({
@@ -57,6 +56,7 @@ $(function () {
     });
 
 	var errorList = {{ form.errors|tojson|safe }};
+
 	var formValidate = {
 		formNode: $('form[role="presentSubmit"]'),
 		errorArray: errorList,
