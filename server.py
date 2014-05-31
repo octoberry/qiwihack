@@ -65,6 +65,10 @@ def add_split_event(event_data):
         event_data['split_member_id'] = split_event['members'][0]['id_member']
     return event_data
 
+def get_event_income(event):
+    split_event = splitpay.get_event(event.split_event_id)
+    return float(split_event['members'][0]['debet'])
+
 @app.route('/success/<int:event_id>')
 @db_session
 def success(event_id):
@@ -78,7 +82,7 @@ def success(event_id):
 def event(event_id):
     event = Events.get(id=event_id)
     event.url = url_for('event', event_id=event_id, _external=True)
-    return render_template('event.html', event=event)
+    return render_template('event.html', event=event, income=get_event_income(event))
 
 
 @app.route('/upload', methods=['POST'])
