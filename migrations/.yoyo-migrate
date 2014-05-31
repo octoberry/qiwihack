@@ -1,0 +1,4 @@
+[DEFAULT]
+migration_table = _yoyo_migration
+dburi = postgres://pachay:@localhost/chipin
+
