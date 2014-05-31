@@ -1,5 +1,6 @@
 .idea
 .yoyo-migrate
+config.py
 *pyc
 node_modules
 static/bower_components

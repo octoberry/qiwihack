@@ -2,13 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for
 from forms import CreateEventForm
 from pony.orm import db_session, Database, Required, commit
 from datetime import datetime
+from config import config
 
 app = Flask(__name__)
-app.config.update(dict(
-    DATABASE="postgres://pachay:@localhost/chipin",
-    DEBUG=True,
-))
-# db = Database('postgres', app.config['DATABASE'])
+app.config.update(config)
+db = Database('postgres', app.config['DATABASE'])
 
 
 class Events(db.Entity):
