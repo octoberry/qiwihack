@@ -1,13 +1,34 @@
 {% extends "index.html" %}
-{% from "_formhelpers.html" import render_field %}
 {% block content %}
+<h2 class="title-h2">О подарке</h2>
+<div class="spacer"></div>
 <form method="post">
-  <dl>
-    {{ render_field(form.image) }}
-    {{ render_field(form.description) }}
-    {{ render_field(form.amount) }}
-    {{ render_field(form.card) }}
-  </dl>
-  <p><input type=submit value=Create>
+    <div class="present">
+    <aside class="present__photo">
+        <img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
+        <div class="fileupload present__fileupload">
+            <button>Загрузить фотографию</button>
+            <input type="file" name="image_file" id="image_file"/>
+            {{ form.image|safe }}
+        </div>
+    </aside>
+    <aside class="present__desc">
+        {{ form.description(placeholder='Расскажите о подарке')|safe }}
+    </aside>
+    </div>
+    <div class="spacer spacer--big"></div>
+    <h2 class="title-h2">Реквизиты</h2>
+    <div class="form-item">
+        <label class="form-item__label" for="present[sum]">Сумма:</label>
+        {{ form.amount(class="form-item__input-text", placeholder='Требуемая сумма') }}
+        <span class="currency">руб.</span>
+    </div>
+    <div class="form-item">
+        <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
+        {{ form.card(class="form-item__input-text", placeholder="XXXX-XXXX-XXXX-XXXX") }}
+    </div>
+    <div class="form-item">
+        <input type="submit" value="Отправить"/>
+    </div>
 </form>
 {% endblock %}

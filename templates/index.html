@@ -11,36 +11,6 @@
 	</header>
 	<main class="main">
 		{% block content %}{% endblock %}
-		<h2 class="title-h2">О подарке</h2>
-		<div class="spacer"></div>
-		<form action="">
-			<div class="present">
-				<aside class="present__photo">
-					<img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
-					<div class="fileupload present__fileupload">
-						<button>Загрузить фотографию</button>
-						<input type="file" name="present[image]" id="present[image]"/>
-					</div>
-				</aside>
-				<aside class="present__desc">
-					<textarea name="present[desc]" id="present[desc]" placeholder="Расскажите о подарке"></textarea>
-				</aside>
-			</div>
-			<div class="spacer spacer--big"></div>
-			<h2 class="title-h2">Реквизиты</h2>
-			<div class="form-item">
-				<label class="form-item__label" for="present[sum]">Сумма:</label>
-				<input class="form-item__input-text" type="text" name="present[sum]" id="present[sum]" placeholder="Требуемая сумаа..."/>
-				<span class="currency">руб.</span>
-			</div>
-			<div class="form-item">
-				<label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
-				<input class="form-item__input-text" type="text" name="present[cardnumber]" id="present[cardnumber]" placeholder="Для получения денег введите номер карты"/>
-			</div>
-			<div class="form-item">
-				<input type="submit" value="Отправить"/>
-			</div>
-		</form>
 	</main>
 </main>
 </body>
