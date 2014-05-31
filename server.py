@@ -8,7 +8,7 @@ app.config.update(dict(
     DATABASE="postgres://pachay:@localhost/chipin",
     DEBUG=True,
 ))
-db = Database('postgres', app.config['DATABASE'])
+# db = Database('postgres', app.config['DATABASE'])
 
 
 class Events(db.Entity):
@@ -46,6 +46,16 @@ def event(event_id):
     event.url = url_for('event', event_id=event_id, _external=True)
     return render_template('event.html', event=event)
 
+@app.route('/success', methods=['GET'])
+def success():
+    return render_template('success.html')
+
+import splitpay
+
+@app.route('/test', methods=['GET'])
+def test_form():
+    event = splitpay.test_event()
+    return render_template('test.html', event=event)
 
 if __name__ == "__main__":
     app.run()
