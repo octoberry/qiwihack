@@ -7,12 +7,14 @@ from config import config
 from werkzeug.utils import secure_filename
 import uuid
 import splitpay
+from PIL import Image
 
 app = Flask(__name__)
 app.config.update(config)
 app.config['UPLOAD_FOLDER'] = os.path.dirname(os.path.abspath(__file__)) + '/static/uploads/'
 app.config['UPLOAD_PATH'] = '/static/uploads/'
 db = Database('postgres', app.config['DATABASE'])
+size = 250, 250
 
 
 class Events(db.Entity):
@@ -49,6 +51,7 @@ def create():
         return redirect(url_for('success', event_id=event.id))
     return render_template('create.html', form=form)
 
+
 def add_split_event(event_data):
     split_event = splitpay.add_event(
         amount=event_data['amount'],
@@ -77,12 +80,22 @@ def event(event_id):
     event.url = url_for('event', event_id=event_id, _external=True)
     return render_template('event.html', event=event)
 
+
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['image_file']
     filename = secure_filename(str(uuid.uuid1().int) + file.filename)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + filename))
+    outfile = "thumb" + filename
+    im = Image.open(app.config['UPLOAD_FOLDER'] + filename)
+    w, h = im.size
+    if w < h:
+        im = im.crop((0, 0+(h-w)/2, w, w+(h-w)/2))
+    else:
+        im = im.crop((0+(w-h)/2, 0, h+(w-h)/2, h))
+    im.thumbnail(size, Image.ANTIALIAS)
+    im.save(app.config['UPLOAD_FOLDER'] + outfile, "PNG")
+    return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + outfile))
 
 
 @app.route('/test', methods=['GET'])

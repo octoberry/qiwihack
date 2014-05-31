@@ -9,3 +9,4 @@ yoyo-migrations
 psycopg2
 pony
 wtforms
+Pillow
