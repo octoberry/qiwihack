@@ -52,11 +52,8 @@ def event(event_id):
     event.url = url_for('event', event_id=event_id, _external=True)
     return render_template('event.html', event=event)
 
-@app.route('/success', methods=['GET'])
-def success():
-    return render_template('success.html')
-
 import splitpay
+
 
 @app.route('/test', methods=['GET'])
 def test_form():

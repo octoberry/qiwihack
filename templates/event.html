@@ -1,15 +1,13 @@
 {% extends "index.html" %}
 {% block content %}
-<div class="link-page">
-	<h2 class="title-h2">Ссылка</h2>
-	<p>Чтобы ускорить сбор средств поделитесь ссылкой со своими друзьями</p>
-	<div class="form-item">
-		<input class="input--full" type="text" name="url" value=" {{ event.url }}">
-	</div>
-	<div class="spacer"></div>
-	<div class="form-item form-item--submit">
-		<button class="button button__full-color float-right">Скопировать ссылку</button>
-		<a class="link-page__link float-left" href="/">Собрать на новый подарок</a>
-	</div>
+<h2 class="title-h2">О подарке</h2>
+<div class="spacer"></div>
+<div class="present">
+<aside class="present__photo">
+    <img class="present__icon" src="{{ event.image }}" alt=""/>
+</aside>
+<aside class="present__desc">
+    {{ event.description }}
+</aside>
 </div>
 {% endblock %}
