@@ -23,7 +23,11 @@ def add_event(amount, card_number, owner_name, members):
         'members': members
     }
     r = _post('/addEvent', data)
-    print r.content
+    return r.json()
+
+def get_event(event_id):
+    data = {'id_event': event_id}
+    r = _post('/getEvent', data)
     return r.json()
 
 def _post(uri, data):
@@ -42,5 +46,6 @@ if __name__ == '__main__':
         owner_name='Andrey Pachay',
         members=[{'name': 'Andrey Zakharov', 'credit': '100', 'debit': '0', 'tel_number': '79032930205'}]
     )
+    event = get_event(event['id_event'])
     print event
 
