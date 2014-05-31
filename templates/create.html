@@ -9,7 +9,7 @@
         <div class="fileupload present__fileupload">
             <button>Загрузить фотографию</button>
             <input type="file" name="image_file" id="image_file"/>
-            {{ form.image|safe }}
+            {{ form.image(type="hidden")|safe }}
         </div>
     </aside>
     <aside class="present__desc">
@@ -18,17 +18,20 @@
     </div>
     <div class="spacer spacer--big"></div>
     <h2 class="title-h2">Реквизиты</h2>
+    <div class="spacer"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[sum]">Сумма:</label>
         {{ form.amount(class="form-item__input-text", placeholder='Требуемая сумма') }}
         <span class="currency">руб.</span>
     </div>
+    <div class="spacer spacer--small"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
         {{ form.card(class="form-item__input-text", placeholder="XXXX-XXXX-XXXX-XXXX") }}
     </div>
-    <div class="form-item">
-        <input type="submit" value="Отправить"/>
+    <div class="spacer spacer--big"></div>
+    <div class="form-item form-item--submit">
+        <input class="button button__full-color" type="submit" value="Отправить"/>
     </div>
 </form>
 {% endblock %}
