@@ -111,5 +111,9 @@ def test_form():
     event = splitpay.test_event()
     return render_template('test.html', event=event)
 
+@app.route('/thanks', methods=['GET'])
+def thanks():
+    return render_template('thanks.html', event=event)
+
 if __name__ == "__main__":
     app.run()
