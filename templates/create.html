@@ -8,7 +8,7 @@
         <img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
         <div class="fileupload present__fileupload">
             <button>Загрузить фотографию</button>
-            <input type="file" name="image_file" id="image_file"/>
+            <input id="fileupload" type="file" name="image_file" data-url="/upload"/>
             {{ form.image(type="hidden")|safe }}
         </div>
     </aside>
@@ -34,4 +34,22 @@
         <input class="button button__full-color" type="submit" value="Отправить"/>
     </div>
 </form>
+{% endblock %}
+
+{% block sctipts %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/static/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/js/jquery.iframe-transport.js"></script>
+<script src="/static/js/jquery.fileupload.js"></script>
+<script>
+$(function () {
+    $('#fileupload').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+            var image_file = $('#image')[0];
+            image_file.value = data.result.file.url;
+        }
+    });
+});
+</script>
 {% endblock %}

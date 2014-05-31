@@ -1,11 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
+import os
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from forms import CreateEventForm
 from pony.orm import db_session, Database, Required, commit
 from datetime import datetime
 from config import config
+from werkzeug.utils import secure_filename
+import uuid
 
 app = Flask(__name__)
 app.config.update(config)
+app.config['UPLOAD_FOLDER'] = os.path.dirname(os.path.abspath(__file__)) + '/static/uploads/'
+app.config['UPLOAD_PATH'] = '/static/uploads/'
 db = Database('postgres', app.config['DATABASE'])
 
 
@@ -51,6 +56,15 @@ def event(event_id):
     event = Events.get(id=event_id)
     event.url = url_for('event', event_id=event_id, _external=True)
     return render_template('event.html', event=event)
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['image_file']
+    filename = secure_filename(str(uuid.uuid1().int) + file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + filename))
+
 
 import splitpay
 
