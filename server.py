@@ -41,7 +41,7 @@ def create():
         event_data = add_split_event(event_data)
         event = Events(**event_data)
         commit()
-        return redirect(url_for('event', event_id=event.id))
+        return redirect(url_for('success', event_id=event.id))
     return render_template('create.html', form=form)
 
 def add_split_event(event_data):
@@ -56,6 +56,14 @@ def add_split_event(event_data):
         event_data['split_owner_id'] = split_event['owner_id']
         event_data['split_member_id'] = split_event['members'][0]['id_member']
     return event_data
+
+@app.route('/success/<int:event_id>')
+@db_session
+def success(event_id):
+    event = Events.get(id=event_id)
+    event.url = url_for('event', event_id=event_id, _external=True)
+    return render_template('success.html', event=event)
+
 
 @app.route('/event/<int:event_id>')
 @db_session

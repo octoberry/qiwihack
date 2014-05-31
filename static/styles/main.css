@@ -188,9 +188,22 @@ h6 {
   padding: 0;
   margin: 0;
 }
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
 .title-h2 {
   font-size: 36px;
   font-weight: lighter;
+}
+a {
+  color: #fc3f6d;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 textarea {
   border: 0;
@@ -266,6 +279,10 @@ input[type=text]:-ms-input-placeholder {
 input[type=text]:focus {
   outline-color: #fc3f6d;
 }
+.input--full {
+  width: 96%;
+  padding: 20px 2% !important;
+}
 .form-item__label {
   display: inline-block;
   width: 130px;
@@ -340,6 +357,13 @@ input[type=text]:focus {
   padding-top: 60px;
   padding-bottom: 47px;
 }
+.present__icon__view {
+  width: 250px;
+  height: 250px;
+}
 .present__fileupload {
   margin: 0 auto;
+}
+.link-page__link {
+  line-height: 48px;
 }

@@ -1,3 +1,4 @@
+.env
 .idea
 .yoyo-migrate
 config.py
