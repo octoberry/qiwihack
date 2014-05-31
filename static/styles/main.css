@@ -292,6 +292,17 @@ input[type=text]:focus {
   padding-top: 10px;
   text-align: right;
 }
+.form-item__error {
+  position: absolute;
+  display: none;
+  font-size: 12px;
+  padding: 12px;
+  background: #eb2129;
+  color: $fff;
+}
+.form-item__error--show {
+  display: inline-block;
+}
 .fileupload {
   height: 34px;
   width: 200px;
@@ -356,10 +367,6 @@ input[type=text]:focus {
 .present__icon {
   padding-top: 60px;
   padding-bottom: 47px;
-}
-.present__icon__view {
-  width: 250px;
-  height: 250px;
 }
 .present__fileupload {
   margin: 0 auto;

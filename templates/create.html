@@ -2,18 +2,20 @@
 {% block content %}
 <h2 class="title-h2">О подарке</h2>
 <div class="spacer"></div>
-<form method="post">
+<form method="post" role="presentSubmit">
     <div class="present">
-    <aside class="present__photo">
+    <aside class="form-item present__photo">
         <img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
         <div class="fileupload present__fileupload">
             <button>Загрузить фотографию</button>
             <input type="file" name="image_file" id="image_file"/>
             {{ form.image(type="hidden")|safe }}
-        </div>
-    </aside>
-    <aside class="present__desc">
+		</div>
+		<span class="form-item__error"></span>
+	</aside>
+    <aside class="form-item present__desc">
         {{ form.description(placeholder='Расскажите о подарке')|safe }}
+		<span class="form-item__error"></span>
     </aside>
     </div>
     <div class="spacer spacer--big"></div>
@@ -21,17 +23,49 @@
     <div class="spacer"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[sum]">Сумма:</label>
-        {{ form.amount(class="form-item__input-text", placeholder='Требуемая сумма') }}
+        {{ form.amount(class="form-item__input-text", placeholder='Требуемая сумма', id='present[sum]') }}
         <span class="currency">руб.</span>
-    </div>
+		<span class="form-item__error"></span>
+	</div>
     <div class="spacer spacer--small"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
-        {{ form.card(class="form-item__input-text", placeholder="XXXXXXXXXXXXXXXX") }}
+        {{ form.card(class="form-item__input-text", placeholder="XXXX-XXXX-XXXX-XXXX", id='present[cardnumber]') }}
+		<span class="form-item__error"></span>
     </div>
     <div class="spacer spacer--big"></div>
     <div class="form-item form-item--submit">
         <input class="button button__full-color" type="submit" value="Отправить"/>
     </div>
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	$(function(){
+
+		var errorList = {{ form.errors|tojson|safe }};
+
+		var formValidate = {
+			formNode: $('form[role="presentSubmit"]'),
+			errorArray: errorList,
+			classError: 'form-item__error--show',
+				showError: function(){
+				for(var inputItem in this.errorArray){
+					$('[name='+inputItem+']')
+							.parents('.form-item')
+							.find('.form-item__error')
+							.html(this.errorArray[inputItem])
+							.addClass(this.classError)
+				}
+			}
+		};
+
+		if(errorList){
+			formValidate.showError();
+		};
+	
+	});
+
+</script>
 {% endblock %}
