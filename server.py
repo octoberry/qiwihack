@@ -33,8 +33,16 @@ def create():
                        created_at=datetime.now(),
                        updated_at=datetime.now())
         commit()
-        return redirect(url_for('event', event_id=event.id))
+        return redirect(url_for('success', event_id=event.id))
     return render_template('create.html', form=form)
+
+
+@app.route('/success/<int:event_id>')
+@db_session
+def success(event_id):
+    event = Events.get(id=event_id)
+    event.url = url_for('event', event_id=event_id, _external=True)
+    return render_template('success.html', event=event)
 
 
 @app.route('/event/<int:event_id>')
