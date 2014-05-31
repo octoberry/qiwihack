@@ -1,0 +1,6 @@
+{% extends "index.html" %}
+{% block content %}
+    <img src="{{ event.image }}">
+    {{ event.description }}
+    <input type="text" name="url" value=" {{ event.url }}">
+{% endblock %}
