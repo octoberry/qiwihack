@@ -197,7 +197,22 @@ textarea {
   background: #f6f6f6;
   width: 100%;
   height: 100%;
-padding-top
+  box-sizing: border-box;
+  padding: 14px 10px;
+}
+textarea::-webkit-input-placeholder {
+  font-style: italic;
+}
+textarea:-moz-placeholder {
+  font-style: italic;
+  opacity: 1;
+}
+textarea::-moz-placeholder {
+  font-style: italic;
+  opacity: 1;
+}
+textarea:-ms-input-placeholder {
+  font-style: italic;
 }
 button {
   font-size: 14px;
@@ -211,9 +226,54 @@ button:hover {
   color: #fff;
   background: #fc3f6d;
 }
+.button {
+  font-size: 14px;
+  padding: 8px 15px;
+  border: 1px solid #fc3f6d;
+  background: #fff;
+  color: #fc3f6d;
+  font-weight: bold;
+}
+.button__full-color {
+  padding: 15px 55px;
+  background: #fc3f6d;
+  color: #fff;
+}
+.button__full-color:hover {
+  border: 1px solid #fc3f6d;
+  color: #fc3f6d;
+  background: #fff;
+}
+input[type=text] {
+  background: #f6f6f6;
+  border: none;
+  padding: 10px;
+}
+input[type=text]::-webkit-input-placeholder {
+  font-style: italic;
+}
+input[type=text]:-moz-placeholder {
+  font-style: italic;
+  opacity: 1;
+}
+input[type=text]::-moz-placeholder {
+  font-style: italic;
+  opacity: 1;
+}
+input[type=text]:-ms-input-placeholder {
+  font-style: italic;
+}
+input[type=text]:focus {
+  outline-color: #fc3f6d;
+}
 .form-item__label {
   display: inline-block;
   width: 130px;
+}
+.form-item--submit {
+  border-top: 2px solid #fc3f6d;
+  padding-top: 10px;
+  text-align: right;
 }
 .fileupload {
   height: 34px;
@@ -236,6 +296,9 @@ button:hover {
   line-height: 0;
   height: 18px;
 }
+.spacer--small {
+  height: 14px;
+}
 .spacer--big {
   height: 46px;
 }
@@ -255,6 +318,7 @@ button:hover {
   margin-left: auto;
   margin-right: auto;
   margin-top: 45px;
+  margin-bottom: 45px;
 }
 .present {
   position: relative;

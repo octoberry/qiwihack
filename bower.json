@@ -1,0 +1,24 @@
+{
+  "name": "qiwihack",
+  "version": "0.0.0",
+  "homepage": "https://github.com/octoberry/qiwihack",
+  "authors": [
+    "Eugeny Chuvelev <e.chuvelev@gmail.ru>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.styl": "~3.0.0"
+  }
+}
