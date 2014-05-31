@@ -2,12 +2,17 @@
 
     $(function(){
 
-       var presentRequestSend = $.ajax({
-           url: '/',
-           type: 'post'
-       });
+        // Card mask
+        $.getScript('/static/js/jquery.mask.min.js', function(){
 
-        presentRequestSend.done(function(response){
+            var $inputCard = $('#present\\[cardnumber\\], #card_source');
+
+            $inputCard.mask('0000-0000-0000-0000');
+
+            $('form[role="presentSubmit"]').on('submit', function(){
+                $inputCard.val($inputCard.val().replace(/-/g,''));
+            });
+
         });
 
     });

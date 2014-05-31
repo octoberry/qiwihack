@@ -3,48 +3,22 @@
 <h2 class="title-h2">О подарке</h2>
 <div class="spacer"></div>
 <div class="present">
-<aside class="present__photo">
-    <img class="present__icon present__icon__view" src="{{ event.image }}" alt=""/>
+<aside class="present__photo" style="background: url({{ event.image }})">
 </aside>
 <aside class="present__desc">
     {{ event.description }}
 </aside>
+</div>
+<div class="spacer spacer--big"></div>
+<h2 class="title-h2">Текущий статус</h2>
+<div class="spacer"></div>
+<div class="donate-value">
 
-<script src="http://yandex.st/jquery/2.1.1/jquery.js"></script>
-<script>
-function attemptTransfer($form) {
-    var form = $form[0];
-    form.card_source_expdate.value = expdate($form);
-    var data = $form.serialize();
-    console.log(data);
-    $.ajax({
-        type: "POST",
-        url: "http://split2pay.ru:8080/splittpay/rest/attemptTransfer",
-        data: data,
-        success: function (response) {
-            console.log(response);
-            form.PaReq.value = response.paReq;
-            form.MD.value = response.md;
-            form.action = response.acsurl;
-            $form.submit();
-        }
-    });
-}
-function expdate($form) {
-    var exp_month = $form.find('[name="exp_month"]').val();
-    var exp_year = $form.find('[name="exp_year"]').val();
-    return exp_year + exp_month;
-}
-
-$(function() {
-    var $form = $('form');
-    $('button').on('click', function(e) {
-        e.preventDefault();
-        attemptTransfer($form);
-    });
-})
-</script>
-<form action="" method="post">
+</div>
+<div class="spacer spacer--big"></div>
+<h2 class="title-h2">Скинуться</h2>
+<div class="spacer"></div>
+<form action="" method="post" class="donate-form">
     <input type="hidden" name="card_destination" value="{{ event.card }}">
     <input type="hidden" name="member_id" value="{{ event.split_member_id }}">
     <input type="hidden" name="event_id" value="{{ event.split_event_id }}">
@@ -52,32 +26,73 @@ $(function() {
     <input type="hidden" name="PaReq" value="">
     <input type="hidden" name="MD" value="">
     <input type="hidden" name="card_source_expdate" value="">
-
-    <dl>
-        <dt>Сумма:</dt>
-        <dd><input type="text" name="transfer_amount" value=""></dd>
-
-        <dt>Номер карты:</dt>
-        <dd><input type="text" name="card_source" value=""></dd>
-
-        <dt>Срок и CVV:</dt>
-        <dd>
-            <select name="exp_month">
-                {% for m in range(1, 13) %}
-                    <option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
-                {% endfor %}
-            </select>
-            <select name="exp_year">
-                {% for y in range(2014, 2020) %}
-                    <option value="{{ y }}">{{ y }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="cvv" value="">
-        </dd>
-    </dl>
-
-    <p><button>submit</button></p>
+	<div class="form-item">
+		<label class="form-item__label" for="transfer_amount">Сумма:</label>
+		<input class="form-item__input-text" id="transfer_amount" name="transfer_amount" placeholder="Требуемая сумма" type="text" value="">
+		<span class="currency">руб.</span>
+		<span class="form-item__error"></span>
+	</div>
+	<div class="spacer spacer--small"></div>
+	<div class="form-item">
+		<label class="form-item__label" for="card_source">Номер карты:</label>
+		<input class="form-item__input-text" id="card_source" name="card_source" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
+		<span class="form-item__error"></span>
+	</div>
+	<div class="spacer spacer--small"></div>
+	<div class="form-item">
+		<label class="form-item__label" for="card_source">Срок и CVV:</label>
+		<select name="exp_month">
+			{% for m in range(1, 13) %}
+			<option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
+			{% endfor %}
+		</select>
+		<select name="exp_year">
+			{% for y in range(2014, 2020) %}
+			<option value="{{ y }}">{{ y }}</option>
+			{% endfor %}
+		</select>
+		<input class="form-item__input-text" id="cvv" type="text" name="cvv" value="">
+		<span class="form-item__error"></span>
+		<div class="spacer spacer--big"></div>
+		<div class="form-item form-item--submit">
+			<input class="button button__full-color" type="submit" value="Отправить"/>
+		</div>
 </form>
+{% endblock %}
+{% block scripts %}
+<script>
+	function attemptTransfer($form) {
+		var form = $form[0];
+		form.card_source_expdate.value = expdate($form);
+		var data = $form.serialize();
+		console.log(data);
+		$.ajax({
+			type: "POST",
+			url: "http://split2pay.ru:8080/splittpay/rest/attemptTransfer",
+			data: data,
+			success: function (response) {
+				console.log(response);
+				form.PaReq.value = response.paReq;
+				form.MD.value = response.md;
+				form.action = response.acsurl;
+				$form.submit();
+			}
+		});
+	}
+	function expdate($form) {
+		var exp_month = $form.find('[name="exp_month"]').val();
+		var exp_year = $form.find('[name="exp_year"]').val();
+		return exp_year + exp_month;
+	}
 
-</div>
+	$(function() {
+		var $form = $('form');
+		$('button').on('click', function(e) {
+			e.preventDefault();
+			attemptTransfer($form);
+		});
+	});
+
+
+</script>
 {% endblock %}

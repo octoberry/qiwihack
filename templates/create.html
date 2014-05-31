@@ -82,20 +82,6 @@ $(function () {
 		formValidate.showError();
 	};
 
-
-	// Card mask
-	$.getScript('/static/bower_components/jQuery-Mask-Plugin/jquery.mask.min.js', function(){
-
-		var $inputCard = $('#present\\[cardnumber\\]')
-
-		$inputCard.mask('0000-0000-0000-0000');
-
-		$('form[role="presentSubmit"]').on('submit', function(){
-			$inputCard.val($inputCard.val().replace(/-/g,''));
-		});
-
-	});
-
 });
 
 </script>
