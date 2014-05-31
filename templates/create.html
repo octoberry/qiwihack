@@ -30,7 +30,7 @@
     <div class="spacer spacer--small"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
-        {{ form.card(class="form-item__input-text", placeholder="XXXX-XXXX-XXXX-XXXX", id='present[cardnumber]') }}
+        {{ form.card(class="form-item__input-text", id='present[cardnumber]') }}
 		<span class="form-item__error"></span>
     </div>
     <div class="spacer spacer--big"></div>
@@ -45,7 +45,9 @@
 <script src="/static/js/jquery.iframe-transport.js"></script>
 <script src="/static/js/jquery.fileupload.js"></script>
 <script>
+
 $(function () {
+
     $('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
@@ -53,32 +55,42 @@ $(function () {
             image_file.value = data.result.file.url;
         }
     });
-});
 
-	$(function(){
-
-		var errorList = {{ form.errors|tojson|safe }};
-
-		var formValidate = {
-			formNode: $('form[role="presentSubmit"]'),
-			errorArray: errorList,
-			classError: 'form-item__error--show',
-				showError: function(){
-				for(var inputItem in this.errorArray){
-					$('[name='+inputItem+']')
-							.parents('.form-item')
-							.find('.form-item__error')
-							.html(this.errorArray[inputItem])
-							.addClass(this.classError)
-				}
+	var errorList = {{ form.errors|tojson|safe }};
+	var formValidate = {
+		formNode: $('form[role="presentSubmit"]'),
+		errorArray: errorList,
+		classError: 'form-item__error--show',
+			showError: function(){
+			for(var inputItem in this.errorArray){
+				$('[name='+inputItem+']')
+						.parents('.form-item')
+						.find('.form-item__error')
+						.html(this.errorArray[inputItem])
+						.addClass(this.classError)
 			}
-		};
+		}
+	};
 
-		if(errorList){
-			formValidate.showError();
-		};
-	
+	if(errorList){
+		formValidate.showError();
+	};
+
+
+	// Card mask
+	$.getScript('/static/bower_components/jQuery-Mask-Plugin/jquery.mask.min.js', function(){
+
+		var $inputCard = $('#present\\[cardnumber\\]')
+
+		$inputCard.mask('0000-0000-0000-0000');
+
+		$('form[role="presentSubmit"]').on('submit', function(event){
+			$inputCard.val($inputCard.val().replace(/-/g,''));
+		});
+
 	});
+
+});
 
 </script>
 {% endblock %}
