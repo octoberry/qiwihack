@@ -146,6 +146,7 @@
 		var $form = $('form');
 		$('#submit').on('click', function(e) {
 			e.preventDefault();
+			replaceMask($('#card_source'));
 			attemptTransfer($form);
 		});
 	});
