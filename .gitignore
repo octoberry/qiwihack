@@ -1,2 +1,5 @@
 .idea
+.bowerrc
 *pyc
+node_modules
+static/bower_components
