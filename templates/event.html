@@ -1,4 +1,12 @@
 {% extends "index.html" %}
+{% block metatags %}
+<!-- for Facebook -->
+<meta property="og:title" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="{{ event.image }}" />
+<meta property="og:url" content="" />
+<meta property="og:description" content="{{ event.description }}" />
+{% endblock %}
 {% block content %}
 <h2 class="title-h2">О подарке</h2>
 <div class="spacer"></div>
