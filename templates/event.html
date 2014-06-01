@@ -68,7 +68,7 @@
 	</div>
 	<div class="spacer spacer--big"></div>
 	<div class="form-item form-item--submit">
-		<input id="save" class="button button__full-color" type="button" value="Отправить"/>
+		<button id="save" class="button button__full-color" style="width: 188px">Отправить</button>
 	</div>
 </form>
 {% endif %}
@@ -119,7 +119,14 @@
 			type: "POST",
 			url: "http://split2pay.ru:8080/p2papi/invokePayment",
 			data: data,
+			beforeSend: function(){
+				$('#save').html($('<img>',{
+					src: '/static/images/ajax-loader.gif'
+				})).attr('disabled','disabled');
+			},
 			success: function (response) {
+				$('#save').html('Отправить').removeAttr('disabled');
+
                 console.log(response);
                 if (response.error) {
                     alert(response.error)
@@ -165,7 +172,6 @@
 			attemptTransfer($form);
 		});
 	});
-
 
 </script>
 {% endblock %}
