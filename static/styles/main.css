@@ -257,7 +257,7 @@ button:hover {
   background: #fff;
 }
 .button__full-color:disabled {
-  background: #fff;
+  background: #fc3f6d;
 }
 input[type=text] {
   background: #f6f6f6;

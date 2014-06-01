@@ -68,6 +68,8 @@
 	</div>
 	<div class="spacer spacer--big"></div>
 	<div class="form-item form-item--submit">
+		<div class="float-left yashare-auto-init" data-yashareL10n="ru"
+			 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
 		<button id="save" class="button button__full-color" style="width: 188px">Отправить</button>
 	</div>
 </form>
@@ -93,9 +95,9 @@
 			if(progressBarValue < minWeight){
 				$donateAmount.css({'width': minWeight + 'px'});
 			}else if(amount > goal){
-				$donateAmount.css({'width': progressBarValue + 'px'});
-			}else{
 				$donateAmount.css({'width': donateWidgetWidth + 'px'});
+			}else{
+				$donateAmount.css({'width': progressBarValue + 'px'});
 			}
 
 			$donateAmount.html(amount.toFixed(2) + ' руб.');
