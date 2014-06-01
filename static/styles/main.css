@@ -247,12 +247,12 @@ button:hover {
   font-weight: bold;
 }
 .button__full-color {
+  border: 2px solid #fc3f6d;
   padding: 15px 55px;
   background: #fc3f6d;
   color: #fff;
 }
 .button__full-color:hover {
-  border: 1px solid #fc3f6d;
   color: #fc3f6d;
   background: #fff;
 }
@@ -300,7 +300,7 @@ input[type=text]:focus {
   font-size: 12px;
   padding: 12px;
   background: #eb2129;
-  color: $fff;
+  color: #fff;
 }
 .form-item__error--show {
   display: inline-block;

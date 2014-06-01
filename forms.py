@@ -11,3 +11,4 @@ class CreateEventForm(Form):
                                          validators.Regexp(regex=r'^\d{16}$',
                                                            message=u'Укажите номер карты в формате '
                                                                    u'XXXXXXXXXXXXXXXX')])
+    email = StringField(u'E-mail:', [validators.DataRequired(message=u'Укажите корректный е-мейл')])

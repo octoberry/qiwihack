@@ -134,6 +134,10 @@ def transaction():
     commit()
     return jsonify(status='ok')
 
+@app.route('/subscribe')
+def subscribe():
+    form = CreateEventForm(request.form)
+    return render_template('subscribe.html', form=form)
 
 if __name__ == "__main__":
     app.run()

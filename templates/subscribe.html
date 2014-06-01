@@ -1,0 +1,75 @@
+{% extends "index.html" %}
+{% block content %}
+<h2 class="title-h2">Подпишись на наши новости</h2>
+<div class="spacer"></div>
+<form action="/subscribe" role="subscribeSubmit">
+	<p>Оставь нам свой e-mail и узнавай первым о развитии нашего проекта.</p>
+	<div class="form-item">
+		{{ form.email(class="form-item__input-text input--full", placeholder='Введите свой e-mail', id='email') }}
+		<span class="form-item__error"></span>
+	</div>
+	<div class="spacer spacer--big"></div>
+	<div class="form-item form-item--submit">
+		<input class="button button__full-color" type="submit" value="Отправить"/>
+	</div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/jquery.validate.min.js"></script>
+<script>
+	$(function(){
+		var subSubscribeForm = $('form[role="subscribeSubmit"]');
+
+		subSubscribeForm.validate({
+			errorClass: 'form-item__error--show',
+			validClass: '',
+			errorPlacement: function(error, element) {
+				element.parent('.form-item').find('.form-item__error').html(error);
+			},
+			highlight: function(element, errorClass, validClass) {
+				$(element).parent().find('.form-item__error').addClass(errorClass).removeClass(validClass);
+				$(element.form).find('label[for=' + element.id + ']')
+						.addClass(errorClass);
+			},
+			unhighlight: function(element, errorClass, validClass) {
+				$(element).parent().find('.form-item__error').removeClass(errorClass).addClass(validClass);
+				$(element.form).find('label[for=' + element.id + ']')
+						.removeClass(errorClass);
+			},
+			rules: {
+				email: {
+					required: true,
+					email: true
+				}
+			},
+			messages: {
+				email: {
+					required: "Введите e-mail",
+					email: "Введите корректный e-mail"
+				}
+			}
+		});
+
+		subSubscribeForm.on('submit', function(event){
+			event.preventDefault();
+
+			var subscribeRequest = $.ajax({
+				url: '.',
+				data: subSubscribeForm.serializeArray()
+			});
+
+			subscribeRequest.done(function(){
+				if(subSubscribeForm.valid()){
+					subSubscribeForm.html('<h2>Stay tuned!</h2><div class="spacer"></div><a href="/">Вернуться на главную</a>');
+				}
+			});
+
+			subscribeRequest.fail(function(qXHR, textStatus, errorThrown){
+				alert('Что-то пошло не так: ' + textStatus)
+			});
+
+		});
+
+	});
+</script>
+{% endblock %}
