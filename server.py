@@ -82,9 +82,10 @@ def success(event_id):
     return render_template('success.html', event=event)
 
 
-@app.route('/e/<hash>/', methods=['GET', 'POST'])
+@app.route('/e/<path:hash>', methods=['GET', 'POST'])
 @db_session
 def event(hash):
+    hash = hash.strip('/')
     event_id, _ = hashids.decrypt(hash)
     event = Events.get(id=event_id)
     event.url = url_for('event', hash=hash, _external=True)
