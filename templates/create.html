@@ -1,38 +1,39 @@
 {% extends "index.html" %}
 {% block content %}
 <h2 class="title-h2">О подарке</h2>
-<div class="spacer"></div>
+<div class="spacer spacer--small"></div>
 <form method="post" role="presentSubmit">
     <div class="present">
-    <aside class="form-item present__photo">
-        <img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
-        <div class="fileupload present__fileupload">
-            <button class="present__fileupload-button">Загрузить фотографию</button>
-            <input id="fileupload" type="file" name="image_file" data-url="/upload"/>
-            {{ form.image(type="hidden")|safe }}
-		</div>
-		<span class="form-item__error" style="top: 0; left: 0"></span>
-	</aside>
-    <aside class="form-item present__desc">
-        {{ form.description(placeholder='Расскажите о подарке')|safe }}
-		<span class="form-item__error" style="top: 0; right: 0"></span>
-    </aside>
-	<div class="clearfix"></div>
+		<div class="form-item__error" id="block-error1"></div>
+		<div class="spacer spacer--small"></div>
+		<aside class="form-item present__photo">
+			<img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
+			<div class="fileupload present__fileupload">
+				<button class="present__fileupload-button">Загрузить фотографию</button>
+				<input id="fileupload" type="file" name="image_file" data-url="/upload"/>
+				{{ form.image(type="hidden")|safe }}
+			</div>
+		</aside>
+		<aside class="form-item present__desc">
+			{{ form.description(placeholder='Расскажите о подарке')|safe }}
+		</aside>
+		<div class="clearfix"></div>
     </div>
-    <div class="spacer spacer--big"></div>
+	<div class="clearfix"></div>
+	<div class="spacer spacer--big"></div>
     <h2 class="title-h2">Реквизиты</h2>
-    <div class="spacer"></div>
-    <div class="form-item">
+	<div class="spacer spacer--small"></div>
+	<div class="form-item__error" id="block-error2"></div>
+	<div class="spacer spacer--small"></div>
+	<div class="form-item">
         <label class="form-item__label" for="present[sum]">Сумма:</label>
         {{ form.amount(class="form-item__input-text", placeholder='Требуемая сумма', id='present[sum]') }}
         <span class="currency">руб.</span>
-		<span class="form-item__error"></span>
 	</div>
     <div class="spacer spacer--small"></div>
     <div class="form-item">
         <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
         {{ form.card(class="form-item__input-text", id='present[cardnumber]', placeholder='XXXX-XXXX-XXXX-XXXX') }}
-		<span class="form-item__error"></span>
     </div>
     <div class="spacer spacer--big"></div>
     <div class="form-item form-item--submit">
@@ -80,17 +81,33 @@ $(function () {
 
 	var errorList = {{ form.errors|tojson|safe }};
 
+	console.log(errorList);
+
+	var $blockError1 = $('#block-error1'),
+		$blockError2 = $('#block-error2');
+
 	var formValidate = {
 		formNode: $('form[role="presentSubmit"]'),
 		errorArray: errorList,
 		classError: 'form-item__error--show',
 			showError: function(){
 			for(var inputItem in this.errorArray){
-				$('[name='+inputItem+']')
-						.parents('.form-item')
-						.find('.form-item__error')
-						.html(this.errorArray[inputItem])
-						.addClass(this.classError)
+
+				if(inputItem == 'image'){
+					$blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+				}
+
+				if(inputItem == 'description'){
+					$blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+				}
+
+				if(inputItem == 'amount'){
+					$blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+				}
+
+				if(inputItem == 'card'){
+					$blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+				}
 			}
 		}
 	};

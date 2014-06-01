@@ -8,8 +8,7 @@ h1,h2,h3,h4,h5,h6
 .title
 	&-h2
 		font-size 36px
-		font-weight lighter
-
+		font-weight 300
 a
 	color $red
 	text-decoration none
@@ -31,28 +30,39 @@ textarea
 	padding 14px 10px
 	placeholder()
 
+	&:focus
+		outline-color $red
+		
 button
 	button()
 
 	&:hover
 		color #fff
-		background $red
+		background $redHover
+
+	&:active
+		color #fff
+		background $redActive
 
 .button
 	button()
 
 	&__full-color
-		border 2px solid $red
-		padding 15px 55px
+		padding 12px 59px
 		background $red
 		color #fff
 
 		&:hover
-			color $red
-			background #fff
+			color #fff
+			background $redHover
+
+		&:active
+			color #fff
+			background $redActive
 
 		&:disabled
-			background $red
+			border-color $redDisabled
+			background $redDisabled
 
 input[type=text]
 	background $grey
@@ -79,15 +89,15 @@ input[type=text]
 		text-align right
 
 	&__error
-		position absolute
 		display none
+		text-align left
 		font-size 12px
-		padding 12px
+		padding 6px 10px
 		background #eb2129
 		color #fff
 
 		&--show
-			display inline-block
+			display block
 
 .fileupload
 	height 34px

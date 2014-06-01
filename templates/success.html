@@ -1,4 +1,9 @@
 {% extends "index.html" %}
+{% block metatags %}
+<!-- for Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ event.url }}" />
+{% endblock %}
 {% block content %}
 <div class="link-page">
 	<h2 class="title-h2">Ссылка</h2>
@@ -9,8 +14,8 @@
 	<div class="spacer"></div>
 	<div class="yashare-auto-init" data-yashareL10n="ru"
 		 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
+	<div class="spacer"></div>
 	<div class="form-item form-item--submit">
-		<button class="button button__full-color float-right">Скопировать ссылку</button>
 		<a class="link-page__link float-left" href="/">Собрать на новый подарок</a>
 	</div>
 </div>

@@ -2,7 +2,7 @@
 {% block metatags %}
 <!-- for Facebook -->
 <meta property="og:title" content="" />
-<meta property="og:type" content="article" />
+<meta property="og:type" content="website" />
 <meta property="og:image" content="{{ event.image }}" />
 <meta property="og:url" content="" />
 <meta property="og:description" content="{{ event.description }}" />
@@ -78,7 +78,7 @@
 	<div class="form-item form-item--submit">
 		<div class="float-left yashare-auto-init" data-yashareL10n="ru"
 			 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
-		<button id="save" class="button button__full-color" style="width: 188px">Отправить</button>
+		<button id="save" class="button button__full-color">Отправить</button>
 	</div>
 </form>
 {% endif %}
@@ -131,7 +131,7 @@
 			data: data,
 			beforeSend: function(){
 				$('#save').html($('<img>',{
-					src: '/static/images/ajax-loader.gif'
+					src: '/static/images/ajax-loader.gif?43241232'
 				})).attr('disabled','disabled');
 			},
 			success: function (response) {
