@@ -2,17 +2,31 @@
 __author__ = 'fuse'
 
 import requests, json
-
 import httplib, logging
-httplib.HTTPConnection.debuglevel = 1
-logging.basicConfig()
-logging.getLogger().setLevel(logging.DEBUG)
-requests_log = logging.getLogger("requests.packages.urllib3")
-requests_log.setLevel(logging.DEBUG)
-requests_log.propagate = True
+
+def debug_logging():
+    httplib.HTTPConnection.debuglevel = 1
+    logging.basicConfig()
+    logging.getLogger().setLevel(logging.DEBUG)
+    requests_log = logging.getLogger("requests.packages.urllib3")
+    requests_log.setLevel(logging.DEBUG)
+    requests_log.propagate = True
 
 id_device = 'CHIPIN'
 base_url = 'http://split2pay.ru:8080/splittpay/rest'
+
+def add_split_event(event_data):
+    split_event = add_event(
+        amount=event_data['amount'],
+        card_number=event_data['card'],
+        owner_name='Default owner',
+        members=[default_member(event_data['amount'])]
+    )
+    if split_event:
+        event_data['split_event_id'] = split_event['id_event']
+        event_data['split_owner_id'] = split_event['owner_id']
+        event_data['split_member_id'] = split_event['members'][0]['id_member']
+    return event_data
 
 def add_event(amount, card_number, owner_name, members):
     data = {

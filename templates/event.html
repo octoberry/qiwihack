@@ -10,7 +10,7 @@
 <h2 class="title-h2">Текущий статус</h2>
 <div class="spacer"></div>
 <div class="donate-progressbar">
-	<div class="donate-progressbar__value">{{ income }} руб.</div>
+	<div class="donate-progressbar__value">{{ event.income }} руб.</div>
 	<div class="donate-progressbar__goal">{{ event.amount }} руб.</div>
 </div>
 <div class="spacer spacer--big"></div>
@@ -77,7 +77,7 @@
 <script>
 
 	(function(){
-		var currentAmount = {{ income }},
+		var currentAmount = {{ event.income }},
 			goalAmount = {{ event.amount }};
 
 		minWeight = 85;
