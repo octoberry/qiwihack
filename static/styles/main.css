@@ -188,12 +188,6 @@ h6 {
   padding: 0;
   margin: 0;
 }
-.float-left {
-  float: left;
-}
-.float-right {
-  float: right;
-}
 .title-h2 {
   font-size: 36px;
   font-weight: lighter;
@@ -323,6 +317,19 @@ input[type=text]:focus {
   opacity: 0;
   cursor: pointer;
 }
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+.clearfix::after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .spacer {
   font-size: 0;
   line-height: 0;
@@ -366,7 +373,7 @@ input[type=text]:focus {
 }
 .present__desc {
   width: 390px;
-  height: 246px;
+  height: 100%;
   float: right;
   text-align: left;
 }
@@ -389,8 +396,12 @@ input[type=text]:focus {
   height: 50px;
   border-bottom: 2px solid #7bd500;
   background: #f6f6f6;
+  z-index: 0;
+  position: relative;
 }
 .donate-progressbar__value {
+  position: absolute;
+  left: 0;
   display: inline-block;
   height: 100%;
   line-height: 50px;
@@ -399,13 +410,16 @@ input[type=text]:focus {
   width: 85px;
   background: #7bd500;
   color: #fff;
-  float: left;
+  z-index: 2;
+  opacity: 0.85;
 }
 .donate-progressbar__goal {
+  position: absolute;
+  right: 0;
   display: inline-block;
   line-height: 50px;
   color: #9b9b9b;
-  float: right;
   padding-right: 30px;
   background: url("/static/images/finish-icon.svg") no-repeat 105px 30px;
+  z-index: 1;
 }
