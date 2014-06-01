@@ -103,6 +103,8 @@
 
 	})();
 
+    var event_id = {{ event.id }}
+
 	function attemptTransfer($form) {
 		var form = $form[0];
 		form.card_source_expdate.value = expdate($form);
@@ -123,7 +125,14 @@
                     form.PaReq.value = response.paReq;
                     form.MD.value = response.md;
                     form.action = response.acsurl;
-                    $form.submit();
+                    $.post('/transaction', {
+                        event_id: event_id,
+                        amount: data.transfer_amount,
+                        card: data.card_source,
+                        md: response.md
+                    }, function() {
+                        $form.submit();
+                    });
                 }
             },
             error: function() {

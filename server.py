@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from forms import CreateEventForm
-from pony.orm import db_session, Database, Required, commit
+from pony.orm import db_session, Database, Required, commit, select
 from datetime import datetime
 from config import config
 from werkzeug.utils import secure_filename
@@ -27,6 +27,16 @@ class Events(db.Entity):
     split_event_id = Required(int)
     split_owner_id = Required(int)
     split_member_id = Required(int)
+
+
+class Transaction(db.Entity):
+    event_id = Required(int)
+    amount = Required(int)
+    card = Required(unicode)
+    md = Required(unicode)
+    status = Required(int)
+    updated_at = Required(datetime)
+    created_at = Required(datetime)
 
 
 db.generate_mapping()
@@ -66,8 +76,7 @@ def add_split_event(event_data):
     return event_data
 
 def get_event_income(event):
-    split_event = splitpay.get_event(event.split_event_id)
-    return float(split_event['members'][0]['debet'])
+    return sum(select(t.amount for t in Transaction if t.status == 1 and t.event_id == event.id))
 
 @app.route('/success/<int:event_id>')
 @db_session
@@ -76,18 +85,23 @@ def success(event_id):
     event.url = url_for('event', event_id=event_id, _external=True)
     return render_template('success.html', event=event)
 
-
 @app.route('/event/<int:event_id>/', methods=['GET', 'POST'])
 @db_session
 def event(event_id):
     event = Events.get(id=event_id)
     event.url = url_for('event', event_id=event_id, _external=True)
+
+    if request.args.get('md') and request.args.get('status') == 'ok':
+        transaction = Transaction.get(md=request.args.get('md'))
+        if transaction:
+            transaction.status = 1
+            commit()
+
     return render_template('event.html',
                            event=event,
                            income=get_event_income(event),
                            error=request.args.get('error'),
                            status=request.args.get('status'))
-
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -105,6 +119,22 @@ def upload():
     im.save(app.config['UPLOAD_FOLDER'] + outfile, "PNG")
     return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + outfile))
 
+@app.route('/transaction', methods=['POST'])
+@db_session
+def transaction():
+    data = {
+        'event_id': int(request.form['event_id']),
+        'amount': int(request.form['amount']),
+        'card': request.form['card'],
+        'md': request.form['md'],
+        'status': 0,
+        'created_at': datetime.now(),
+        'updated_at': datetime.now()
+    }
+    print data
+    transaction = Transaction(**data)
+    commit()
+    return jsonify(status='ok')
 
 @app.route('/test', methods=['GET'])
 def test_form():
