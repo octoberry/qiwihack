@@ -2,6 +2,7 @@
 @import 'fonts'
 @import 'guideline'
 @import 'base'
+@import 'helpers'
 @import 'spacers'
 
 .header
@@ -37,7 +38,7 @@
 
 	&__desc
 		width 390px
-		height 246px
+		height 100%
 		float right
 		text-align left
 
@@ -62,8 +63,12 @@
 	height 50px
 	border-bottom 2px solid $green
 	background $grey
+	z-index 0
+	position relative
 
 	&__value
+		position absolute
+		left 0
 		display inline-block
 		height 100%
 		line-height 50px
@@ -72,13 +77,16 @@
 		width 85px
 		background $green
 		color #fff
-		float left
+		z-index 2
+		opacity 0.85
 
 
 	&__goal
+		position absolute
+		right 0
 		display inline-block
 		line-height 50px
 		color $darkgrey
-		float right
 		padding-right 30px
 		background url('/static/images/finish-icon.svg') no-repeat 105px 30px
+		z-index 1

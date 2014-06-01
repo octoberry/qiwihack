@@ -1,8 +1,3 @@
-/**
- * Created by Evgeny Chuvelev on 31/05/14.
- * e.chuvelev@gmail.com
- */
-
 module.exports = function (grunt) {
 
 
