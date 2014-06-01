@@ -77,7 +77,7 @@ def success(event_id):
     return render_template('success.html', event=event)
 
 
-@app.route('/event/<int:event_id>/')
+@app.route('/event/<int:event_id>/', methods=['GET', 'POST'])
 @db_session
 def event(event_id):
     event = Events.get(id=event_id)
