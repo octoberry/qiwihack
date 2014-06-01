@@ -88,12 +88,14 @@
 
 		function progressBar(amount, goal) {
 			var procentAmount = ( parseInt(amount) / parseInt(goal) ) * 100,
-					progressBarValue = ( donateWidgetWidth / 100 ) * procentAmount
+				progressBarValue = ( donateWidgetWidth / 100 ) * procentAmount
 
 			if(progressBarValue < minWeight){
 				$donateAmount.css({'width': minWeight + 'px'});
-			}else{
+			}else if(amount > goal){
 				$donateAmount.css({'width': progressBarValue + 'px'});
+			}else{
+				$donateAmount.css({'width': donateWidgetWidth + 'px'});
 			}
 
 			$donateAmount.html(amount.toFixed(2) + ' руб.');
