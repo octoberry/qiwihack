@@ -57,13 +57,12 @@ $(function () {
 
 
 			if(data){
-				imageUrl.value = localStorage.imageUrl = data.result.file.url
+				imageUrl.value = data.result.file.url
 			}
 
-			$imageWrapper.css('background-image', 'url(' + localStorage.imageUrl + ')');
+			$imageWrapper.css('background-image', 'url(' + imageUrl.value + ')');
 
-			if(localStorage.imageUrl){
-				imageUrl.value = localStorage.imageUrl;
+			if(imageUrl.value){
 				$('.present__icon').hide();
 				$button.html('Изменить');
 				$('.form-item__error', $imageWrapper).removeClass('form-item__error--show');

@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from forms import CreateEventForm
+from forms import CreateEventForm, CreateEmailForm
 from pony.orm import db_session, Database, Required, commit, select
 from datetime import datetime
 from config import config
@@ -136,7 +136,7 @@ def transaction():
 
 @app.route('/subscribe')
 def subscribe():
-    form = CreateEventForm(request.form)
+    form = CreateEmailForm(request.form)
     return render_template('subscribe.html', form=form)
 
 if __name__ == "__main__":
