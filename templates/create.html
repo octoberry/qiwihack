@@ -11,11 +11,11 @@
             <input id="fileupload" type="file" name="image_file" data-url="/upload"/>
             {{ form.image(type="hidden")|safe }}
 		</div>
-		<span class="form-item__error"></span>
+		<span class="form-item__error" style="top: 0; left: 0"></span>
 	</aside>
     <aside class="form-item present__desc">
         {{ form.description(placeholder='Расскажите о подарке')|safe }}
-		<span class="form-item__error"></span>
+		<span class="form-item__error" style="top: 0; right: 0"></span>
     </aside>
 	<div class="clearfix"></div>
     </div>
@@ -61,10 +61,10 @@ $(function () {
 			}
 
 			$imageWrapper.css('background-image', 'url(' + localStorage.imageUrl + ')');
-			$('.present__icon').hide();
 
 			if(localStorage.imageUrl){
 				imageUrl.value = localStorage.imageUrl;
+				$('.present__icon').hide();
 				$button.html('Изменить');
 				$('.form-item__error', $imageWrapper).removeClass('form-item__error--show');
 			}
