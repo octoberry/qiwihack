@@ -9,11 +9,11 @@
 	<h2 class="title-h2">Ссылка</h2>
 	<p>Чтобы ускорить сбор средств поделитесь ссылкой со своими друзьями</p>
 	<div class="form-item">
-		<input class="input--full" type="text" name="url" value=" {{ event.url }}">
+		<input class="input--full" type="text" name="url" value="{{ event.url }}">
 	</div>
 	<div class="spacer"></div>
 	<div class="yashare-auto-init" data-yashareL10n="ru"
-		 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
+		 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareLink="{{ event.url }}"></div>
 	<div class="spacer"></div>
 	<div class="form-item form-item--submit">
 		<a class="link-page__link float-left" href="/">Собрать на новый подарок</a>
