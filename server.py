@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 import uuid
 import splitpay
 from PIL import Image
+from hashids import Hashids
 
 app = Flask(__name__)
 app.config.update(config)
@@ -15,6 +16,8 @@ app.config['UPLOAD_FOLDER'] = os.path.dirname(os.path.abspath(__file__)) + '/sta
 app.config['UPLOAD_PATH'] = '/static/uploads/'
 db = Database('postgres', app.config['DATABASE'])
 size = 250, 250
+
+hashids = Hashids(salt='Chipin')
 
 if app.config['DEBUG']:
     splitpay.debug_logging()
@@ -73,15 +76,18 @@ def create():
 @db_session
 def success(event_id):
     event = Events.get(id=event_id)
-    event.url = url_for('event', event_id=event_id, _external=True)
+    hash = hashids.encrypt(event.id, event.split_member_id)
+    print hash
+    event.url = url_for('event', hash=hash, _external=True)
     return render_template('success.html', event=event)
 
 
-@app.route('/event/<int:event_id>/', methods=['GET', 'POST'])
+@app.route('/e/<hash>/', methods=['GET', 'POST'])
 @db_session
-def event(event_id):
+def event(hash):
+    event_id, _ = hashids.decrypt(hash)
     event = Events.get(id=event_id)
-    event.url = url_for('event', event_id=event_id, _external=True)
+    event.url = url_for('event', hash=hash, _external=True)
 
     md = request.args.get('md')
     status = request.args.get('status')

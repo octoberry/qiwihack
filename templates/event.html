@@ -115,7 +115,7 @@
 		var data = form_data($form);
         delete data.TermUrl;
 		data.card_source = data.card_source.replace(/-/g,'');
-        data.term_url = 'http://chipin.dev.octoberry.ru/event/{{ event.id }}';
+        data.term_url = '{{ event.url }}';
 		console.log(data);
 		$.ajax({
 			type: "POST",
