@@ -1,5 +1,15 @@
-@import 'guideline'
-@import 'mixins'
+placeholder()
+	&::-webkit-input-placeholder /* WebKit browsers */
+		font-style italic
+	&:-moz-placeholder /* Mozilla Firefox 4 to 18 */
+		font-style italic
+		opacity 1
+	&::-moz-placeholder /* Mozilla Firefox 19+ */
+		font-style italic
+		opacity 1
+	&:-ms-input-placeholder /* Internet Explorer 10+ */
+		font-style italic
+
 
 h1,h2,h3,h4,h5,h6
 	padding 0
@@ -30,39 +40,47 @@ textarea
 	padding 14px 10px
 	placeholder()
 
-	&:focus
-		outline-color $red
+		&:focus
+			outline-color $red
 
 button
-	button()
+	font-size 16px
+	padding 12px 59px
+	border 1px solid $red
+	background $red
+	color #ffffff
 
 	&:hover
-		color #fff
+		color #ffffff
 		background $redHover
 
 	&:active
-		color #fff
+		color #ffffff
 		background $redActive
 
 .button
-	button()
+	font-size 16px
+	padding 12px 59px
+	border 1px solid $red
+	background $red
+	color #ffffff
 
 	&__full-color
 		padding 12px 59px
 		background $red
-		color #fff
+		color #ffffff
 
-		&:hover
-			color #fff
-			background $redHover
+	&:hover
+		color #ffffff
+		background $redHover
 
-		&:active
-			color #fff
-			background $redActive
+	&:active
+		color #ffffff
+		background $redActive
 
-		&:disabled
-			border-color $redDisabled
-			background $redDisabled
+	&:disabled
+		border-color $redDisabled
+		background $redDisabled
 
 input[type=text]
 	background $grey
@@ -70,8 +88,8 @@ input[type=text]
 	padding 10px
 	placeholder()
 
-	&:focus
-		outline-color $red
+		&:focus
+			outline-color $red
 
 .input
 	&--full

@@ -10,25 +10,35 @@ module.exports = function (grunt) {
 					host: 'localhost',
 					port: 8001,
 					base: '.',
-					keepalive: true
+//					keepalive: true
 				}
 			}
 		},
 
+//        'bower': {
+//            options: {
+//                color:       true,
+//                production:  false,
+//                directory:   "static/bower_components"
+//            }
+//        },
+
 		stylus: {
 			compile: {
-				options: {
-					paths: ['static']
-				},
+                options: {
+                    path: ['/static/styles'],
+                    compress: false,
+                    import: grunt.file.expand('/static/styles/mixins.styl')
+                },
 				files: {
-					'styles/main.css': 'styles/main.styl'
+                    'static/build/main.css': 'static/styles/main.styl'
 				}
 			}
 		},
 
 		watch: {
 			css: {
-				files: ['static/styles/', 'templates'],
+				files: ['static/styles/*.styl'],
 				tasks: ['stylus'],
 				options: {
 					livereload: true,
@@ -43,9 +53,11 @@ module.exports = function (grunt) {
 	// Plugins
 	grunt.loadNpmTasks('grunt-contrib-stylus');
 	grunt.loadNpmTasks('grunt-contrib-connect');
+//    grunt.loadNpmTasks('grunt-bower-install-simple');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib');
 
 	// Tasks
-	grunt.registerTask('dev', ['connect']);
-
+	grunt.registerTask('dev', ['connect','watch']);
+    grunt.registerTask('bower-install', [ 'bower' ]);
 }

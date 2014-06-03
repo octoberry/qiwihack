@@ -2,7 +2,7 @@
 <title>Chip In</title>
 <head>
 	<meta charset="utf"/>
-	<link rel="stylesheet" href="/static/styles/main.css"/>
+	<link rel="stylesheet" href="/static/build/main.css"/>
 	{% block metatags %}{% endblock %}
 </head>
 <body>
@@ -15,9 +15,9 @@
 	</div>
 </main>
 </body>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
-<script src="/static/js/jquery.mask.min.js"></script>
+<script src="/static/js/require-config.js"></script>
+<script data-main="/static/js/main.js" src="/static/bower_components/requirejs/require.js"></script>
 <script src="/static/js/script.js"></script>
+<script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
 {% block scripts %}{% endblock %}
 </html>

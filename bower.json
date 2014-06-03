@@ -20,6 +20,8 @@
   ],
   "dependencies": {
     "normalize.styl": "~3.0.0",
-    "jQuery-Mask-Plugin": "~1.6.4"
+    "jQuery-Mask-Plugin": "~1.6.4",
+    "backbone": "~1.1.2",
+    "requirejs": "~2.1.14"
   }
 }

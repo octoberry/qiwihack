@@ -15,9 +15,9 @@
 </form>
 {% endblock %}
 {% block scripts %}
-<script src="/static/js/jquery.validate.min.js"></script>
 <script>
-	$(function(){
+require(['jquery','/static/js/vendor/jquery.validate/jquery.validate.min.js'], function(){
+    $(function(){
 		var subSubscribeForm = $('form[role="subscribeSubmit"]');
 
 		subSubscribeForm.validate({
@@ -71,5 +71,6 @@
 		});
 
 	});
+});
 </script>
 {% endblock %}

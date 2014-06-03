@@ -43,85 +43,81 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/js/vendor/jquery.ui.widget.js"></script>
-<script src="/static/js/jquery.iframe-transport.js"></script>
-<script src="/static/js/jquery.fileupload.js"></script>
 <script>
-$(function () {
+require(['jquery',
+    '/static/js/vendor/jquery.fileupload/jquery.fileupload.js',
+    '/static/js/vendor/jquery.fileupload/jquery.iframe-transport.js',
+    ''], function($){
 
-	$cardField = $('#present\\[cardnumber\\]');
+    $cardField = $('#present\\[cardnumber\\]');
 
-	function updateImage(data){
-		var imageUrl = $('#image')[0],
-			$imageWrapper = $('.present__photo'),
-			$button = $('.present__fileupload-button');
+    function updateImage(data){
+        var imageUrl = $('#image')[0],
+                $imageWrapper = $('.present__photo'),
+                $button = $('.present__fileupload-button');
 
 
-			if(data){
-				imageUrl.value = data.result.file.url
-			}
+        if(data){
+            imageUrl.value = data.result.file.url
+        }
 
-			$imageWrapper.css('background-image', 'url(' + imageUrl.value + ')');
+        $imageWrapper.css('background-image', 'url(' + imageUrl.value + ')');
 
-			if(imageUrl.value){
-				$('.present__icon').hide();
-				$button.html('Изменить');
-				$('.form-item__error', $imageWrapper).removeClass('form-item__error--show');
-			}
-	}
+        if(imageUrl.value){
+            $('.present__icon').hide();
+            $button.html('Изменить');
+            $('.form-item__error', $imageWrapper).removeClass('form-item__error--show');
+        }
+    }
 
-	updateImage();
+    updateImage();
 
-	$('#fileupload').fileupload({
+    $('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
-			updateImage(data)
+            updateImage(data)
         }
     });
 
-	var errorList = {{ form.errors|tojson|safe }};
+    var errorList = {{ form.errors|tojson|safe }};
 
-	console.log(errorList);
+    var $blockError1 = $('#block-error1'),
+            $blockError2 = $('#block-error2');
 
-	var $blockError1 = $('#block-error1'),
-		$blockError2 = $('#block-error2');
+    var formValidate = {
+        formNode: $('form[role="presentSubmit"]'),
+        errorArray: errorList,
+        classError: 'form-item__error--show',
+        showError: function(){
+            for(var inputItem in this.errorArray){
 
-	var formValidate = {
-		formNode: $('form[role="presentSubmit"]'),
-		errorArray: errorList,
-		classError: 'form-item__error--show',
-			showError: function(){
-			for(var inputItem in this.errorArray){
+                if(inputItem == 'image'){
+                    $blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+                }
 
-				if(inputItem == 'image'){
-					$blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
+                if(inputItem == 'description'){
+                    $blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+                }
 
-				if(inputItem == 'description'){
-					$blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
+                if(inputItem == 'amount'){
+                    $blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+                }
 
-				if(inputItem == 'amount'){
-					$blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
+                if(inputItem == 'card'){
+                    $blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
+                }
+            }
+        }
+    };
 
-				if(inputItem == 'card'){
-					$blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
-			}
-		}
-	};
+    if(errorList){
+        formValidate.showError();
+    };
 
-	if(errorList){
-		formValidate.showError();
-	};
+    formValidate.formNode.on('submit', function(event){
+        $cardField.val($cardField.val().replace(/-/g,''));
+    });
 
-
-	formValidate.formNode.on('submit', function(event){
-		$cardField.val($cardField.val().replace(/-/g,''));
-	});
-
-});
-
+    });
 </script>
 {% endblock %}

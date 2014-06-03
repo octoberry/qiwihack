@@ -1,4 +1,3 @@
-@import url("http://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
 /* normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -179,6 +178,7 @@ td,
 th {
   padding: 0;
 }
+@import url("http://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
 h1,
 h2,
 h3,
@@ -212,23 +212,6 @@ textarea {
   box-sizing: border-box;
   padding: 14px 10px;
 }
-textarea::-webkit-input-placeholder {
-  font-style: italic;
-}
-textarea:-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
-}
-textarea::-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
-}
-textarea:-ms-input-placeholder {
-  font-style: italic;
-}
-textarea:focus {
-  outline-color: #fc3f6d;
-}
 button {
   font-size: 16px;
   padding: 12px 59px;
@@ -256,15 +239,15 @@ button:active {
   background: #fc3f6d;
   color: #fff;
 }
-.button__full-color:hover {
+.button:hover {
   color: #fff;
   background: #f44b75;
 }
-.button__full-color:active {
+.button:active {
   color: #fff;
   background: #cc3359;
 }
-.button__full-color:disabled {
+.button:disabled {
   border-color: #d8d8d8;
   background: #d8d8d8;
 }
@@ -272,23 +255,6 @@ input[type=text] {
   background: #f6f6f6;
   border: none;
   padding: 10px;
-}
-input[type=text]::-webkit-input-placeholder {
-  font-style: italic;
-}
-input[type=text]:-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
-}
-input[type=text]::-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
-}
-input[type=text]:-ms-input-placeholder {
-  font-style: italic;
-}
-input[type=text]:focus {
-  outline-color: #fc3f6d;
 }
 .input--full {
   width: 96%;
