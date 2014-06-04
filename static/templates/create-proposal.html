@@ -1,0 +1,40 @@
+<h2 class="title-h2">О подарке</h2>
+<div class="spacer spacer--small"></div>
+<form method="post" role="presentSubmit">
+    <div class="present">
+        <div class="form-item__error form-item__error--show" id="block-error1"></div>
+        <div class="spacer spacer--small"></div>
+        <aside class="form-item present__photo">
+            <img class="present__icon" src="/static/images/photo-icon.svg" alt="">
+            <div class="fileupload present__fileupload">
+                <button class="present__fileupload-button">Загрузить фотографию</button>
+                <input id="fileupload" type="file" name="image_file" data-url="/upload">
+                <input id="image" name="image" type="hidden" value="">
+            </div>
+        </aside>
+        <aside class="form-item present__desc">
+            <textarea id="description" name="description" placeholder="Расскажите о подарке"></textarea>
+        </aside>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="spacer spacer--big"></div>
+    <h2 class="title-h2">Реквизиты</h2>
+    <div class="spacer spacer--small"></div>
+    <div class="form-item__error form-item__error--show" id="block-error2"></div>
+    <div class="spacer spacer--small"></div>
+    <div class="form-item">
+        <label class="form-item__label" for="present[sum]">Сумма:</label>
+        <input class="form-item__input-text" id="present[sum]" name="amount" placeholder="Требуемая сумма" type="text" value="">
+        <span>руб.</span>
+    </div>
+    <div class="spacer spacer--small"></div>
+    <div class="form-item">
+        <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
+        <input class="form-item__input-text" id="present[cardnumber]" name="card" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="" maxlength="19" autocomplete="off">
+    </div>
+    <div class="spacer spacer--big"></div>
+    <div class="form-item form-item--submit">
+        <input class="button button__full-color" type="submit" value="Отправить">
+    </div>
+</form>
