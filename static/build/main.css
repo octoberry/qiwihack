@@ -362,10 +362,8 @@ input[type=text] {
   padding-bottom: 47px;
 }
 .present__fileupload {
+  display: inline-block;
   font-size: 14px;
-  position: absolute;
-  bottom: -3px;
-  left: 24px;
 }
 .present__fileupload-button {
   font-size: 14px;
