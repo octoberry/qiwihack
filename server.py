@@ -17,7 +17,7 @@ app.config['UPLOAD_PATH'] = '/static/uploads/'
 db = Database('postgres', app.config['DATABASE'])
 size = 250, 250
 
-hashids = Hashids(salt='Chipin')
+hashids = Hashids(salt='Chi822pinPAdd22234')
 
 if app.config['DEBUG']:
     splitpay.debug_logging()
@@ -53,6 +53,11 @@ db.generate_mapping()
 
 
 @app.route("/", methods=['GET', 'POST'])
+def landing():
+    return redirect('http://www.peerpay.ru')
+
+
+@app.route("/new", methods=['GET', 'POST'])
 @db_session
 def create():
     form = CreateEventForm(request.form)
