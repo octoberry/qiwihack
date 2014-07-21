@@ -198,7 +198,7 @@ h6 {
   color: #000;
 }
 a {
-  color: #fd0511;
+  color: #ff0c00;
   text-decoration: none;
 }
 a:hover {
@@ -238,7 +238,7 @@ textarea:-ms-input-placeholder {
   color: #9b9b9b;
 }
 textarea:focus {
-  outline-color: #fd0511;
+  outline-color: #ff0c00;
 }
 button {
   font-family: 'Open Sans', sans-serif;
@@ -247,19 +247,19 @@ button {
   line-height: 135%;
   color: #fff;
   padding: 12px 59px;
-  border: 1px solid #fd0511;
+  border: 1px solid #ff0c00;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: #fd0511;
+  background: #ff0c00;
 }
 button:hover {
   color: #fff;
-  background: #f44b75;
+  background: #f20900;
 }
 button:active {
   color: #fff;
-  background: #cc3359;
+  background: #e60800;
 }
 .button {
   font-family: 'Open Sans', sans-serif;
@@ -268,24 +268,24 @@ button:active {
   line-height: 135%;
   color: #fff;
   padding: 12px 59px;
-  border: 1px solid #fd0511;
+  border: 1px solid #ff0c00;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: #fd0511;
+  background: #ff0c00;
 }
 .button__full-color {
   padding: 12px 59px;
-  background: #fd0511;
+  background: #ff0c00;
   color: #fff;
 }
 .button__full-color:hover {
   color: #fff;
-  background: #f44b75;
+  background: #f20900;
 }
 .button__full-color:active {
   color: #fff;
-  background: #cc3359;
+  background: #e60800;
 }
 .button__full-color:disabled {
   border-color: #d8d8d8;
@@ -317,7 +317,7 @@ input[type=text]:-ms-input-placeholder {
   color: #9b9b9b;
 }
 input[type=text]:focus {
-  outline-color: #fd0511;
+  outline-color: #ff0c00;
 }
 .input--full {
   width: 96%;
@@ -331,7 +331,7 @@ input[type=text]:focus {
   width: 130px;
 }
 .form-item--submit {
-  border-top: 2px solid #fd0511;
+  border-top: 2px solid #ff0c00;
   text-align: right;
 }
 .form-item__error {
@@ -391,7 +391,7 @@ input[type=text]:focus {
 }
 .header {
   height: 100px;
-  border-bottom: 2px solid #fd0511;
+  border-bottom: 2px solid #ff0c00;
 }
 .header__logo a {
   font-family: 'Ubuntu', sans-serif;
@@ -399,7 +399,7 @@ input[type=text]:focus {
   line-height: 100px;
   margin-left: 20px;
   font-weight: 400;
-  color: #fd0511;
+  color: #ff0c00;
 }
 .main {
   font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial' sans-serif;
