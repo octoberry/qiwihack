@@ -343,6 +343,7 @@ input[type=text]:focus {
   color: #fff;
 }
 .form-item__error--show {
+  margin-bottom: 10px;
   display: block;
 }
 .form-item .hint {
