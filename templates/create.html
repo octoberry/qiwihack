@@ -72,7 +72,14 @@ $(function () {
 	$('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
+			var $uploadButton = $('.present__fileupload');
+
+			$uploadButton.css({
+				top: 0
+			});
+
 			updateImage(data)
+
         }
     });
 

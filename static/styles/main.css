@@ -420,6 +420,7 @@ input[type=text]:focus {
   background: #f6f6f6;
   float: left;
   z-index: 0;
+  position: relative;
 }
 .present__desc {
   width: 390px;
@@ -432,6 +433,11 @@ input[type=text]:focus {
   padding-bottom: 47px;
 }
 .present__fileupload {
+  position: absolute;
+  top: 155px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: auto;
 }
 .present__fileupload-button {
