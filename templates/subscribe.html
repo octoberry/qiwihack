@@ -1,7 +1,6 @@
 {% extends "index.html" %}
 {% block content %}
 <h2 class="title-h2">Подпишись на наши новости</h2>
-<div class="spacer"></div>
 <form action="/subscribe" role="subscribeSubmit">
 	<p>Оставь нам свой e-mail и узнавай первым о развитии нашего проекта.</p>
 	<div class="form-item">
@@ -10,6 +9,7 @@
 	</div>
 	<div class="spacer spacer--big"></div>
 	<div class="form-item form-item--submit">
+		<div class="spacer spacer--small"></div>
 		<input class="button button__full-color" type="submit" value="Отправить"/>
 	</div>
 </form>

@@ -9,14 +9,14 @@
 {% endblock %}
 {% block content %}
 <h2 class="title-h2">О подарке</h2>
-<div class="spacer"></div>
+<div class="spacer spacer--small"></div>
 <div class="present">
 	<aside class="present__photo" style="background: url({{ event.image }})"></aside>
 	<aside class="present__desc">{{ event.description }}</aside>
 </div>
 <div class="spacer spacer--big"></div>
 <h2 class="title-h2">Текущий статус</h2>
-<div class="spacer"></div>
+<div class="spacer spacer--small"></div>
 <div class="donate-progressbar">
 	<div class="donate-progressbar__value">{{ event.income }} руб.</div>
 	<div class="donate-progressbar__goal">{{ event.amount }} руб.</div>
@@ -32,7 +32,7 @@
     <h2 class="title-h2">Произошла ошибка</h2>
 {% else %}
 <h2 class="title-h2">Скинуться</h2>
-<div class="spacer"></div>
+<div class="spacer spacer--small"></div>
 <form action="" class="donate-form" method="post" role="donateSubmit">
     <input type="hidden" name="card_destination" value="{{ event.card }}">
     <input type="hidden" name="member_id" value="{{ event.split_member_id }}">
@@ -76,6 +76,7 @@
 	</div>
 	<div class="spacer spacer--big"></div>
 	<div class="form-item form-item--submit">
+		<div class="spacer spacer--small"></div>
 		<div class="float-left yashare-auto-init" data-yashareL10n="ru"
 			 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
 		<button id="save" class="button button__full-color">Отправить</button>
