@@ -3,9 +3,8 @@
 <h2 class="title-h2">О подарке</h2>
 <div class="spacer spacer--small"></div>
 <form method="post" role="presentSubmit">
-    <div class="present">
+    <div class="present clearfix">
 		<div class="form-item__error" id="block-error1"></div>
-		<div class="spacer spacer--small"></div>
 		<aside class="form-item present__photo">
 			<img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
 			<div class="fileupload present__fileupload">
@@ -15,20 +14,17 @@
 			</div>
 		</aside>
 		<aside class="form-item present__desc">
-			{{ form.description(placeholder='Расскажите о подарке')|safe }}
+			{{ form.description(placeholder='Расскажите о подарке...')|safe }}
 		</aside>
-		<div class="clearfix"></div>
     </div>
-	<div class="clearfix"></div>
 	<div class="spacer spacer--big"></div>
     <h2 class="title-h2">Реквизиты</h2>
 	<div class="spacer spacer--small"></div>
 	<div class="form-item__error" id="block-error2"></div>
-	<div class="spacer spacer--small"></div>
 	<div class="form-item">
         <label class="form-item__label" for="present[sum]">Сумма:</label>
-        {{ form.amount(class="form-item__input-text", placeholder='Требуемая сумма', id='present[sum]') }}
-        <span class="currency">руб.</span>
+        {{ form.amount(class="form-item__input-text", placeholder='Минимум 1 рубль', id='present[sum]') }}
+        <span class="hint">руб.</span>
 	</div>
     <div class="spacer spacer--small"></div>
     <div class="form-item">
@@ -37,7 +33,8 @@
     </div>
     <div class="spacer spacer--big"></div>
     <div class="form-item form-item--submit">
-        <input class="button button__full-color" type="submit" value="Отправить"/>
+		<div class="spacer spacer--small"></div>
+		<input class="button button__full-color" type="submit" value="Отправить"/>
     </div>
 </form>
 {% endblock %}

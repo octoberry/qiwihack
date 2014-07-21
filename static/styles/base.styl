@@ -7,8 +7,11 @@ h1,h2,h3,h4,h5,h6
 
 .title
 	&-h2
-		font-size 36px
-		font-weight 300
+		font-family: 'PT Sans', sans-serif;
+		font-size 28px
+		font-weight bold
+		line-height 128%
+		color #000
 a
 	color $red
 	text-decoration none
@@ -80,12 +83,14 @@ input[type=text]
 
 .form-item
 	&__label
+		font-family 'Open Sans', sans-serif
+		font-size 14px
+		line-height 142%
 		display inline-block
 		width 130px
 
 	&--submit
 		border-top 2px solid $red
-		padding-top 10px
 		text-align right
 
 	&__error
@@ -99,9 +104,14 @@ input[type=text]
 		&--show
 			display block
 
+	.hint
+		font-family 'Open Sans', sans-serif
+		font-size 14px
+		line-height 142%
+
 .fileupload
-	height 34px
-	width 200px
+	height 36px
+	width 202px
 	position relative
 	overflow hidden
 

@@ -1,3 +1,5 @@
+@import url("http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic&subset=latin,cyrillic");
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,700,600&subset=latin,cyrillic-ext");
 @import url("http://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
 /* normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
@@ -189,11 +191,14 @@ h6 {
   margin: 0;
 }
 .title-h2 {
-  font-size: 36px;
-  font-weight: 300;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 128%;
+  color: #000;
 }
 a {
-  color: #fc3f6d;
+  color: #fd0511;
   text-decoration: none;
 }
 a:hover {
@@ -213,28 +218,40 @@ textarea {
   padding: 14px 10px;
 }
 textarea::-webkit-input-placeholder {
-  font-style: italic;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 textarea:-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 textarea::-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 textarea:-ms-input-placeholder {
-  font-style: italic;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 textarea:focus {
-  outline-color: #fc3f6d;
+  outline-color: #fd0511;
 }
 button {
-  font-size: 16px;
-  padding: 12px 59px;
-  border: 1px solid #fc3f6d;
-  background: #fc3f6d;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 135%;
   color: #fff;
+  padding: 12px 59px;
+  border: 1px solid #fd0511;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fd0511;
 }
 button:hover {
   color: #fff;
@@ -245,15 +262,21 @@ button:active {
   background: #cc3359;
 }
 .button {
-  font-size: 16px;
-  padding: 12px 59px;
-  border: 1px solid #fc3f6d;
-  background: #fc3f6d;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 135%;
   color: #fff;
+  padding: 12px 59px;
+  border: 1px solid #fd0511;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fd0511;
 }
 .button__full-color {
   padding: 12px 59px;
-  background: #fc3f6d;
+  background: #fd0511;
   color: #fff;
 }
 .button__full-color:hover {
@@ -274,33 +297,41 @@ input[type=text] {
   padding: 10px;
 }
 input[type=text]::-webkit-input-placeholder {
-  font-style: italic;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 input[type=text]:-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 input[type=text]::-moz-placeholder {
-  font-style: italic;
-  opacity: 1;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 input[type=text]:-ms-input-placeholder {
-  font-style: italic;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #9b9b9b;
 }
 input[type=text]:focus {
-  outline-color: #fc3f6d;
+  outline-color: #fd0511;
 }
 .input--full {
   width: 96%;
   padding: 20px 2% !important;
 }
 .form-item__label {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 142%;
   display: inline-block;
   width: 130px;
 }
 .form-item--submit {
-  border-top: 2px solid #fc3f6d;
-  padding-top: 10px;
+  border-top: 2px solid #fd0511;
   text-align: right;
 }
 .form-item__error {
@@ -314,9 +345,14 @@ input[type=text]:focus {
 .form-item__error--show {
   display: block;
 }
+.form-item .hint {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 142%;
+}
 .fileupload {
-  height: 34px;
-  width: 200px;
+  height: 36px;
+  width: 202px;
   position: relative;
   overflow: hidden;
 }
@@ -348,14 +384,14 @@ input[type=text]:focus {
   height: 18px;
 }
 .spacer--small {
-  height: 14px;
+  height: 10px;
 }
 .spacer--big {
-  height: 46px;
+  height: 34px;
 }
 .header {
   height: 100px;
-  border-bottom: 2px solid #fc3f6d;
+  border-bottom: 2px solid #fd0511;
 }
 .header__logo a {
   font-family: 'Ubuntu', sans-serif;
@@ -363,15 +399,15 @@ input[type=text]:focus {
   line-height: 100px;
   margin-left: 20px;
   font-weight: 400;
-  color: #fc3f6d;
+  color: #fd0511;
 }
 .main {
-  font-family: Helvetica Neue, Helvetica, Arial sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial' sans-serif;
   width: 650px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 45px;
-  margin-bottom: 45px;
+  margin-top: 34px;
+  margin-bottom: 100px;
 }
 .present {
   position: relative;
@@ -396,10 +432,7 @@ input[type=text]:focus {
   padding-bottom: 47px;
 }
 .present__fileupload {
-  font-size: 14px;
-  position: absolute;
-  bottom: -3px;
-  left: 24px;
+  margin: auto;
 }
 .present__fileupload-button {
   font-size: 14px;
