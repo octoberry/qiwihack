@@ -7,7 +7,4 @@ node_modules
 static/bower_components
 static/uploads/*
 !static/uploads/.gitignore
-
-dev_config.py
-test_config.py
-prod_config.py
+config.py

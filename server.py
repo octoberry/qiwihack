@@ -11,7 +11,7 @@ from hashids import Hashids
 
 app = Flask(__name__)
 app.config.from_pyfile('default_config.py')
-app.config.from_pyfile('dev_config.py')
+app.config.from_pyfile('config.py')
 
 db = Database('postgres', app.config['DATABASE'])
 size = 250, 250
