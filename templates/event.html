@@ -8,181 +8,92 @@
 <meta property="og:description" content="{{ event.description }}" />
 {% endblock %}
 {% block content %}
-<h2 class="title-h2">О подарке</h2>
-<div class="spacer spacer--small"></div>
-<div class="present">
-	<aside class="present__photo" style="background: url({{ event.image }})"></aside>
-	<aside class="present__desc">{{ event.description }}</aside>
-</div>
-<div class="spacer spacer--big"></div>
-<h2 class="title-h2">Текущий статус</h2>
-<div class="spacer spacer--small"></div>
-<div class="donate-progressbar">
-	<div class="donate-progressbar__value">{{ event.income }} руб.</div>
-	<div class="donate-progressbar__goal">{{ event.amount }} руб.</div>
-</div>
-<div class="spacer spacer--big"></div>
+<div class="donate-page">
+	<div class="spacer--big"></div>
+	<h2 class="title-h2">О подарке</h2>
+	<div class="spacer--small"></div>
+	<div class="creation-page__present">
+		<div class="present__photo" style="background-image: url({{ event.image }})"></div>
+		<div class="present__desc">
+			<div class="present__desc_text">{{ event.description }}</div>
+		</div>
+	</div>
+	<div class="spacer--big"></div>
+	<h2 class="title-h2">Текущий статус</h2>
+	<div class="spacer--small"></div>
+	<div class="donate-progressbar">
+		<div class="donate-progressbar__value">{{ event.income }} руб.</div>
+		<div class="donate-progressbar__goal">{{ event.amount }} руб.</div>
+	</div>
+	<div class="spacer--big"></div>
 {% if status == 'ok' %}
-    <div class="thanks-page">
-        <h2 class="title-h2">Спасибо, Ваш платеж принят!</h2>
-        <div class="spacer spacer--small"></div>
-        <img src="/static/images/thanks.jpg" alt="Маша говорит &laquo;Спасибо!&raquo;"/>
-    </div>
+	<h2 class="title-h2">Спасибо, Ваш платеж принят!</h2>
 {% elif error %}
     <h2 class="title-h2">Произошла ошибка</h2>
 {% else %}
-<h2 class="title-h2">Скинуться</h2>
-<div class="spacer spacer--small"></div>
-<form action="" class="donate-form" method="post" role="donateSubmit">
-    <input type="hidden" name="card_destination" value="{{ event.card }}">
-    <input type="hidden" name="member_id" value="{{ event.split_member_id }}">
-    <input type="hidden" name="event_id" value="{{ event.split_event_id }}">
-    <input type="hidden" name="TermUrl" value="http://split2pay.ru:8080/p2papi/submitPayment">
-    <input type="hidden" name="PaReq" value="">
-    <input type="hidden" name="MD" value="">
-    <input type="hidden" name="card_source_expdate" value="">
-	<div class="form-item">
-		<label class="form-item__label" for="transfer_amount">Сумма:</label>
-		<input class="form-item__input-text" id="transfer_amount" name="transfer_amount" placeholder="Cумма" type="text" value="">
-		<span class="currency">руб.</span>
-		<span class="form-item__error"></span>
-	</div>
-	<div class="spacer spacer--small"></div>
-	<div class="form-item">
-		<label class="form-item__label" for="card_source">Номер карты:</label>
-		<input class="form-item__input-text" id="card_source" name="card_source" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
-		<span class="form-item__error"></span>
-	</div>
-	<div class="spacer spacer--small"></div>
-	<div class="form-item">
-		<label class="form-item__label" for="exp_month">Срок</label>
-		<select name="exp_month" id="exp_month">
-			{% for m in range(1, 13) %}
-			<option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
-			{% endfor %}
-		</select>
-		<select name="exp_year">
-			{% for y in range(2014, 2020) %}
-			<option value="{{ y }}">{{ y }}</option>
-			{% endfor %}
-		</select>
-		<span class="form-item__error"></span>
-	</div>
-	<div class="spacer spacer--small"></div>
-	<div class="form-item">
-		<label class="form-item__label" for="cvv">CVV:</label>
-		<input class="form-item__input-text" id="cvv" name="cvv" placeholder="000" type="text" value="">
-		<span class="form-item__error"></span>
-	</div>
-	<div class="spacer spacer--big"></div>
-	<div class="form-item form-item--submit">
-		<div class="spacer spacer--small"></div>
-		<div class="float-left yashare-auto-init" data-yashareL10n="ru"
+	<h2 class="title-h2">Скинуться</h2>
+	<div class="spacer--small"></div>
+	<form action="" class="donate-form clearfix" method="post" role="donateSubmit">
+		<input type="hidden" name="card_destination" value="{{ event.card }}">
+		<input type="hidden" name="member_id" value="{{ event.split_member_id }}">
+		<input type="hidden" name="event_id" value="{{ event.split_event_id }}">
+		<input type="hidden" name="TermUrl" value="http://split2pay.ru:8080/p2papi/submitPayment">
+		<input type="hidden" name="PaReq" value="">
+		<input type="hidden" name="MD" value="">
+		<input type="hidden" name="card_source_expdate" value="">
+		<div class="input-item">
+			<label class="input-item__label" for="transfer_amount">Сумма:</label>
+			<input class="input-item__text" id="transfer_amount" name="transfer_amount" placeholder="Cумма" type="text" value="">
+			<span class="input-item__hint">руб.</span>
+			<span class="input-item__error"></span>
+		</div>
+		<div class="spacer--small"></div>
+		<div class="input-item">
+			<label class="input-item__label" for="card_source">Номер карты:</label>
+			<input class="input-item__text" id="card_source" name="card_source" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
+			<span class="input-item__error"></span>
+		</div>
+		<div class="spacer--small"></div>
+		<div class="input-item">
+			<label class="input-item__label" for="exp_month">Срок</label>
+			<select class="input-item__select" name="exp_month" id="exp_month">
+				{% for m in range(1, 13) %}
+				<option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
+				{% endfor %}
+			</select>
+			<select class="input-item__select" name="exp_year" id="exp_year">
+				{% for y in range(2014, 2020) %}
+				<option value="{{ y }}">{{ y }}</option>
+				{% endfor %}
+			</select>
+			<span class="input-item__error"></span>
+		</div>
+		<div class="spacer--small"></div>
+		<div class="input-item">
+			<label class="input-item__label" for="cvv">CVV:</label>
+			<input class="input-item__text" id="cvv" name="cvv" placeholder="000" type="text" value="">
+			<span class="input-item__error"></span>
+		</div>
+		<div class="spacer--big"></div>
+		<hr class="split-line"/>
+		<div class="spacer--small"></div>
+		<div class="form-errors" id="form-errors">
+			<span>Заполните форму корректно:</span>
+			<div class="form-errors__list"></div>
+		</div>
+		<div class="spacer--small"></div>
+		<div class="yashare-auto-init float-left" data-yashareL10n="ru"
 			 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
-		<button id="save" class="button button__full-color">Отправить</button>
-	</div>
-</form>
+		<button id="save" class="button button--big float-right">Отправить</button>
+	</form>
+</div>
 {% endif %}
 {% endblock %}
 {% block scripts %}
 <script>
-
-	(function(){
-		var currentAmount = {{ event.income }},
-			goalAmount = {{ event.amount }};
-
-		minWeight = 85;
-		$donateWidget = $('.donate-progressbar');
-		donateWidgetWidth = $donateWidget.width() - 15;
-		$donateAmount =$('.donate-progressbar__value', $donateWidget);
-
-
-		function progressBar(amount, goal) {
-			var procentAmount = ( parseInt(amount) / parseInt(goal) ) * 100,
-				progressBarValue = ( donateWidgetWidth / 100 ) * procentAmount
-
-			if(progressBarValue < minWeight){
-				$donateAmount.css({'width': minWeight + 'px'});
-			}else if(amount > goal){
-				$donateAmount.css({'width': donateWidgetWidth + 'px'});
-			}else{
-				$donateAmount.css({'width': progressBarValue + 'px'});
-			}
-
-			$donateAmount.html(amount.toFixed(2) + ' руб.');
-		}
-
-		progressBar(currentAmount, goalAmount);
-
-	})();
-
-    var event_id = {{ event.id }}
-
-	function attemptTransfer($form) {
-		var form = $form[0];
-		form.card_source_expdate.value = expdate($form);
-		var data = form_data($form);
-        delete data.TermUrl;
-		data.card_source = data.card_source.replace(/-/g,'');
-        data.term_url = '{{ event.url }}';
-		console.log(data);
-		$.ajax({
-			type: "POST",
-			url: "http://split2pay.ru:8080/p2papi/invokePayment",
-			data: data,
-			beforeSend: function(){
-				$('#save').html($('<img>',{
-					src: '/static/images/ajax-loader.gif?43241232'
-				})).attr('disabled','disabled');
-			},
-			success: function (response) {
-				$('#save').html('Отправить').removeAttr('disabled');
-
-                console.log(response);
-                if (response.error) {
-                    alert(response.error)
-                } else {
-                    form.PaReq.value = response.paReq;
-                    form.MD.value = response.md;
-                    form.action = response.acsurl;
-                    $.post('/transaction', {
-                        event_id: event_id,
-                        amount: data.transfer_amount,
-                        card: data.card_source,
-                        md: response.md
-                    }, function() {
-                        $form.submit();
-                    });
-                }
-            },
-            error: function() {
-                alert('Произошла ошибка');
-            }
-		});
-	}
-    function form_data($form) {
-        var fields = $form.find('input[name],select[name]');
-        var data = {};
-        for (var i in fields) {
-            var field = fields[i];
-            data[field.name] = field.value;
-        }
-        return data;
-    }
-
-	function expdate($form) {
-		var exp_month = $form.find('[name="exp_month"]').val();
-		var exp_year = $form.find('[name="exp_year"]').val();
-		return exp_year + exp_month;
-	}
-
-	$(function() {
-		var $form = $('form');
-		$('#save').on('click', function(e) {
-			e.preventDefault();
-			attemptTransfer($form);
-		});
-	});
-
+	var currentAmount = {{ event.income }},
+		goalAmount = {{ event.amount }},
+		event_id = {{ event.id }};
 </script>
+<script src="/static/js/pages/event.js"></script>
 {% endblock %}

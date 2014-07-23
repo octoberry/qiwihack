@@ -1,17 +1,18 @@
 {% extends "index.html" %}
 {% block content %}
+<div class="spacer--big"></div>
 <h2 class="title-h2">Подпишись на наши новости</h2>
+<div class="spacer--small"></div>
 <form action="/subscribe" role="subscribeSubmit">
-	<p>Оставь нам свой e-mail и узнавай первым о развитии нашего проекта.</p>
-	<div class="form-item">
-		{{ form.email(class="form-item__input-text input--full", placeholder='Введите свой e-mail', id='email') }}
+	<p>Оставь нам свой e-mail и будь в курсе последних обновлений нашего проекта.</p>
+	<div class="input-item">
+		{{ form.email(class="input-item__text input-item__text--full-width", placeholder='Введите свой e-mail', id='email') }}
 		<span class="form-item__error"></span>
 	</div>
-	<div class="spacer spacer--big"></div>
-	<div class="form-item form-item--submit">
-		<div class="spacer spacer--small"></div>
-		<input class="button button__full-color" type="submit" value="Отправить"/>
-	</div>
+	<div class="spacer--big"></div>
+	<hr class="split-line"/>
+	<div class="spacer--small"></div>
+	<input class="button button--big float-right" type="submit" value="Отправить"/>
 </form>
 {% endblock %}
 {% block scripts %}

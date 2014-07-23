@@ -1,104 +1,309 @@
 @import 'fonts'
 @import 'normalize'
-@import 'guideline'
-@import 'base'
-@import 'helpers'
-@import 'spacers'
+@import 'mixins'
 
+.spacer
+.spacer--big
+.spacer--middle
+.spacer--small
+	display block
 
-.header
-	height 100px
-	border-bottom 2px solid $red
+.spacer--small
+	height 10px
 
-	&__logo a
-		font-family 'Ubuntu', sans-serif
-		font-size 48px
-		line-height 100px
-		margin-left 20px
-		font-weight 400
-		color $red
-		
+.spacer--middle
+	height 14px
 
-.main
-	font-family 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial' sans-serif
-	width 650px
-	margin-left auto
-	margin-right auto
-	margin-top 34px
-	margin-bottom 100px
+.spacer--big
+	height 34px
 
-.present
-	position relative
-	height 250px
-	text-align center
+.float-left
+	float left
 
-	&__photo
-		width 250px
+.float-right
+	float right
+
+.split-line
+	height 2px
+	border none
+	background #FD0511
+	margin 0
+	padding 0
+
+.clearfix:after
+	content "."
+	visibility hidden
+	display block
+	height 0
+	clear both
+
+.input-item
+	&__label
+		display inline-block
+		width 100px
+		font-family 'Open Sans', sans-serif
+		font-size 14px
+		color #000
+		line-height 142%
+
+	&__hint
+		font-family 'Open Sans', sans-serif
+		font-size 14px
+		color #000
+		line-height 142%
+
+	&__text
+		border none
+		background #F6F6F6
+		height 45px
+		width 370px
+		padding-left 10px
+		placeholder()
+
+		&--full-width
+			width 100%
+
+	&__select
+		height 45px
+		border none
+		background F6F6F6
+		placeholder()
+
+	&__textarea
 		height 100%
-		background $grey
-		float left
+		width 100%
+		padding 12px 10px
+		border none
+		background rgba(246,246,246,0)
+		box-sizing border-box
+		placeholder()
+
+	&--error
+
+		.input-item
+
+			&__label
+				color #FD0511
+			&__text
+				border 1px solid #FD0511
+			&__textarea
+				border 1px solid #FD0511
+			&__box
+				height 100%
+				box-sizing border-box
+				border 1px solid #FD0511
+			&__select
+				border 1px solid #FD0511
+
+.form-errors
+	display none
+	line-height 24px
+	margin-bottom 10px
+
+	&--show
+		display block
+
+	&__item
+		color #FD0511
+		text-decoration none
+		border-bottom 1px dashed #FD0511
+		cursor pointer
+		margin-right 10px
+
+		&:hover
+			border-bottom none
+
+a
+	color #3e9ce3
+	text-decoration underline
+
+	&:hover
+		text-decoration none
+
+.title-h1
+.title-h2
+.title-h3
+	font-family 'PT Sans', sans-serif;
+	color #000
+	margin 0
+	padding 0
+
+.title-h2
+	font-size 28px
+	font-weight bold
+	line-height 128%
+
+.button
+	font-family 'Open Sans', sans-serif;
+	font-size 14px
+	font-weight bold
+	color #fff
+	background #FD0511
+	padding 0 14px
+	border none
+	border-radius 6px
+	font-size 14px
+	line-height 36px
+
+	&--big
+		line-height 45px
+		padding 0 60px
+
+	&:hover
+		background #ff3056
+	&:active
+		background #d9040f
+	&:disabled
+		background #A4A4A4
+
+html
+body
+	height 100%
+	background rgba(235,235,235,1)
+
+.layout
+	height 100%
+	width 980px
+	margin 0 auto
+
+	.page-wrap
+		background #fff
+		min-height 100%
+		margin-bottom -200px
+
+			&:after
+				content " "
+				display block
+
+	.container
+		padding-left 60px
+		padding-right 60px
+
+	.header
+		height 80px
+
+		&__logo
+			height 33px
+			width 169px
+			margin-top 24px
+			overflow hidden
+
+	.content
+		height 100%
+		border-top 1px solid rgba(215,215,215,1)
+
+	.footer
+		height 200px
+		background rgba(38,38,38,1)
+		font-size 14px
+		color #fff
+
+		a
+			&:hover
+				text-decoration underline
+
+		&:after
+			height 200px
+
+		&__left-side
+			line-height 18px
+
+			a
+				font-family 'Open Sans', sans-serif;
+
+		&__right-side
+			line-height 28px
+
+		.container
+			padding-top 69px
+
+.creation-page
+	padding-bottom 100px
+
+	&__present
+
+		.present
+			&__photo
+				position relative
+				height 250px
+				width 250px
+				margin-right 10px
+				background #F6F6F6
+				float left
+				background-position center center
+				background-repeat no-repeat
+				background-size cover
+
+				&_icon
+					position absolute
+					margin auto
+					top 60px
+					left 0
+					right 0
+
+				&_fileupload-button
+					display inline-block
+					text-align center
+					position absolute
+					width 250px
+					height 36px
+					margin auto
+					left 0
+					right 0
+					bottom 36px
+
+					input[type='file']
+						opacity 0
+						position absolute
+						left 0
+						line-height 36px
+						width 287px
+						cursor pointer
+						margin-left -87px
+
+			&__desc
+				height 250px
+				margin-left 260px
+				background #F6F6F6
+				overflow hidden
+
+					&:focus
+						outline none
+
+.donate-page
+	padding-bottom 100px
+
+	.present__desc_text
+		padding 12px 10px
+
+	.donate-progressbar
+		height 50px
+		border-bottom 2px solid #7bd500
+		background #F6F6F6
 		z-index 0
 		position relative
 
-	&__desc
-		width 390px
-		height 100%
-		float right
-		text-align left
-
-	&__icon
-		padding-top 60px
-		padding-bottom 47px
-
-	&__fileupload
-		position absolute
-		top 155px
-		bottom 0
-		left 0
-		right 0
-		margin auto
-
-		&-button
-			font-size 14px
-			padding 0 10px
+		&__value
+			display inline-block
 			height 100%
-
-.link-page
-	&__link
-		line-height 48px
-
-.donate-form
-	#cvv
-		width 83px
-
-.donate-progressbar
-	height 50px
-	border-bottom 2px solid $green
-	background $grey
-	z-index 0
-	position relative
-
-	&__value
-		position absolute
-		left 0
-		display inline-block
-		height 100%
-		line-height 50px
-		text-align right
-		padding-right 15px
-		width 85px
-		background $green
-		color #fff
-		z-index 2
-		opacity 0.85
+			width 85px
+			padding-right 15px
+			position absolute
+			left 0
+			line-height 50px
+			text-align right
+			background #7bd500
+			color #fff
+			z-index 2
+			opacity 0.85
 
 
-	&__goal
-		position absolute
-		right 0
-		display inline-block
-		line-height 50px
-		color $darkgrey
-		padding-right 30px
-		background url('/static/images/finish-icon.svg?33323213') no-repeat 70px 30px
-		z-index 1
+		&__goal
+			display inline-block
+			position absolute
+			padding-right 30px
+			right 0
+			line-height 50px
+			color #9b9b9b
+			background url('/static/images/finish-icon.svg') no-repeat 90px 30px
+			z-index 1

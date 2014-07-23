@@ -6,18 +6,47 @@
 	{% block metatags %}{% endblock %}
 </head>
 <body>
-<main class="layout">
-	<header class="header">
-		<h1 class="header__logo"><a href="/">Peer Pay</a></h1>
-	</header>
-	<div class="main">
-		{% block content %}{% endblock %}
+
+<div class="layout">
+		<div class="page-wrap">
+			<header class="header">
+				<div class="container">
+					<a href="/">
+						<img class="header__logo" src="/static/images/logo.png" alt="PeerPay" title="PeerPay"/>
+					</a>
+				</div>
+			</header>
+			<main class="content">
+				<div class="container">
+				{% block content %}{% endblock %}
+				</div>
+			</main>
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<div class="footer__left-side float-left">
+					<img src="/static/images/logo-without-alpha.png" alt="PeerPay" title="PeerPay"/>
+					<div>
+						Сделано с любовью в <a href="http://octoberry.ru/" target="_blank" title="Octoberry">Octoberry</a> +
+						<a href="http://www.parksideup.com/" target="_blank" title="PARKSIDE">PARKSIDE</a>
+					</div>
+				</div>
+				<div class="footer__right-side float-right">
+					<div>Техническая поддержка<br/>
+						<a href="mailto:peerpay@octoberry.ru" title="peerpay@octoberry.ru">peerpay@octoberry.ru</a>
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
-</main>
+</div>
 </body>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+	var app = (app) ? app : {};
+</script>
+<script src="//yandex.st/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
 <script src="/static/js/jquery.mask.min.js"></script>
-<script src="/static/js/script.js"></script>
+<script src="/static/js/validate.js"></script>
 {% block scripts %}{% endblock %}
 </html>

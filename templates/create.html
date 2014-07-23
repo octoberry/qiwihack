@@ -1,131 +1,58 @@
 {% extends "index.html" %}
 {% block content %}
-<h2 class="title-h2">О подарке</h2>
-<div class="spacer spacer--small"></div>
-<form method="post" role="presentSubmit">
-    <div class="present clearfix">
-		<div class="form-item__error" id="block-error1"></div>
-		<aside class="form-item present__photo">
-			<img class="present__icon" src="/static/images/photo-icon.svg" alt=""/>
-			<div class="fileupload present__fileupload">
-				<button class="present__fileupload-button">Загрузить фотографию</button>
-				<input id="fileupload" type="file" name="image_file" data-url="/upload"/>
-				{{ form.image(type="hidden")|safe }}
+<div class="creation-page">
+	<div class="spacer--big"></div>
+	<h2 class="title-h2">О подарке</h2>
+	<div class="spacer--small"></div>
+	<form method="post" role="presentSubmit">
+		<div class="creation-page__present">
+			<div class="present__photo input-item" id="image" style="background-image: url({{ image }})">
+				<div class="input-item__box">
+					<img class="present__photo_icon" src="/static/images/photo-icon.svg" alt="Загрузить фотографию"/>
+					<div class="present__photo_fileupload-button">
+						<button class="button">Загрузить фотографию</button>
+						<input id="fileupload" type="file" name="image_file" data-url="/upload"/>
+						{{ form.image(type="hidden")|safe }}
+					</div>
+				</div>
 			</div>
-		</aside>
-		<aside class="form-item present__desc">
-			{{ form.description(placeholder='Расскажите о подарке...')|safe }}
-		</aside>
-    </div>
-	<div class="spacer spacer--big"></div>
-    <h2 class="title-h2">Реквизиты</h2>
-	<div class="spacer spacer--small"></div>
-	<div class="form-item__error" id="block-error2"></div>
-	<div class="form-item">
-        <label class="form-item__label" for="present[sum]">Сумма:</label>
-        {{ form.amount(class="form-item__input-text", placeholder='Минимум 1 рубль', id='present[sum]') }}
-        <span class="hint">руб.</span>
-	</div>
-    <div class="spacer spacer--small"></div>
-    <div class="form-item">
-        <label class="form-item__label" for="present[cardnumber]">Номер карты:</label>
-        {{ form.card(class="form-item__input-text", id='present[cardnumber]', placeholder='XXXX-XXXX-XXXX-XXXX') }}
-    </div>
-    <div class="spacer spacer--big"></div>
-    <div class="form-item form-item--submit">
-		<div class="spacer spacer--small"></div>
-		<input class="button button__full-color" type="submit" value="Отправить"/>
-    </div>
-</form>
+			<div class="present__desc input-item">
+				{{ form.description(class="input-item__textarea", placeholder='Расскажите о подарке...')|safe }}
+			</div>
+		</div>
+		<div class="spacer--big"></div>
+		<h2 class="title-h2">Реквизиты</h2>
+		<div class="spacer--small"></div>
+		<div class="creation-page__cardholder clearfix">
+			<div class="input-item">
+				<label class="input-item__label" for="amount">Сумма:</label>
+				{{ form.amount(class="input-item__text", placeholder='Минимум 1 рубль', id='amount') }}
+				<span class="input-item__hint">руб.</span>
+			</div>
+			<div class="spacer--middle"></div>
+			<div class="input-item">
+				<label class="input-item__label" for="card">Номер карты:</label>
+				{{ form.card(class="input-item__text", id='card', placeholder='XXXX-XXXX-XXXX-XXXX') }}
+			</div>
+			<div class="spacer--big"></div>
+			<hr class="split-line"/>
+			<div class="spacer--small"></div>
+			<div class="form-errors" id="form-errors">
+				<span>Заполните форму корректно:</span>
+				<div class="form-errors__list"></div>
+			</div>
+			<button class="button button--big float-right" type="submit"/>Отправить</button>
+		</div>
+	</form>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<script>
+	app.errors = {{ form.errors|tojson|safe }};
+</script>
 <script src="/static/js/vendor/jquery.ui.widget.js"></script>
 <script src="/static/js/jquery.iframe-transport.js"></script>
 <script src="/static/js/jquery.fileupload.js"></script>
-<script>
-$(function () {
-
-	$cardField = $('#present\\[cardnumber\\]');
-
-	function updateImage(data){
-		var imageUrl = $('#image')[0],
-			$imageWrapper = $('.present__photo'),
-			$button = $('.present__fileupload-button');
-
-
-			if(data){
-				imageUrl.value = data.result.file.url
-			}
-
-			$imageWrapper.css('background-image', 'url(' + imageUrl.value + ')');
-
-			if(imageUrl.value){
-				$('.present__icon').hide();
-				$button.html('Изменить');
-				$('.form-item__error', $imageWrapper).removeClass('form-item__error--show');
-			}
-	}
-
-	updateImage();
-
-	$('#fileupload').fileupload({
-        dataType: 'json',
-        done: function (e, data) {
-			var $uploadButton = $('.present__fileupload');
-
-			$uploadButton.css({
-				top: 0
-			});
-
-			updateImage(data)
-
-        }
-    });
-
-	var errorList = {{ form.errors|tojson|safe }};
-
-	console.log(errorList);
-
-	var $blockError1 = $('#block-error1'),
-		$blockError2 = $('#block-error2');
-
-	var formValidate = {
-		formNode: $('form[role="presentSubmit"]'),
-		errorArray: errorList,
-		classError: 'form-item__error--show',
-			showError: function(){
-			for(var inputItem in this.errorArray){
-
-				if(inputItem == 'image'){
-					$blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
-
-				if(inputItem == 'description'){
-					$blockError1.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
-
-				if(inputItem == 'amount'){
-					$blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
-
-				if(inputItem == 'card'){
-					$blockError2.append(this.errorArray[inputItem] + ' / ').addClass(this.classError);
-				}
-			}
-		}
-	};
-
-	if(errorList){
-		formValidate.showError();
-	};
-
-
-	formValidate.formNode.on('submit', function(event){
-		$cardField.val($cardField.val().replace(/-/g,''));
-	});
-
-});
-
-</script>
+<script src="/static/js/pages/create.js"></script>
 {% endblock %}

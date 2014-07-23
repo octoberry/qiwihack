@@ -5,20 +5,26 @@
 <meta property="og:url" content="{{ event.url }}" />
 {% endblock %}
 {% block content %}
-<div class="link-page">
+<div class="share-link-page">
+	<div class="spacer--big"></div>
 	<h2 class="title-h2">Ссылка</h2>
+	<div class="spacer--small"></div>
 	<p>Чтобы ускорить сбор средств поделитесь ссылкой со своими друзьями</p>
-	<div class="form-item">
-		<input class="input--full" type="text" name="url" value="{{ event.url }}">
+	<div class="input-item">
+		<input class="input-item__text input-item__text--full-width" type="text" name="url" value="{{ event.url }}">
 	</div>
-	<div class="spacer"></div>
+	<div class="spacer--small"></div>
 	<div class="yashare-auto-init" data-yashareL10n="ru"
 		 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareLink="{{ event.url }}"></div>
-	<div class="spacer"></div>
-	<div class="form-item form-item--submit">
-		<a class="link-page__link float-left" href="/">Собрать на новый подарок</a>
-	</div>
+	<div class="spacer spacer--small"></div>
+	<hr class="split-line"/>
+	<div class="spacer spacer--small"></div>
+	<a href="/" class="float-right">Собрать на новый подарок</a>
 </div>
+<script>
+	// remove image url from localStorage
+	localStorage.removeItem('giftImageLink');
+</script>
 {% endblock %}
 {% block scripts %}
 {% endblock %}
