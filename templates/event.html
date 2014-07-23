@@ -23,10 +23,7 @@
 	<div class="spacer--small"></div>
 	<div class="donate-progressbar">
 		<div class="donate-progressbar__value">{{ event.income }} руб.</div>
-		<div class="donate-progressbar__goal">
-			<img src="/static/images/finish-icon.svg" class="donate-progressbar__goal-icon">
-			{{ event.amount }} руб.
-		</div>
+		<div class="donate-progressbar__goal">{{ event.amount }} руб.</div>
 	</div>
 	<div class="spacer--big"></div>
 {% if status == 'ok' %}
@@ -54,6 +51,9 @@
 		<div class="input-item">
 			<label class="input-item__label" for="card_source">Номер карты:</label>
 			<input class="input-item__text" id="card_source" name="card_source" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
+			<span class="input-item__hint ">
+				<img class="security-icon" src="/static/images/secure_icon.svg">
+			</span>
 			<span class="input-item__error"></span>
 		</div>
 		<div class="spacer--small"></div>
