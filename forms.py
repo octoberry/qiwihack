@@ -10,7 +10,7 @@ class CreateEventForm(Form):
     card = StringField(u'Номер карты:', [validators.DataRequired(message=u'Укажите номер кредитной карты'),
                                          validators.Regexp(regex=r'^\d{16}$',
                                                            message=u'Укажите номер кредитной карты в формате'
-                                                                   u'XXXX-XXXX-XXXX-XXXX')])
+                                                                   u' XXXX-XXXX-XXXX-XXXX')])
 
 
 class CreateEmailForm(Form):
