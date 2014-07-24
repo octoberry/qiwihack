@@ -28,34 +28,34 @@
 	<div class="spacer--big"></div>
 {% if status == 'ok' %}
 	<h2 class="title-h2">Спасибо, Ваш платеж принят!</h2>
-{% elif error %}
+{% elif error or status == 'error' %}
     <h2 class="title-h2">Произошла ошибка</h2>
 {% else %}
 	<h2 class="title-h2">Скинуться</h2>
 	<div class="spacer--small"></div>
-	<form action="" class="donate-form clearfix" method="post" role="donateSubmit">
-		<input type="hidden" name="card_destination" value="{{ event.card }}">
-		<input type="hidden" name="member_id" value="{{ event.split_member_id }}">
-		<input type="hidden" name="event_id" value="{{ event.split_event_id }}">
-		<input type="hidden" name="TermUrl" value="http://split2pay.ru:8080/p2papi/submitPayment">
-		<input type="hidden" name="PaReq" value="">
-		<input type="hidden" name="MD" value="">
-		<input type="hidden" name="card_source_expdate" value="">
+	<form action="/payment/{{ event.id }}" class="donate-form clearfix" method="post" role="donateSubmit">
+		<input type="hidden" name="card_expdate" value="">
 		<div class="input-item">
 			<label class="input-item__label" for="transfer_amount">Сумма:</label>
-			<input class="input-item__text" id="transfer_amount" name="transfer_amount" placeholder="Cумма" type="text" value="">
+			<input class="input-item__text" id="transfer_amount" name="amount" placeholder="Cумма" type="text" value="">
 			<span class="input-item__hint">руб.</span>
 			<span class="input-item__error"></span>
 		</div>
 		<div class="spacer--small"></div>
 		<div class="input-item">
 			<label class="input-item__label" for="card_source">Номер карты:</label>
-			<input class="input-item__text" id="card_source" name="card_source" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
+			<input class="input-item__text" id="card_source" name="card_number" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
+			<span class="input-item__error"></span>
+		</div>
+        <div class="spacer--small"></div>
+        <div class="input-item">
+			<label class="input-item__label" for="holder_name">Имя держателя:</label>
+			<input class="input-item__text" id="holder_name" name="holder_name" type="text" value="">
 			<span class="input-item__error"></span>
 		</div>
 		<div class="spacer--small"></div>
 		<div class="input-item">
-			<label class="input-item__label" for="exp_month">Срок</label>
+			<label class="input-item__label" for="exp_month">Срок действия:</label>
 			<select class="input-item__select" name="exp_month" id="exp_month">
 				{% for m in range(1, 13) %}
 				<option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
@@ -63,7 +63,7 @@
 			</select>
 			<select class="input-item__select" name="exp_year" id="exp_year">
 				{% for y in range(2014, 2020) %}
-				<option value="{{ y }}">{{ y }}</option>
+				<option value="{{ y % 100 }}">{{ y }}</option>
 				{% endfor %}
 			</select>
 			<span class="input-item__error"></span>
@@ -71,7 +71,7 @@
 		<div class="spacer--small"></div>
 		<div class="input-item">
 			<label class="input-item__label" for="cvv">CVV:</label>
-			<input class="input-item__text" id="cvv" name="cvv" placeholder="000" type="text" value="">
+			<input class="input-item__text" id="cvv" name="card_cvv" placeholder="000" type="text" value="">
 			<span class="input-item__error"></span>
 		</div>
 		<div class="spacer--big"></div>

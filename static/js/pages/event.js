@@ -41,41 +41,27 @@ function attemptTransfer($form) {
         'exp_month': ['Укажите exp_month кредитной карты'],
         'exp_year': ['Укажите exp_year кредитной карты'],
         'cvv': ['Укажите CVV-код кредитной карты']
-    }
+    };
 
-    form.card_source_expdate.value = expdate($form);
-    delete data.TermUrl;
-    data.card_source = data.card_source.replace(/-/g,'');
-    data.term_url = '{{ event.url }}';
+    data.card_expdate = expdate($form);
+    data.card_number = data.card_number.replace(/-/g,'');
     console.log(data);
     $.ajax({
         type: "POST",
-        url: "http://split2pay.ru:8080/p2papi/invokePayment",
+        url: $form.attr('action'),
         data: data,
-        beforeSend: function(){
+        beforeSend: function() {
             $('#save').html($('<img>',{
                 src: '/static/images/ajax-loader.gif'
             })).css({ 'width': '201px', 'height': '45px'}).attr('disabled','disabled');
         },
-        success: function (response) {
+        complete: function() {
             $('#save').html('Отправить').removeAttr('disabled');
-
-            console.log(response);
-            if (response.error) {
-                app.formValidate(mockObjectWithErrors, $errorContainer);
-
-            } else {
-                form.PaReq.value = response.paReq;
-                form.MD.value = response.md;
-                form.action = response.acsurl;
-                $.post('/transaction', {
-                    event_id: event_id,
-                    amount: data.transfer_amount,
-                    card: data.card_source,
-                    md: response.md
-                }, function() {
-                    $form.submit();
-                });
+        },
+        success: function (res) {
+            console.log(res);
+            if (res.result == 'required_3ds') {
+                $.redirect(res);
             }
         },
         error: function() {
@@ -96,7 +82,7 @@ function form_data($form) {
 function expdate($form) {
     var exp_month = $form.find('[name="exp_month"]').val();
     var exp_year = $form.find('[name="exp_year"]').val();
-    return exp_year + exp_month;
+    return exp_month + exp_year;
 }
 
 $(function() {
