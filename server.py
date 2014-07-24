@@ -1,11 +1,12 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from forms import CreateEventForm, CreateEmailForm
-from pony.orm import db_session, Database, Required, commit, select
+from forms import CreateEventForm, CreateEmailForm, PaymentForm
+from pony.orm import db_session, Database, Required, Optional, commit, select, sql_debug, LongStr
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import NotFound
 import uuid
-import splitpay
+import payonline
 from PIL import Image
 from hashids import Hashids
 
@@ -18,7 +19,7 @@ size = 250, 250
 hashids = Hashids(salt=app.config['SALT'])
 
 if app.config['DEBUG']:
-    splitpay.debug_logging()
+    sql_debug(True)
 
 
 class Events(db.Entity):
@@ -28,13 +29,19 @@ class Events(db.Entity):
     image = Required(unicode)
     updated_at = Required(datetime)
     created_at = Required(datetime)
-    split_event_id = Required(int)
-    split_owner_id = Required(int)
-    split_member_id = Required(int)
 
     @property
     def income(self):
-        return sum(select(t.amount for t in Transaction if t.status == 1 and t.event_id == self.id))
+        return select(sum(t.amount) for t in Transaction if t.status == 1 and t.event_id == self.id)[:1][0]
+
+    @property
+    def hashid(self):
+        return hashids.encrypt(self.id, int(self.created_at.strftime('%s')))
+
+    @staticmethod
+    def get_by_hashid(hashid):
+        event_id, _ = hashids.decrypt(hashid)
+        return Events.get(id=event_id)
 
 
 class Transaction(db.Entity):
@@ -45,6 +52,15 @@ class Transaction(db.Entity):
     status = Required(int)
     updated_at = Required(datetime)
     created_at = Required(datetime)
+
+
+class PayonlineLog(db.Entity):
+    _table_ = 'payonline_log'
+    event_id = Required(int)
+    operation = Required(str)
+    request = Required(LongStr)
+    response = Required(LongStr)
+    created_at = Optional(datetime)
 
 
 db.generate_mapping()
@@ -68,7 +84,6 @@ def create():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-        event_data = splitpay.add_split_event(event_data)
         event = Events(**event_data)
         commit()
         return redirect(url_for('success', event_id=event.id))
@@ -79,28 +94,17 @@ def create():
 @db_session
 def success(event_id):
     event = Events.get(id=event_id)
-    hash = hashids.encrypt(event.id, event.split_member_id)
-    print hash
-    event.url = url_for('event', hash=hash, _external=True)
+    event.url = url_for('event', hashid=event.hashid, _external=True)
     return render_template('success.html', event=event)
 
 
-@app.route('/e/<path:hash>', methods=['GET', 'POST'])
+@app.route('/e/<path:hashid>', methods=['GET', 'POST'])
 @db_session
-def event(hash):
-    hash = hash.strip('/')
-    event_id, _ = hashids.decrypt(hash)
-    event = Events.get(id=event_id)
-    event.url = url_for('event', hash=hash, _external=True)
-
-    md = request.args.get('md')
+def event(hashid):
+    hashid = hashid.strip('/')
+    event = Events.get_by_hashid(hashid)
+    event.url = url_for('event', hashid=hashid, _external=True)
     status = request.args.get('status')
-    if md and status == 'ok':
-        trans = Transaction.get(md=md)
-        if trans:
-            trans.status = 1
-            commit()
-
     return render_template('event.html', event=event, status=status, error=request.args.get('error'))
 
 
@@ -121,21 +125,81 @@ def upload():
     return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + outfile))
 
 
-@app.route('/transaction', methods=['POST'])
+@app.route('/payment/<int:event_id>', methods=['POST'])
 @db_session
-def transaction():
-    data = {
-        'event_id': int(request.form['event_id']),
-        'amount': int(request.form['amount']),
-        'card': request.form['card'],
-        'md': request.form['md'],
-        'status': 0,
-        'created_at': datetime.now(),
-        'updated_at': datetime.now()
-    }
-    trans = Transaction(**data)
-    commit()
-    return jsonify(status='ok')
+def invoke_payment(event_id):
+    event = Events.get(id=event_id)
+    if not event:
+        raise NotFound()
+    payonline.EVENT_ID = event_id
+
+    form = PaymentForm(request.form)
+    if not form.validate():
+        return jsonify(result='validation_failed', errors=form.errors)
+
+    card = payonline.Card(
+        holder_name=form.holder_name.data,
+        number=form.card_number.data,
+        exp_date=form.card_expdate.data,
+        cvv=form.card_cvv.data
+    )
+    rebill_anchor = payonline.get_card_rebill_anchor(card)
+    if not rebill_anchor:
+        return jsonify(result='card_auth_error')
+
+    recip_card = payonline.RecipientCard(card_number=event.card)
+    order = payonline.Order(order_id=event.id, amount=float(form.amount.data))
+    res = payonline.transaction_card2card(rebill_anchor, recip_card, order)
+    if res.required_3ds:
+        trans_data = {
+            'event_id': event.id,
+            'amount': int(order.amount),
+            'card': card.number,
+            'md': '%s;%s' % (event.id, res.get('pd')),
+            'status': 0,
+            'created_at': datetime.now(),
+            'updated_at': datetime.now()
+        }
+        trans = Transaction(**trans_data)
+        commit()
+        acsurl = res.get('acsurl')
+        data_for_3ds = {
+            'PaReq': res.get('pareq'),
+            'MD': trans.md,
+            'TermUrl': url_for('complete_payment', _external=True)
+        }
+        return jsonify(result='required_3ds', url=acsurl, data=data_for_3ds)
+
+    if res.is_error:
+        return jsonify(result='payment_error')
+
+    return jsonify(result='payment_ok')
+
+
+@app.route('/complete', methods=['POST'])
+@db_session
+def complete_payment():
+    print request.form
+    pares = request.form['PaRes']
+    md = request.form['MD']
+    event_id, pd = md.split(';')
+    event = Events.get(id=event_id)
+    if event:
+        payonline.EVENT_ID = event_id
+        trans = Transaction.select(lambda t: t.md == md)[:]
+        if trans:
+            trans = trans[0]
+            res = payonline.transaction_card2card_3ds(pares, pd)
+            if res.is_ok or res.get('Result') == 'Settled':
+                trans.status = 1
+                commit()
+                return redirect(url_for('event', hashid=event.hashid)+'?status=ok')
+            print res.body
+        print 'Transaction not found'
+    print 'Event not found'
+
+    return redirect(url_for('event', hashid=event.hashid)+'?status=error')
+
 
 @app.route('/subscribe')
 def subscribe():

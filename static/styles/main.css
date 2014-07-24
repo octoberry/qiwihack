@@ -218,7 +218,7 @@ th {
 }
 .input-item__label {
   display: inline-block;
-  width: 100px;
+  width: 130px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
@@ -235,7 +235,7 @@ th {
   border: 2px solid #f6f6f6;
   background: #f6f6f6;
   height: 45px;
-  width: 370px;
+  width: 340px;
   padding-left: 10px;
   box-sizing: border-box;
 }
