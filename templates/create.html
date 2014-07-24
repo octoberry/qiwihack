@@ -4,19 +4,19 @@
 	<div class="spacer--big"></div>
 	<h2 class="title-h2">О подарке</h2>
 	<div class="spacer--small"></div>
-	<form method="post" role="presentSubmit">
-		<div class="creation-page__present">
-			<div class="present__photo input-item" id="image" style="background-image: url({{ image }})">
+	<form method="post" role="giftSubmit">
+		<div class="creation-page__gift">
+			<div class="gift__photo input-item" id="image" style="background-image: url({{ image }})">
 				<div class="input-item__box">
-					<img class="present__photo_icon" src="/static/images/photo-icon.svg" alt="Загрузить фотографию"/>
-					<div class="present__photo_fileupload-button">
+					<img class="gift__photo_icon" src="/static/images/photo-icon.svg" alt="Загрузить фотографию"/>
+					<div class="gift__photo_fileupload-button">
 						<button class="button">Загрузить фотографию</button>
 						<input id="fileupload" type="file" name="image_file" data-url="/upload"/>
 						{{ form.image(type="hidden")|safe }}
 					</div>
 				</div>
 			</div>
-			<div class="present__desc input-item">
+			<div class="gift__desc input-item">
 				{{ form.description(class="input-item__textarea", placeholder='Расскажите о подарке...')|safe }}
 			</div>
 		</div>
@@ -26,8 +26,8 @@
 		<div class="creation-page__cardholder clearfix">
 			<div class="input-item">
 				<label class="input-item__label" for="amount">Сумма:</label>
-				{{ form.amount(class="input-item__text", placeholder='Минимум 1 рубль', id='amount') }}
-				<span class="input-item__hint">руб.</span>
+				{{ form.amount(class="input-item__text", placeholder='Минимум 100 руб.', id='amount') }}
+				<span class="input-item__hint"></span>
 			</div>
 			<div class="spacer--middle"></div>
 			<div class="input-item">
@@ -37,7 +37,7 @@
 			<div class="spacer--big"></div>
 			<hr class="split-line"/>
 			<div class="spacer--small"></div>
-			<div class="form-errors" id="form-errors">
+			<div class="form-errors float-left" id="form-errors">
 				<span>Заполните форму корректно:</span>
 				<div class="form-errors__list"></div>
 			</div>

@@ -12,10 +12,10 @@
 	<div class="spacer--big"></div>
 	<h2 class="title-h2">О подарке</h2>
 	<div class="spacer--small"></div>
-	<div class="creation-page__present">
-		<div class="present__photo" style="background-image: url({{ event.image }})"></div>
-		<div class="present__desc">
-			<div class="present__desc_text">{{ event.description }}</div>
+	<div class="creation-page__gift">
+		<div class="gift__photo" style="background-image: url({{ event.image }})"></div>
+		<div class="gift__desc">
+			<div class="gift__desc_text">{{ event.description }}</div>
 		</div>
 	</div>
 	<div class="spacer--big"></div>
@@ -45,6 +45,9 @@
 		<div class="input-item">
 			<label class="input-item__label" for="card_source">Номер карты:</label>
 			<input class="input-item__text" id="card_source" name="card_number" placeholder="XXXX-XXXX-XXXX-XXXX" type="text" value="">
+			<span class="input-item__hint ">
+				<img class="security-icon" src="/static/images/secure_icon.svg">
+			</span>
 			<span class="input-item__error"></span>
 		</div>
         <div class="spacer--small"></div>
@@ -77,13 +80,13 @@
 		<div class="spacer--big"></div>
 		<hr class="split-line"/>
 		<div class="spacer--small"></div>
-		<div class="form-errors" id="form-errors">
+		<div class="form-errors float-left" id="form-errors">
 			<span>Заполните форму корректно:</span>
 			<div class="form-errors__list"></div>
+			<div class="spacer--small"></div>
+			<div class="yashare-auto-init" data-yashareL10n="ru"
+				 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
 		</div>
-		<div class="spacer--small"></div>
-		<div class="yashare-auto-init float-left" data-yashareL10n="ru"
-			 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter"></div>
 		<button id="save" class="button button--big float-right">Отправить</button>
 	</form>
 </div>

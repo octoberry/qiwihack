@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from forms import CreateEventForm, CreateEmailForm, PaymentForm
 from pony.orm import db_session, Database, Required, commit, select, sql_debug
 from datetime import datetime
-from config import config
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import NotFound
 import uuid
@@ -12,13 +11,12 @@ from PIL import Image
 from hashids import Hashids
 
 app = Flask(__name__)
-app.config.update(config)
-app.config['UPLOAD_FOLDER'] = os.path.dirname(os.path.abspath(__file__)) + '/static/uploads/'
-app.config['UPLOAD_PATH'] = '/static/uploads/'
+app.config.from_pyfile('default_config.py')
+app.config.from_pyfile('config.py')
+
 db = Database('postgres', app.config['DATABASE'])
 size = 250, 250
-
-hashids = Hashids(salt='Chi822pinPAdd22234')
+hashids = Hashids(salt=app.config['SALT'])
 
 if app.config['DEBUG']:
     payonline.debug_logging()
