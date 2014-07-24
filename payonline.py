@@ -6,6 +6,9 @@ from hashlib import md5
 from collections import OrderedDict
 import httplib, logging
 import traceback
+from server import app, PayonlineLog
+from pony.orm import commit
+import json
 
 def debug_logging():
     httplib.HTTPConnection.debuglevel = 1
@@ -15,8 +18,12 @@ def debug_logging():
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
 
-MERCHANT_ID = None
-PRIVATE_SECURITY_KEY = None
+if app.config['DEBUG']:
+    debug_logging()
+
+MERCHANT_ID = app.config['PAYONLINE_MERCHANT_ID']
+PRIVATE_SECURITY_KEY = app.config['PAYONLINE_PRIVATE_SECURITY_KEY']
+EVENT_ID = None
 
 base_url = 'https://secure.payonlinesystem.com/payment'
 
@@ -29,7 +36,7 @@ class Order(object):
 
     @staticmethod
     def gen_id():
-        return uuid.uuid1()
+        return "%s" % uuid.uuid1()
 
     def to_payonline(self):
         data = OrderedDict()
@@ -167,6 +174,7 @@ def _post(uri, data, ext_encode_data=None, add_security_key=True):
     try:
         r = requests.post(base_url + uri, data=request_data)
         print r.text
+        _create_log(uri, request_data, r.text)
         return Response(body=r.text)
     except:
         print 'Error Payonline'
@@ -183,32 +191,15 @@ def _gen_security_key(data):
     # print encode_str
     return md5(encode_str).hexdigest()
 
-# Id=27454453&Operation=Auth&Result=Ok&Code=200&Status=PreAuthorized&rebillAnchor=3Rbx4VIFBLxc149ZIsYiTekavjSa1rdMqBrFanQ59BU=&binCountry=RU
-# Id=27456676&Operation=Auth&Result=Ok&Code=200&Status=PreAuthorized&rebillAnchor=.MeLDV7g.cJL6cMOOybSdVFEDXmZpUINWZ4dCKGlPFg=&binCountry=RU
+def _create_log(uri, request_data, response):
+    log = PayonlineLog(
+        event_id=EVENT_ID,
+        operation=_get_operation_by_uri(uri),
+        request=json.dumps(request_data),
+        response=response
+    )
+    commit()
+    return log
 
-# Id=27828&Operation=Card2Card&Result=Error&Code=6001&Status=Awaiting3DAuthentication&errorCode=4&pareq=eJx1kt1u4jAQhV8F8QDYTkx+0GCJH1XNRVrE9h4ZZwRhSxKcBMHbd5xNoK20F5bmzIyOx98YPo4W
-# cf0HTWtRQYp1rQ84yrP5WEjJ6aA/zVBGXOh9vNeGa70PwyzQ/ljBZrHFi4Ir2jovCyUmfOIBGyS5
-# WXPURaNAm8syeVMyiKeRBNZLOKNN1irh6TtfvmyB/dNQ6DOqCi1ey2xX7/5q29x3he6CFlhXBlO2
-# RWPvKpA+sEFAaz/VsWmqGWP/N3BNwJ7TbVoX1WR6yzOVrBaH3yc9GZmeDnNgrgMy3aDyiA4PPTES
-# 8YxHM48D6/Kgz24aJTwxmVKyl1C5WxaPmit9TwFtwGJhhhcNCvBWlQVSB6F9xMCeQ69eHWDTELpI
-# eIHvhTHtIQ5lGAe+T8SDSIjAUe96nGFOrGgCuqcXwJwL6xdKbLp/QNGP//EFdYq3Ew==&acsurl=https://acs.alfabank.ru/acs/PAReq&pd=jkNf8rU11jmd3d8mVqQWsY+PxCmz98mVZwyBXm5PKN48jwcpN2hmJlyWRx5SPP+JqbAZfK+VobGQUY/4vB4WDFJnwmwx8Ued1xiqMIaQXrQ=
-
-
-# if __name__ == '__main__':
-    # order = Order(order_id='133', amount=1.00)
-    # card = Card(holder_name='ANDREY ZAKHAROV', number='4154817685289327', exp_date='0315', cvv='696')
-    # debug_logging()
-    # r = transaction_auth(order, card)
-    # if r.get('Result') == 'Ok':
-    #     recip_card = RecipientCard(card_number='5559492700675633')
-    #     order = Order(order_id='134', amount=100.00)
-    #     transaction_card2card(r.get('rebillAnchor'), recip_card, order)
-    #     transaction_void(r.get('Id'))
-
-    # rebill_anchor = 'R31bYik5zF5zEuSqCE24DKFoPJvUfNxaIVBscruAF3U='
-    # order = Order(order_id='178', amount=1.00)
-    # recip_card = RecipientCard(card_number='5559492700675633')
-    # transaction_card2card(rebill_anchor, order, recip_card)
-
-
-
+def _get_operation_by_uri(uri):
+    return uri.strip('/').split('/')[-1]

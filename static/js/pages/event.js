@@ -63,12 +63,15 @@ function attemptTransfer($form) {
                 case 'required_3ds':
                     $.redirect(res);
                     break;
-                default:
+                case 'validation_failed':
                     app.formValidate(mockObjectWithErrors, $errorContainer);
+                    break;
+                default:
+                    alert('Произошла ошибка');
             }
         },
         error: function() {
-            app.formValidate(mockObjectWithErrors, $errorContainer);
+            alert('Произошла ошибка');
         }
     });
 }

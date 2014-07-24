@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from forms import CreateEventForm, CreateEmailForm, PaymentForm
-from pony.orm import db_session, Database, Required, commit, select, sql_debug
+from pony.orm import db_session, Database, Required, Optional, commit, select, sql_debug, LongStr
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import NotFound
@@ -19,11 +19,7 @@ size = 250, 250
 hashids = Hashids(salt=app.config['SALT'])
 
 if app.config['DEBUG']:
-    payonline.debug_logging()
     sql_debug(True)
-
-payonline.MERCHANT_ID = app.config['PAYONLINE_MERCHANT_ID']
-payonline.PRIVATE_SECURITY_KEY = app.config['PAYONLINE_PRIVATE_SECURITY_KEY']
 
 
 class Events(db.Entity):
@@ -56,6 +52,15 @@ class Transaction(db.Entity):
     status = Required(int)
     updated_at = Required(datetime)
     created_at = Required(datetime)
+
+
+class PayonlineLog(db.Entity):
+    _table_ = 'payonline_log'
+    event_id = Required(int)
+    operation = Required(str)
+    request = Required(LongStr)
+    response = Required(LongStr)
+    created_at = Optional(datetime)
 
 
 db.generate_mapping()
@@ -126,6 +131,7 @@ def invoke_payment(event_id):
     event = Events.get(id=event_id)
     if not event:
         raise NotFound()
+    payonline.EVENT_ID = event_id
 
     form = PaymentForm(request.form)
     if not form.validate():
@@ -179,6 +185,7 @@ def complete_payment():
     event_id, pd = md.split(';')
     event = Events.get(id=event_id)
     if event:
+        payonline.EVENT_ID = event_id
         trans = Transaction.select(lambda t: t.md == md)[:]
         if trans:
             trans = trans[0]
