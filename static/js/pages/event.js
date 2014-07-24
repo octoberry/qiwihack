@@ -59,8 +59,12 @@ function attemptTransfer($form) {
         },
         success: function (res) {
             console.log(res);
-            if (res.result == 'required_3ds') {
-                $.redirect(res);
+            switch (res.result) {
+                case 'required_3ds':
+                    $.redirect(res);
+                    break;
+                default:
+                    app.formValidate(mockObjectWithErrors, $errorContainer);
             }
         },
         error: function() {
