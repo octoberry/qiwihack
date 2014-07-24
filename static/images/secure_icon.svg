@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="22px" viewBox="0 0 16 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
+    <title>Imported Layers</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Desktop" sketch:type="MSArtboardGroup" transform="translate(-569.000000, -564.000000)">
+            <g id="Imported-Layers" sketch:type="MSLayerGroup" transform="translate(569.000000, 566.000000)">
+                <path d="M12.4,6.15384615 L12.4,5.32076923 C12.4,2.48461538 10.9352,0.384615385 8,0.384615385 C5.0648,0.384615385 3.6,2.50538462 3.6,5.32076923 L3.6,6.15384615" id="Stroke-1" stroke="#4A4A4A" stroke-width="3" sketch:type="MSShapeGroup"></path>
+                <path d="M13.6,6.92307692 L2.4,6.92307692 C1.0744,6.92307692 0,7.95615385 0,9.23076923 L0,16.9230769 C0,18.1976923 1.0744,19.2307692 2.4,19.2307692 L13.6,19.2307692 C14.9256,19.2307692 16,18.1976923 16,16.9230769 L16,9.23076923 C16,7.95615385 14.9256,6.92307692 13.6,6.92307692 L13.6,6.92307692 Z M8.8,13.6330769 L8.8,15.3846154 C8.8,15.8084615 8.4408,16.1538462 8,16.1538462 C7.5592,16.1538462 7.2,15.8084615 7.2,15.3846154 L7.2,13.6330769 C6.724,13.3661538 6.4,12.8753846 6.4,12.3076923 C6.4,11.4576923 7.116,10.7692308 8,10.7692308 C8.8832,10.7692308 9.6,11.4576923 9.6,12.3076923 C9.6,12.8753846 9.276,13.3661538 8.8,13.6330769 L8.8,13.6330769 Z" id="Fill-2" fill="#4A4A4A" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

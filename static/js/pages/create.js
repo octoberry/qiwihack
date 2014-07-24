@@ -1,15 +1,15 @@
 $(function () {
-    var $form = $('form[role="presentSubmit"]'),
-        $uploadPhotoButtonWrapper = $('.present__photo_fileupload-button'),
+    var $form = $('form[role="giftSubmit"]'),
+        $uploadPhotoButtonWrapper = $('.gift__photo_fileupload-button'),
         $uploadPhotoButton = $('button', $uploadPhotoButtonWrapper),
-        $photoContainer = $('.present__photo'),
+        $photoContainer = $('.gift__photo'),
         $cardnumberField = $('#card', $form),
         $errorContainer = $('#form-errors', $form);
 
     function updateGift(link) {
         var imageUrl = $('input[name="image"]', $form);
         imageUrl.attr('value', link);
-        $photoContainer.find('.present__photo_icon').hide();
+        $photoContainer.find('.gift__photo_icon').hide();
         $photoContainer.css('background-image', 'url(' + link + ')');
         $uploadPhotoButton.text('Изменить');
         $uploadPhotoButtonWrapper.css({ 'top': 0, 'bottom': 0 });

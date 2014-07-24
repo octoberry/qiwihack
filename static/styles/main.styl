@@ -26,7 +26,7 @@
 .split-line
 	height 2px
 	border none
-	background #FD0511
+	background #d8d8d8
 	margin 0
 	padding 0
 
@@ -51,52 +51,53 @@
 		font-size 14px
 		color #000
 		line-height 142%
+		padding-left 7px
 
 	&__text
-		border none
+		border 2px solid #F6F6F6
 		background #F6F6F6
 		height 45px
 		width 370px
 		padding-left 10px
 		placeholder()
+		inputhover()
 
 		&--full-width
 			width 100%
 
 	&__select
 		height 45px
-		border none
+		border 2px solid #F6F6F6
 		background F6F6F6
 		placeholder()
+		inputhover()
 
 	&__textarea
 		height 100%
 		width 100%
 		padding 12px 10px
-		border none
+		border 2px solid #F6F6F6
 		background rgba(246,246,246,0)
 		box-sizing border-box
 		placeholder()
+		inputhover()
 
 	&--error
-
 		.input-item
-
-			&__label
-				color #FD0511
 			&__text
-				border 1px solid #FD0511
+				border 2px solid #FD0511
 			&__textarea
-				border 1px solid #FD0511
+				border 2px solid #FD0511
 			&__box
 				height 100%
 				box-sizing border-box
-				border 1px solid #FD0511
+				border 2px solid #FD0511
 			&__select
-				border 1px solid #FD0511
+				border 2px solid #FD0511
 
 .form-errors
 	display none
+	width 650px
 	line-height 24px
 	margin-bottom 10px
 
@@ -138,24 +139,32 @@ a
 	font-size 14px
 	font-weight bold
 	color #fff
-	background #FD0511
+	background #7ed321
 	padding 0 14px
 	border none
 	border-radius 6px
 	font-size 14px
 	line-height 36px
 
-	&--big
-		line-height 45px
-		padding 0 60px
-
 	&:hover
-		background #ff3056
+		background #B8E986
 	&:active
-		background #d9040f
+		background #417505
 	&:disabled
 		background #A4A4A4
 
+	&--red
+		background #FD0511
+		&:hover
+			background #ff3056
+		&:active
+			background #d9040f
+		&:disabled
+			background #A4A4A4
+
+	&--big
+		line-height 45px
+		padding 0 60px
 html
 body
 	height 100%
@@ -220,9 +229,9 @@ body
 .creation-page
 	padding-bottom 100px
 
-	&__present
+	&__gift
 
-		.present
+		.gift
 			&__photo
 				position relative
 				height 250px
@@ -257,7 +266,7 @@ body
 						position absolute
 						left 0
 						line-height 36px
-						width 287px
+						width 315px
 						cursor pointer
 						margin-left -87px
 
@@ -273,12 +282,12 @@ body
 .donate-page
 	padding-bottom 100px
 
-	.present__desc_text
+	.gift__desc_text
 		padding 12px 10px
 
 	.donate-progressbar
 		height 50px
-		border-bottom 2px solid #7bd500
+		border-bottom 2px solid #4A90E2
 		background #F6F6F6
 		z-index 0
 		position relative
@@ -292,7 +301,7 @@ body
 			left 0
 			line-height 50px
 			text-align right
-			background #7bd500
+			background  #4A90E2
 			color #fff
 			z-index 2
 			opacity 0.85
@@ -305,5 +314,13 @@ body
 			right 0
 			line-height 50px
 			color #9b9b9b
-			background url('/static/images/finish-icon.svg') no-repeat 90px 30px
 			z-index 1
+
+			&-icon
+				fill #4A90E2
+				position absolute
+				bottom 0
+				right 5
+
+	.security-icon
+		vertical-align middle

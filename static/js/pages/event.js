@@ -32,7 +32,6 @@ function attemptTransfer($form) {
         data = form_data($form),
         $errorContainer = $('#form-errors', $form);
 
-
     //TODO add object with errors from backend
     // example response json with error
     var mockObjectWithErrors = {
@@ -62,6 +61,7 @@ function attemptTransfer($form) {
 
             console.log(response);
             if (response.error) {
+
                 app.formValidate(mockObjectWithErrors, $errorContainer);
 
             } else {
