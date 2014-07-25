@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 __author__ = 'fuse'
 
-import requests, uuid
+import requests
 from hashlib import md5
 from collections import OrderedDict
 import httplib, logging
 import traceback
-from server import app, PayonlineLog
+from server import app
+from models import PayonlineLog
 from pony.orm import commit
 import json
+from datetime import datetime
 
 def debug_logging():
     httplib.HTTPConnection.debuglevel = 1
@@ -36,7 +38,7 @@ class Order(object):
 
     @staticmethod
     def gen_id():
-        return "%s" % uuid.uuid1()
+        return datetime.now().strftime('%s')
 
     def to_payonline(self):
         data = OrderedDict()
