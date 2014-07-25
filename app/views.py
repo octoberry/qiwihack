@@ -69,7 +69,7 @@ def upload():
         im = im.crop((0, 0+(h-w)/2, w, w+(h-w)/2))
     else:
         im = im.crop((0+(w-h)/2, 0, h+(w-h)/2, h))
-    im.thumbnail(size, Image.ANTIALIAS)
+    im.thumbnail(app.config['UPLOAD_SIZE'], Image.ANTIALIAS)
     im.save(app.config['UPLOAD_FOLDER'] + outfile, "PNG")
     return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + outfile))
 
