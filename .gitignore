@@ -4,7 +4,6 @@
 config.py
 *pyc
 node_modules
-static/bower_components
-static/uploads/*
-!static/uploads/.gitignore
-config.py
+app/static/bower_components
+app/static/uploads/*
+!app/static/uploads/.gitignore
