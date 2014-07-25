@@ -176,7 +176,10 @@ def _post(uri, data, ext_encode_data=None, add_security_key=True):
     try:
         r = requests.post(base_url + uri, data=request_data)
         print r.text
-        _create_log(uri, request_data, r.text)
+        if r.ok:
+            _create_log(uri, request_data, r.text)
+        else:
+            print r.headers
         return Response(body=r.text)
     except:
         print 'Error Payonline'

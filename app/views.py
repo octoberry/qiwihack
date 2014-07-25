@@ -138,12 +138,16 @@ def complete_payment():
         trans = Transaction.select(lambda t: t.md == md)[:]
         if trans:
             trans = trans[0]
-            res = payonline.transaction_card2card_3ds(pares, pd)
-            if res.is_ok or res.get('Result') == 'Settled':
-                trans.status = 1
-                commit()
+            if trans.status == 0:
+                res = payonline.transaction_card2card_3ds(pares, pd)
+                if res.is_ok or res.get('Result') == 'Settled':
+                    trans.status = 1
+                    commit()
+                else:
+                    print res.body
+            if trans.status == 1:
                 return redirect(url_for('event', hashid=event.hashid)+'?status=ok')
-            print res.body
+
         print 'Transaction not found'
     print 'Event not found'
 
