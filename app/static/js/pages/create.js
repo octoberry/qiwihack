@@ -45,8 +45,33 @@ $(function () {
     });
 
     // send form handler
-    $form.on('submit', function(event){
+    $form.on('submit', function(e) {
+        e.preventDefault();
         $cardnumberField.val($cardnumberField.val().replace(/-/g,''));
+
+        $.ajax({
+            method: 'POST',
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(res) {
+                switch (res.status) {
+                    case 'success':
+                        location.href = res.url;
+                        break;
+                    case 'card_auth_error':
+                        alert('Ошибка авторизации карты');
+                        break;
+                    case 'validation_failed':
+                        app.formValidate(res.errors, $errorContainer);
+                        break;
+                    default:
+                        alert('Произошла ошибка');
+                }
+            },
+            error: function() {
+                alert('Произошла ошибка');
+            }
+        })
     });
 
 });

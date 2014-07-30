@@ -20,23 +20,35 @@ def landing():
     return redirect('http://www.peerpay.ru')
 
 
-@app.route("/new", methods=['GET', 'POST'])
+@app.route("/new", methods=['GET'])
+def create_form():
+    form = CreateEventForm(request.form)
+    return render_template('create.html', form=form)
+
+
+@app.route("/new", methods=['POST'])
 @db_session
 def create():
     form = CreateEventForm(request.form)
-    if request.method == 'POST' and form.validate():
-        event_data = dict(
-            description=form.description.data,
-            amount=form.amount.data,
-            card=form.card.data,
-            image=form.image.data,
-            created_at=datetime.now(),
-            updated_at=datetime.now()
-        )
-        event = Events(**event_data)
-        commit()
-        return redirect(url_for('success', event_id=event.id))
-    return render_template('create.html', form=form)
+    if not form.validate():
+        return jsonify(status='validation_failed', errors=form.errors)
+
+    card = payonline.Card.from_form(form)
+    rebill_anchor = payonline.get_card_rebill_anchor(card)
+    if not rebill_anchor:
+        return jsonify(status='card_auth_error')
+
+    event_data = dict(
+        description=form.description.data,
+        amount=form.amount.data,
+        rebill_anchor=rebill_anchor,
+        image=form.image.data,
+        created_at=datetime.now(),
+        updated_at=datetime.now()
+    )
+    event = Events(**event_data)
+    commit()
+    return jsonify(status='success', url=url_for('success', event_id=event.id))
 
 
 @app.route('/success/<int:event_id>')
@@ -86,24 +98,18 @@ def invoke_payment(event_id):
     if not form.validate():
         return jsonify(result='validation_failed', errors=form.errors)
 
-    card = payonline.Card(
-        holder_name=form.holder_name.data,
-        number=form.card_number.data,
-        exp_date=form.card_expdate.data,
-        cvv=form.card_cvv.data
-    )
+    card = payonline.Card.from_form(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
         return jsonify(result='card_auth_error')
 
-    recip_card = payonline.RecipientCard(card_number=event.card)
+    recip_card = payonline.RecipientCard(rebill_anchor=event.rebill_anchor)
     order = payonline.Order(order_id=event.id, amount=float(form.amount.data))
     res = payonline.transaction_card2card(rebill_anchor, recip_card, order)
     if res.required_3ds:
         trans_data = {
             'event_id': event.id,
             'amount': int(order.amount),
-            'card': card.number,
             'md': '%s;%s' % (event.id, res.get('pd')),
             'status': 0,
             'created_at': datetime.now(),

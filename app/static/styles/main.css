@@ -583,3 +583,7 @@ body {
 .donate-page .security-icon {
   vertical-align: middle;
 }
+
+.input-csv {
+    width: 55px;
+}
