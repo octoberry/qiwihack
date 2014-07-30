@@ -42,13 +42,13 @@ function attemptTransfer($form) {
         'cvv': ['Укажите CVV-код кредитной карты']
     };
 
-    data.card_expdate = expdate($form);
     data.card_number = data.card_number.replace(/-/g,'');
     console.log(data);
     $.ajax({
         type: "POST",
         url: $form.attr('action'),
         data: data,
+        dataType: 'json',
         beforeSend: function() {
             $('#save').html($('<img>',{
                 src: '/static/images/ajax-loader.gif'
@@ -57,14 +57,17 @@ function attemptTransfer($form) {
         complete: function() {
             $('#save').html('Отправить').removeAttr('disabled');
         },
-        success: function (res) {
+        success: function(res) {
             console.log(res);
             switch (res.result) {
                 case 'required_3ds':
                     $.redirect(res);
                     break;
                 case 'validation_failed':
-                    app.formValidate(mockObjectWithErrors, $errorContainer);
+                    app.formValidate(res.errors, $errorContainer);
+                    break;
+                case 'card_auth_error':
+                    alert('Ошибка авторизации карты');
                     break;
                 default:
                     alert('Произошла ошибка');
@@ -83,12 +86,6 @@ function form_data($form) {
         data[field.name] = field.value;
     }
     return data;
-}
-
-function expdate($form) {
-    var exp_month = $form.find('[name="exp_month"]').val();
-    var exp_year = $form.find('[name="exp_year"]').val();
-    return exp_month + exp_year;
 }
 
 $(function() {

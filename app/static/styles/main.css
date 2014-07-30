@@ -609,3 +609,7 @@ body {
 .button--img {
     height: 60px;
 }
+
+.input-csv {
+    width: 55px;
+}
