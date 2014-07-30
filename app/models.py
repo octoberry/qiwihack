@@ -47,4 +47,11 @@ class PayonlineLog(db.Entity):
     created_at = Optional(datetime)
 
 
+class Subscribe(db.Entity):
+    email = Required(str)
+    tags = Optional(str)
+    created_at = Optional(datetime)
+    updated_at = Optional(datetime)
+
+
 db.generate_mapping()

@@ -5,7 +5,7 @@ from server import app
 import os
 from flask import render_template, request, redirect, url_for, jsonify
 from forms import CreateEventForm, CreateEmailForm, PaymentForm
-from models import Events, Transaction
+from models import Events, Transaction, Subscribe
 from pony.orm import db_session, commit
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -25,10 +25,12 @@ def landing():
 def create():
     form = CreateEventForm(request.form)
     if request.method == 'POST' and form.validate():
+        if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
+            return redirect(url_for('not_supported', payment_type=request.form.get('payment_type')))
+
         event_data = dict(
             description=form.description.data,
             amount=form.amount.data,
-            card=form.card.data,
             image=form.image.data,
             created_at=datetime.now(),
             updated_at=datetime.now()
@@ -154,7 +156,28 @@ def complete_payment():
     return redirect(url_for('event', hashid=event.hashid)+'?status=error')
 
 
-@app.route('/subscribe')
-def subscribe():
-    form = CreateEmailForm(request.form)
-    return render_template('subscribe.html', form=form)
+# @app.route('/subscribe')
+# def subscribe():
+#     form = CreateEmailForm(request.form)
+#     return render_template('subscribe.html', form=form)
+
+
+@app.route('/not_supported/<string:payment_type>', methods=['GET', 'POST'])
+@db_session
+def not_supported(payment_type):
+    if payment_type not in app.config['DISABLED_PAYMENT_TYPES']:
+        return redirect('new')
+    else:
+        form = CreateEmailForm(request.form)
+        if request.method == 'POST' and form.validate():
+            email_data = dict(
+                email=form.email.data,
+                tags=form.tags.data,
+                created_at=datetime.now(),
+                updated_at=datetime.now()
+            )
+            Subscribe(**email_data)
+            commit()
+            return render_template('email_saved.html')
+        else:
+            return render_template('not_supported.html', payment_type=payment_type, form=form)

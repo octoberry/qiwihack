@@ -14,7 +14,9 @@ class CreateEventForm(Form):
 
 
 class CreateEmailForm(Form):
-    email = StringField(u'E-mail:', [validators.DataRequired(message=u'Укажите корректный е-мейл')])
+    email = StringField(u'E-mail:', [validators.DataRequired(message=u'Укажите корректный е-мейл'),
+                                     validators.Email(message=u'Укажите корректный е-мейл')])
+    tags = StringField()
 
 
 class PaymentForm(Form):
