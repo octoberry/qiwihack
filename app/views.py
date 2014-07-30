@@ -4,7 +4,7 @@ __author__ = 'fuse'
 from server import app
 import os
 from flask import render_template, request, redirect, url_for, jsonify
-from forms import CreateEventForm, CreateEmailForm, PaymentForm
+from forms import CreateEventForm, CreateEmailForm, PaymentForm, CardForm
 from models import Events, Transaction, Subscribe
 from pony.orm import db_session, commit
 from datetime import datetime
@@ -35,22 +35,38 @@ def create():
     if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
         return jsonify(status='not_supported',
                        url=url_for('not_supported', payment_type=request.form.get('payment_type')))
-    card = payonline.Card.from_form(form)
-    rebill_anchor = payonline.get_card_rebill_anchor(card)
-    if not rebill_anchor:
-        return jsonify(status='card_auth_error')
 
     event_data = dict(
         description=form.description.data,
         amount=form.amount.data,
-        rebill_anchor=rebill_anchor,
         image=form.image.data,
         created_at=datetime.now(),
         updated_at=datetime.now()
     )
     event = Events(**event_data)
     commit()
-    return jsonify(status='success', url=url_for('success', event_id=event.id))
+    return jsonify(status='success', url=url_for('visa', event_id=event.id))
+
+@app.route("/visa/<int:event_id>", methods=['GET', 'POST'])
+@db_session
+def visa(event_id):
+    event = Events.get(id=event_id)
+    if not event:
+        raise NotFound()
+    payonline.EVENT_ID = event_id
+
+    form = CardForm(request.form)
+    if not form.validate():
+        return jsonify(status='validation_failed', errors=form.errors)
+
+    card = payonline.Card.from_form(form)
+    rebill_anchor = payonline.get_card_rebill_anchor(card)
+    if not rebill_anchor:
+        return jsonify(status='card_auth_error')
+
+    event.rebill_anchor = rebill_anchor
+    commit()
+    return jsonify(status='success', url=url_for('visa', event_id=event.id))
 
 
 @app.route('/success/<int:event_id>')

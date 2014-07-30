@@ -9,7 +9,7 @@ from datetime import datetime
 class Events(db.Entity):
     description = Required(unicode)
     amount = Required(int)
-    rebill_anchor = Required(unicode)
+    rebill_anchor = Optional(unicode)
     image = Required(unicode)
     updated_at = Required(datetime)
     created_at = Required(datetime)

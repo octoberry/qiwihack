@@ -14,11 +14,15 @@ class CardMixin(object):
                                                       message=u'Укажите корректный CVV')])
 
 
-class CreateEventForm(Form, CardMixin):
+class CreateEventForm(Form):
     image = StringField(u'Картинка:', [validators.DataRequired(u'Загрузите фотографию подарка')])
     description = TextAreaField(u'Описание:', [validators.DataRequired(message=u'Расскажите о подаркe')])
     amount = IntegerField(u'Сумма:', [validators.DataRequired(message=u'Укажите сумму'),
                                       validators.NumberRange(min=100, message=u'Сумма должна быть не менее 100 руб.')])
+
+
+class CardForm(Form, CardMixin):
+    pass
 
 
 class CreateEmailForm(Form):
