@@ -7,8 +7,9 @@
 	<form method="post" role="visaSubmit">
 		<div class="creation-page__cardholder clearfix">
 			<div class="input-item">
-				<label class="input-item__label" for="card">Номер карты:</label>
-				{{ form.card_number(class="input-item__text", id='card', placeholder='XXXX-XXXX-XXXX-XXXX') }}
+				<label class="input-item__label" for="card_number">Номер карты:</label>
+				{{ form.card_number(class="input-item__text", id='card_number', placeholder='XXXX-XXXX-XXXX-XXXX') }}
+                <span class="form-errors__item" data-id="card_number" id="mc_notice"></span>
 			</div>
             <div class="spacer--small"></div>
             <div class="input-item">
@@ -33,8 +34,8 @@
             </div>
             <div class="spacer--small"></div>
             <div class="input-item">
-                <label class="input-item__label" for="cvv">CVV:</label>
-                <input class="input-item__text input-csv" id="cvv" name="card_cvv" placeholder="000" maxlength="3" type="text" value="">
+                <label class="input-item__label" for="card_cvv">CVV:</label>
+                <input class="input-item__text input-csv" id="card_cvv" name="card_cvv" placeholder="000" maxlength="3" type="text" value="">
                 <span class="input-item__error"></span>
             </div>
 			<div class="spacer--big"></div>

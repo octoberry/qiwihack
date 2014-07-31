@@ -1,6 +1,6 @@
 $(function () {
     var $form = $('form[role="visaSubmit"]'),
-        $cardnumberField = $('#card'),
+        $cardnumberField = $('#card_number'),
         $errorContainer = $('#form-errors');
 
     // show errors
@@ -8,6 +8,23 @@ $(function () {
 
     // add input mask
     $cardnumberField.mask('0000-0000-0000-0000');
+
+    // card number issuer detection
+    function MasterCardNotice(field) {
+        var $noticeLabel = $('#mc_notice'),
+            card = field.val().replace(/-/g, ''),
+            mcRegex = '^5[1-5][0-9]{5,}$';
+
+        if (card.match(mcRegex)) {
+            $noticeLabel.text('На MasterCard деньги зачисляются до трех дней.')
+        } else {
+            $noticeLabel.text('')
+        }
+    }
+
+    $cardnumberField.bind('blur change', function(){
+        MasterCardNotice($cardnumberField);
+    });
 
     // send form handler
     $form.on('submit', function(e) {
