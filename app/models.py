@@ -24,8 +24,10 @@ class Events(db.Entity):
 
     @staticmethod
     def get_by_hashid(hashid):
-        event_id, _ = hashids.decrypt(hashid)
-        return Events.get(id=event_id)
+        parts = hashids.decrypt(hashid)
+        if len(parts) > 1:
+            event_id, _ = parts
+            return Events.get(id=event_id)
 
 
 class Transaction(db.Entity):
