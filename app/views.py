@@ -15,11 +15,12 @@ import payonline
 from PIL import Image
 
 
-def get_event(event_id):
-    event = Events.get(id=event_id)
+def get_event(hashid):
+    hashid = hashid.strip('/')
+    event = Events.get_by_hashid(hashid)
     if not event:
         raise NotFound()
-    payonline.EVENT_ID = event_id
+    payonline.EVENT_ID = event.id
     return event
 
 
@@ -54,24 +55,24 @@ def create():
     )
     event = Events(**event_data)
     commit()
-    return jsonify(status='success', url=url_for('visa', event_id=event.id))
+    return jsonify(status='success', url=url_for('visa', hashid=event.hashid))
 
 
-@app.route("/visa/<int:event_id>", methods=['GET'])
+@app.route("/visa/<path:hashid>", methods=['GET'])
 @db_session
-def visa_form(event_id):
-    event = get_event(event_id)
+def visa_form(hashid):
+    event = get_event(hashid)
     if event.rebill_anchor:
-        return redirect(url_for('success', event_id=event.id))
+        return redirect(url_for('success', hashid=event.hashid))
 
     form = CardForm()
     return render_template('visa.html', form=form, event=event)
 
 
-@app.route("/visa/<int:event_id>", methods=['POST'])
+@app.route("/visa/<path:hashid>", methods=['POST'])
 @db_session
-def visa(event_id):
-    event = get_event(event_id)
+def visa(hashid):
+    event = get_event(hashid)
     form = CardForm(request.form)
     if not form.validate():
         return jsonify(status='validation_failed', errors=form.errors)
@@ -83,13 +84,13 @@ def visa(event_id):
 
     event.rebill_anchor = rebill_anchor
     commit()
-    return jsonify(status='success', url=url_for('success', event_id=event.id))
+    return jsonify(status='success', url=url_for('success', hashid=event.hashid))
 
 
-@app.route('/success/<int:event_id>')
+@app.route('/success/<path:hashid>')
 @db_session
-def success(event_id):
-    event = get_event(event_id)
+def success(hashid):
+    event = get_event(hashid)
     event.url = url_for('event', hashid=event.hashid, _external=True)
     return render_template('success.html', event=event)
 
