@@ -1,12 +1,43 @@
 # coding=utf-8
-from wtforms import Form, TextAreaField, IntegerField, StringField, validators
+from wtforms import Form, TextAreaField, IntegerField, StringField, validators, ValidationError
+
+
+class Luhn(object):
+    def __init__(self, message=None):
+        self.message = message
+
+    def __call__(self, form, field):
+        value = field.data
+        valid = False
+        if value:
+            valid = self.luhn_checksum(value) == 0
+
+        if not valid:
+            message = self.message
+            if message is None:
+                message = field.gettext('Invalid card number.')
+            raise ValidationError(message)
+
+    @staticmethod
+    def luhn_checksum(card_number):
+        def digits_of(n):
+            return [int(d) for d in str(n)]
+        digits = digits_of(card_number)
+        odd_digits = digits[-1::-2]
+        even_digits = digits[-2::-2]
+        checksum = 0
+        checksum += sum(odd_digits)
+        for d in even_digits:
+            checksum += sum(digits_of(d*2))
+        return checksum % 10
 
 
 class CardMixin(object):
     card_number = StringField(u'Номер карты:', [validators.DataRequired(message=u'Укажите номер карты'),
                                                 validators.Regexp(regex=r'^\d{16}$',
                                                                   message=u'Укажите номер карты в формате '
-                                                                          u'XXXXXXXXXXXXXXXX')])
+                                                                          u'XXXXXXXXXXXXXXXX'),
+                                                Luhn(message=u'Проверьте номер кредитной карты')])
     holder_name = StringField(u'Имя держателя', [validators.DataRequired(message=u'Укажите имя держателя')])
     card_expdate = StringField(u'Срок действия', [validators.DataRequired(message=u'Укажите срок действия')])
     card_cvv = StringField(u'CVV', [validators.DataRequired(message=u'Укажите CVV'),
