@@ -15,6 +15,14 @@ import payonline
 from PIL import Image
 
 
+def get_event(event_id):
+    event = Events.get(id=event_id)
+    if not event:
+        raise NotFound()
+    payonline.EVENT_ID = event_id
+    return event
+
+
 @app.route("/", methods=['GET', 'POST'])
 def landing():
     return redirect('http://www.peerpay.ru')
@@ -22,7 +30,7 @@ def landing():
 
 @app.route("/new", methods=['GET'])
 def create_form():
-    form = CreateEventForm(request.form)
+    form = CreateEventForm()
     return render_template('create.html', form=form)
 
 
@@ -47,14 +55,19 @@ def create():
     commit()
     return jsonify(status='success', url=url_for('visa', event_id=event.id))
 
-@app.route("/visa/<int:event_id>", methods=['GET', 'POST'])
+
+@app.route("/visa/<int:event_id>", methods=['GET'])
+@db_session
+def visa_form(event_id):
+    event = get_event(event_id)
+    form = CardForm()
+    return render_template('visa.html', form=form, event=event)
+
+
+@app.route("/visa/<int:event_id>", methods=['POST'])
 @db_session
 def visa(event_id):
-    event = Events.get(id=event_id)
-    if not event:
-        raise NotFound()
-    payonline.EVENT_ID = event_id
-
+    event = get_event(event_id)
     form = CardForm(request.form)
     if not form.validate():
         return jsonify(status='validation_failed', errors=form.errors)
@@ -66,13 +79,13 @@ def visa(event_id):
 
     event.rebill_anchor = rebill_anchor
     commit()
-    return jsonify(status='success', url=url_for('visa', event_id=event.id))
+    return jsonify(status='success', url=url_for('success', event_id=event.id))
 
 
 @app.route('/success/<int:event_id>')
 @db_session
 def success(event_id):
-    event = Events.get(id=event_id)
+    event = get_event(event_id)
     event.url = url_for('event', hashid=event.hashid, _external=True)
     return render_template('success.html', event=event)
 
@@ -107,11 +120,7 @@ def upload():
 @app.route('/payment/<int:event_id>', methods=['POST'])
 @db_session
 def invoke_payment(event_id):
-    event = Events.get(id=event_id)
-    if not event:
-        raise NotFound()
-    payonline.EVENT_ID = event_id
-
+    event = get_event(event_id)
     form = PaymentForm(request.form)
     if not form.validate():
         return jsonify(result='validation_failed', errors=form.errors)
@@ -152,7 +161,6 @@ def invoke_payment(event_id):
 @app.route('/complete', methods=['POST'])
 @db_session
 def complete_payment():
-    print request.form
     pares = request.form['PaRes']
     md = request.form['MD']
     event_id, pd = md.split(';')

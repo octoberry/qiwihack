@@ -40,8 +40,6 @@ $(function () {
         }
     });
 
-    console.log($form);
-
     // send form handler
     $form.on('submit', function(e) {
         e.preventDefault();
@@ -56,6 +54,9 @@ $(function () {
                 }
                 else if (res.errors) {
                     app.formValidate(res.errors, $errorContainer);
+                }
+                else {
+                    alert('Произошла ошибка');
                 }
             },
             error: function() {
