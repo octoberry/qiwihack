@@ -613,3 +613,28 @@ body {
 .input-csv {
     width: 55px;
 }
+
+.how-to-use > * {
+    display: inline-block;
+}
+.how-to-use .step {
+    text-align: center;
+    font-size: 13px;
+}
+.how-to-use .step span {
+    display: block;
+    margin-top: 12px;
+}
+.how-to-use .step-compose span {
+    margin-top: 5px;
+}
+.how-to-use .step-price span {
+    margin-top: 6px;
+}
+.how-to-use .next-step {
+    width: 79px;
+    text-align: center;
+}
+.how-to-use .next-step img {
+    margin-bottom: 54px;
+}
