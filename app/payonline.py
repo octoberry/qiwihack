@@ -55,15 +55,6 @@ class Card(object):
         self.exp_date = exp_date
         self.cvv = cvv
 
-    @staticmethod
-    def from_form(form):
-        return Card(
-            holder_name=form.holder_name.data,
-            number=form.card_number.data,
-            exp_date=form.card_expdate.data,
-            cvv=form.card_cvv.data
-        )
-
     def to_payonline(self):
         data = OrderedDict()
         data['CardHolderName'] = self.holder_name

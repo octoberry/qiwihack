@@ -10,7 +10,7 @@ app.formValidate = function(errors, $errorContainer){
 
     var $errorListContainer = $('.form-errors__list', $errorContainer);
 
-    $errorListContainer.html('')
+    $errorListContainer.html('');
 
     if( Object.size(errors) ) {
 
@@ -41,4 +41,9 @@ app.formValidate = function(errors, $errorContainer){
         }
 
     }
-}
+};
+
+app.clearErrors = function($errorContainer) {
+    $('.form-errors__list', $errorContainer).html('');
+    $('.input-item--error').removeClass('input-item--error');
+};

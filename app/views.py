@@ -24,6 +24,15 @@ def get_event(hashid):
     return event
 
 
+def card_object(form):
+    return payonline.Card(
+        holder_name=form.holder_name.data,
+        number=form.card_number.data,
+        exp_date=form.card_expdate,
+        cvv=form.card_cvv.data
+    )
+
+
 @app.route("/", methods=['GET', 'POST'])
 def landing():
     return redirect('http://www.peerpay.ru')
@@ -77,7 +86,7 @@ def visa(hashid):
     if not form.validate():
         return jsonify(status='validation_failed', errors=form.errors)
 
-    card = payonline.Card.from_form(form)
+    card = card_object(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
         return jsonify(status='card_auth_error')
@@ -130,7 +139,7 @@ def invoke_payment(event_id):
     if not form.validate():
         return jsonify(result='validation_failed', errors=form.errors)
 
-    card = payonline.Card.from_form(form)
+    card = card_object(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
         return jsonify(result='card_auth_error')

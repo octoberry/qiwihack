@@ -1,7 +1,7 @@
 $(function () {
     var $form = $('form[role="visaSubmit"]'),
-        $cardnumberField = $('#card', $form),
-        $errorContainer = $('#form-errors', $form);
+        $cardnumberField = $('#card'),
+        $errorContainer = $('#form-errors');
 
     // show errors
     app.formValidate(app.errors, $errorContainer);
@@ -31,6 +31,12 @@ $(function () {
                 else {
                     alert('Произошла ошибка');
                 }
+            },
+            beforeSend: function() {
+                app.clearErrors();
+            },
+            complete: function() {
+                $cardnumberField.trigger('keyup');
             },
             error: function() {
                 alert('Произошла ошибка');

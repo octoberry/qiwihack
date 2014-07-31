@@ -63,6 +63,9 @@ $(function () {
                     alert('Произошла ошибка');
                 }
             },
+            beforeSend: function() {
+                app.clearErrors();
+            },
             error: function() {
                 alert('Произошла ошибка');
             }
