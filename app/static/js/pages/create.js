@@ -40,6 +40,10 @@ $(function () {
         }
     });
 
+    $form.find('button[name="payment_type"]').on('click', function() {
+        $form.find('input[name="payment_type"]').val($(this).val());
+    });
+
     // send form handler
     $form.on('submit', function(e) {
         e.preventDefault();

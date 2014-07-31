@@ -40,6 +40,7 @@ def create():
     form = CreateEventForm(request.form)
     if not form.validate():
         return jsonify(status='validation_failed', errors=form.errors)
+
     if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
         return jsonify(status='not_supported',
                        url=url_for('not_supported', payment_type=request.form.get('payment_type')))
@@ -60,6 +61,9 @@ def create():
 @db_session
 def visa_form(event_id):
     event = get_event(event_id)
+    if event.rebill_anchor:
+        return redirect(url_for('success', event_id=event.id))
+
     form = CardForm()
     return render_template('visa.html', form=form, event=event)
 
