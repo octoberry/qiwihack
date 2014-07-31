@@ -11,3 +11,5 @@ DEBUG = True
 SALT = 'secret_peerpay_salt'
 
 MIN_EVENT_AMOUNT = 100
+
+DISABLED_PAYMENT_TYPES = []

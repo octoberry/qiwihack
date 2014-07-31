@@ -3,7 +3,6 @@ $(function () {
         $uploadPhotoButtonWrapper = $('.gift__photo_fileupload-button'),
         $uploadPhotoButton = $('button', $uploadPhotoButtonWrapper),
         $photoContainer = $('.gift__photo'),
-        $cardnumberField = $('#card', $form),
         $errorContainer = $('#form-errors', $form);
 
     function updateGift(link) {
@@ -18,9 +17,6 @@ $(function () {
 
     // show errors
     app.formValidate(app.errors, $errorContainer);
-
-    // add input mask
-    $cardnumberField.mask('0000-0000-0000-0000');
 
     // get image url from localStorage
     if ( localStorage.giftImageLink ) {
@@ -45,8 +41,28 @@ $(function () {
     });
 
     // send form handler
-    $form.on('submit', function(event){
-        $cardnumberField.val($cardnumberField.val().replace(/-/g,''));
+    $form.on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            method: 'POST',
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function(res) {
+                if (res.url) {
+                    location.href = res.url;
+                }
+                else if (res.errors) {
+                    app.formValidate(res.errors, $errorContainer);
+                }
+                else {
+                    alert('Произошла ошибка');
+                }
+            },
+            error: function() {
+                alert('Произошла ошибка');
+            }
+        })
     });
 
 });

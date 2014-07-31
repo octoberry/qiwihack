@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="creation-page">
+	<div class="spacer--big"></div>
+	<h2 class="title-h2">Куда зачислить</h2>
+	<div class="spacer--small"></div>
+	<form method="post" role="visaSubmit">
+        <input type="hidden" name="card_expdate" value="">
+		<div class="creation-page__cardholder clearfix">
+			<div class="input-item">
+				<label class="input-item__label" for="card">Номер карты:</label>
+				{{ form.card_number(class="input-item__text", id='card', placeholder='XXXX-XXXX-XXXX-XXXX') }}
+			</div>
+            <div class="spacer--small"></div>
+            <div class="input-item">
+                <label class="input-item__label" for="holder_name">Имя держателя:</label>
+                <input class="input-item__text" id="holder_name" name="holder_name" type="text" value="">
+                <span class="input-item__error"></span>
+            </div>
+            <div class="spacer--small"></div>
+            <div class="input-item">
+                <label class="input-item__label" for="exp_month">Срок действия:</label>
+                <select class="input-item__select" name="exp_month" id="exp_month">
+                    {% for m in range(1, 13) %}
+                    <option value="{{ "%02d" % m }}">{{ "%02d" % m }}</option>
+                    {% endfor %}
+                </select>
+                <select class="input-item__select" name="exp_year" id="exp_year">
+                    {% for y in range(2014, 2020) %}
+                    <option value="{{ y % 100 }}">{{ y }}</option>
+                    {% endfor %}
+                </select>
+                <span class="input-item__error"></span>
+            </div>
+            <div class="spacer--small"></div>
+            <div class="input-item">
+                <label class="input-item__label" for="cvv">CVV:</label>
+                <input class="input-item__text input-csv" id="cvv" name="card_cvv" placeholder="000" maxlength="3" type="text" value="">
+                <span class="input-item__error"></span>
+            </div>
+			<div class="spacer--big"></div>
+            <hr class="split-line"/>
+			<div class="spacer--small"></div>
+			<div class="form-errors float-left" id="form-errors">
+				<span>Заполните форму корректно:</span>
+				<div class="form-errors__list"></div>
+			</div>
+			<button class="button button--big float-right" type="submit">Отправить</button>
+		</div>
+	</form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	app.errors = {{ form.errors|tojson|safe }};
+</script>
+<script src="/static/js/vendor/jquery.ui.widget.js"></script>
+<script src="/static/js/jquery.iframe-transport.js"></script>
+<script src="/static/js/pages/visa.js"></script>
+<script src="/static/js/expdate.js"></script>
+{% endblock %}

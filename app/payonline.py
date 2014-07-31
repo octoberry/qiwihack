@@ -55,6 +55,15 @@ class Card(object):
         self.exp_date = exp_date
         self.cvv = cvv
 
+    @staticmethod
+    def from_form(form):
+        return Card(
+            holder_name=form.holder_name.data,
+            number=form.card_number.data,
+            exp_date=form.card_expdate.data,
+            cvv=form.card_cvv.data
+        )
+
     def to_payonline(self):
         data = OrderedDict()
         data['CardHolderName'] = self.holder_name
@@ -197,14 +206,18 @@ def _gen_security_key(data):
     return md5(encode_str).hexdigest()
 
 def _create_log(uri, request_data, response):
-    log = PayonlineLog(
-        event_id=EVENT_ID,
-        operation=_get_operation_by_uri(uri),
-        request=json.dumps(request_data),
-        response=response
-    )
-    commit()
-    return log
+    if EVENT_ID:
+        log = PayonlineLog(
+            event_id=EVENT_ID,
+            operation=_get_operation_by_uri(uri),
+            request=json.dumps(request_data),
+            response=response
+        )
+        try:
+            commit()
+            return log
+        except:
+            pass
 
 def _get_operation_by_uri(uri):
     return uri.strip('/').split('/')[-1]

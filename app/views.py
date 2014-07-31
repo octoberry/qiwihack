@@ -4,8 +4,8 @@ __author__ = 'fuse'
 from server import app
 import os
 from flask import render_template, request, redirect, url_for, jsonify
-from forms import CreateEventForm, CreateEmailForm, PaymentForm
-from models import Events, Transaction
+from forms import CreateEventForm, CreateEmailForm, PaymentForm, CardForm
+from models import Events, Transaction, Subscribe
 from pony.orm import db_session, commit
 from datetime import datetime
 from werkzeug.utils import secure_filename
@@ -15,34 +15,77 @@ import payonline
 from PIL import Image
 
 
+def get_event(event_id):
+    event = Events.get(id=event_id)
+    if not event:
+        raise NotFound()
+    payonline.EVENT_ID = event_id
+    return event
+
+
 @app.route("/", methods=['GET', 'POST'])
 def landing():
     return redirect('http://www.peerpay.ru')
 
 
-@app.route("/new", methods=['GET', 'POST'])
+@app.route("/new", methods=['GET'])
+def create_form():
+    form = CreateEventForm()
+    return render_template('create.html', form=form)
+
+
+@app.route("/new", methods=['POST'])
 @db_session
 def create():
     form = CreateEventForm(request.form)
-    if request.method == 'POST' and form.validate():
-        event_data = dict(
-            description=form.description.data,
-            amount=form.amount.data,
-            card=form.card.data,
-            image=form.image.data,
-            created_at=datetime.now(),
-            updated_at=datetime.now()
-        )
-        event = Events(**event_data)
-        commit()
-        return redirect(url_for('success', event_id=event.id))
-    return render_template('create.html', form=form)
+    if not form.validate():
+        return jsonify(status='validation_failed', errors=form.errors)
+    if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
+        return jsonify(status='not_supported',
+                       url=url_for('not_supported', payment_type=request.form.get('payment_type')))
+
+    event_data = dict(
+        description=form.description.data,
+        amount=form.amount.data,
+        image=form.image.data,
+        created_at=datetime.now(),
+        updated_at=datetime.now()
+    )
+    event = Events(**event_data)
+    commit()
+    return jsonify(status='success', url=url_for('visa', event_id=event.id))
+
+
+@app.route("/visa/<int:event_id>", methods=['GET'])
+@db_session
+def visa_form(event_id):
+    event = get_event(event_id)
+    form = CardForm()
+    return render_template('visa.html', form=form, event=event)
+
+
+@app.route("/visa/<int:event_id>", methods=['POST'])
+@db_session
+def visa(event_id):
+    event = get_event(event_id)
+    form = CardForm(request.form)
+    if not form.validate():
+        return jsonify(status='validation_failed', errors=form.errors)
+
+    card = payonline.Card.from_form(form)
+    rebill_anchor = payonline.get_card_rebill_anchor(card)
+    if not rebill_anchor:
+        return jsonify(status='card_auth_error')
+
+    event.rebill_anchor = rebill_anchor
+    commit()
+    return jsonify(status='success', url=url_for('success', event_id=event.id))
 
 
 @app.route('/success/<int:event_id>')
 @db_session
 def success(event_id):
-    event = Events.get(id=event_id)
+    event = get_event(event_id)
     event.url = url_for('event', hashid=event.hashid, _external=True)
     return render_template('success.html', event=event)
 
@@ -77,33 +120,23 @@ def upload():
 @app.route('/payment/<int:event_id>', methods=['POST'])
 @db_session
 def invoke_payment(event_id):
-    event = Events.get(id=event_id)
-    if not event:
-        raise NotFound()
-    payonline.EVENT_ID = event_id
-
+    event = get_event(event_id)
     form = PaymentForm(request.form)
     if not form.validate():
         return jsonify(result='validation_failed', errors=form.errors)
 
-    card = payonline.Card(
-        holder_name=form.holder_name.data,
-        number=form.card_number.data,
-        exp_date=form.card_expdate.data,
-        cvv=form.card_cvv.data
-    )
+    card = payonline.Card.from_form(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
         return jsonify(result='card_auth_error')
 
-    recip_card = payonline.RecipientCard(card_number=event.card)
+    recip_card = payonline.RecipientCard(rebill_anchor=event.rebill_anchor)
     order = payonline.Order(order_id=event.id, amount=float(form.amount.data))
     res = payonline.transaction_card2card(rebill_anchor, recip_card, order)
     if res.required_3ds:
         trans_data = {
             'event_id': event.id,
             'amount': int(order.amount),
-            'card': card.number,
             'md': '%s;%s' % (event.id, res.get('pd')),
             'status': 0,
             'created_at': datetime.now(),
@@ -128,7 +161,6 @@ def invoke_payment(event_id):
 @app.route('/complete', methods=['POST'])
 @db_session
 def complete_payment():
-    print request.form
     pares = request.form['PaRes']
     md = request.form['MD']
     event_id, pd = md.split(';')
@@ -154,7 +186,28 @@ def complete_payment():
     return redirect(url_for('event', hashid=event.hashid)+'?status=error')
 
 
-@app.route('/subscribe')
-def subscribe():
-    form = CreateEmailForm(request.form)
-    return render_template('subscribe.html', form=form)
+# @app.route('/subscribe')
+# def subscribe():
+#     form = CreateEmailForm(request.form)
+#     return render_template('subscribe.html', form=form)
+
+
+@app.route('/not_supported/<string:payment_type>', methods=['GET', 'POST'])
+@db_session
+def not_supported(payment_type):
+    if payment_type not in app.config['DISABLED_PAYMENT_TYPES']:
+        return redirect('new')
+    else:
+        form = CreateEmailForm(request.form)
+        if request.method == 'POST' and form.validate():
+            email_data = dict(
+                email=form.email.data,
+                tags=form.tags.data,
+                created_at=datetime.now(),
+                updated_at=datetime.now()
+            )
+            Subscribe(**email_data)
+            commit()
+            return render_template('email_saved.html')
+        else:
+            return render_template('not_supported.html', payment_type=payment_type, form=form)

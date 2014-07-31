@@ -5,6 +5,7 @@
 	<h2 class="title-h2">О подарке</h2>
 	<div class="spacer--small"></div>
 	<form method="post" role="giftSubmit">
+        <input type="hidden" name="card_expdate" value="">
 		<div class="creation-page__gift">
 			<div class="gift__photo input-item" id="image" style="background-image: url({{ image }})">
 				<div class="input-item__box">
@@ -21,27 +22,26 @@
 			</div>
 		</div>
 		<div class="spacer--big"></div>
-		<h2 class="title-h2">Реквизиты</h2>
-		<div class="spacer--small"></div>
 		<div class="creation-page__cardholder clearfix">
 			<div class="input-item">
-				<label class="input-item__label" for="amount">Сумма:</label>
-				{{ form.amount(class="input-item__text", placeholder='Минимум 100 руб.', id='amount') }}
+				<label class="input-item__label" for="amount">Хочу собрать:</label>
+				{{ form.amount(class="input-item__text", placeholder='Минимум 100', id='amount') }} рублей
 				<span class="input-item__hint"></span>
 			</div>
-			<div class="spacer--middle"></div>
-			<div class="input-item">
-				<label class="input-item__label" for="card">Номер карты:</label>
-				{{ form.card(class="input-item__text", id='card', placeholder='XXXX-XXXX-XXXX-XXXX') }}
-			</div>
 			<div class="spacer--big"></div>
-			<hr class="split-line"/>
 			<div class="spacer--small"></div>
 			<div class="form-errors float-left" id="form-errors">
 				<span>Заполните форму корректно:</span>
 				<div class="form-errors__list"></div>
 			</div>
-			<button class="button button--big float-right" type="submit"/>Отправить</button>
+        </div>
+        <h2 class="title-h2">Куда зачислить</h2>
+        <div class="clearfix">
+		    <div class="spacer--small"></div>
+            <button class="button button--white button--box float-left" type="submit" name="payment_type" value="visa"><img class="button--img" src="/static/images/visa_mc.png"></button>
+            <button class="button button--white button--box float-left" type="submit" name="payment_type" value="qiwi"><img class="button--img" src="/static/images/qiwi.png"></button>
+            <button class="button button--white button--box float-left" type="submit" name="payment_type" value="yandex"><img class="button--img" src="/static/images/yandex.png"></button>
+            <button class="button button--white button--box float-left" type="submit" name="payment_type" value="webmoney"><img class="button--img" src="/static/images/webmoney.png"></button>
 		</div>
 	</form>
 </div>

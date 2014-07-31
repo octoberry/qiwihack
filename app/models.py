@@ -9,7 +9,7 @@ from datetime import datetime
 class Events(db.Entity):
     description = Required(unicode)
     amount = Required(int)
-    card = Required(int)
+    rebill_anchor = Optional(unicode)
     image = Required(unicode)
     updated_at = Required(datetime)
     created_at = Required(datetime)
@@ -31,7 +31,6 @@ class Events(db.Entity):
 class Transaction(db.Entity):
     event_id = Required(int)
     amount = Required(int)
-    card = Required(unicode)
     md = Required(unicode)
     status = Required(int)
     updated_at = Required(datetime)
@@ -41,10 +40,17 @@ class Transaction(db.Entity):
 class PayonlineLog(db.Entity):
     _table_ = 'payonline_log'
     event_id = Required(int)
-    operation = Required(str)
+    operation = Required(unicode)
     request = Required(LongStr)
     response = Required(LongStr)
     created_at = Optional(datetime)
+
+
+class Subscribe(db.Entity):
+    email = Required(str)
+    tags = Optional(str)
+    created_at = Optional(datetime)
+    updated_at = Optional(datetime)
 
 
 db.generate_mapping()

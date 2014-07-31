@@ -74,7 +74,7 @@
 		<div class="spacer--small"></div>
 		<div class="input-item">
 			<label class="input-item__label" for="cvv">CVV:</label>
-			<input class="input-item__text" id="cvv" name="card_cvv" placeholder="000" type="text" value="">
+			<input class="input-item__text input-csv" id="cvv" name="card_cvv" placeholder="000" type="text" value="">
 			<span class="input-item__error"></span>
 		</div>
 		<div class="spacer--big"></div>
@@ -99,4 +99,5 @@
 		event_id = {{ event.id }};
 </script>
 <script src="/static/js/pages/event.js"></script>
+<script src="/static/js/expdate.js"></script>
 {% endblock %}
