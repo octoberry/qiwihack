@@ -200,12 +200,6 @@ def complete_payment():
     return redirect(url_for('event', hashid=event.hashid)+'?status=error')
 
 
-# @app.route('/subscribe')
-# def subscribe():
-#     form = CreateEmailForm(request.form)
-#     return render_template('subscribe.html', form=form)
-
-
 @app.route('/not_supported/<string:payment_type>', methods=['GET', 'POST'])
 @db_session
 def not_supported(payment_type):
