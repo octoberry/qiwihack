@@ -39,10 +39,15 @@ class CardMixin(object):
                                                                           u'XXXXXXXXXXXXXXXX'),
                                                 Luhn(message=u'Проверьте номер кредитной карты')])
     holder_name = StringField(u'Имя держателя', [validators.DataRequired(message=u'Укажите имя держателя')])
-    card_expdate = StringField(u'Срок действия', [validators.DataRequired(message=u'Укажите срок действия')])
+    exp_month = StringField(u'Срок действия', [validators.DataRequired(message=u'Укажите месяц срока действия')])
+    exp_year = StringField(u'Срок действия', [validators.DataRequired(message=u'Укажите год срока действия')])
     card_cvv = StringField(u'CVV', [validators.DataRequired(message=u'Укажите CVV'),
                                     validators.Regexp(regex=r'^\d{3}$',
                                                       message=u'Укажите корректный CVV')])
+
+    @property
+    def card_expdate(self):
+        return "%s%s" % (self.exp_month.data, self.exp_year.data)
 
 
 class CreateEventForm(Form):
