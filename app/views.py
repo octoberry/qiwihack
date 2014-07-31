@@ -88,7 +88,7 @@ def visa(hashid):
     card = card_object(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
-        return jsonify(errors={'result': 'Ошибка авторизации карты, проверьте правильность ввода'})
+        return jsonify(errors={'result': 'Ошибка авторизации карты, проверьте реквизиты кредитной карты'})
 
     event.rebill_anchor = rebill_anchor
     commit()
@@ -141,7 +141,7 @@ def invoke_payment(event_id):
     card = card_object(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
-        return jsonify(errors={'result': 'Ошибка авторизации карты, проверьте правильность ввода'})
+        return jsonify(errors={'result': 'Ошибка авторизации карты, проверьте реквизиты кредитной карты'})
 
     recip_card = payonline.RecipientCard(rebill_anchor=event.rebill_anchor)
     order = payonline.Order(order_id=event.id, amount=float(form.amount.data))
