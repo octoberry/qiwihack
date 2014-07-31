@@ -25,11 +25,8 @@ $(function () {
                 else if (res.errors) {
                     app.formValidate(res.errors, $errorContainer);
                 }
-                else if (res.status == 'card_auth_error') {
-                    alert('Ошибка авторизации карты');
-                }
                 else {
-                    alert('Произошла ошибка');
+                    app.formValidate({error: 'Произошла ошибка'}, $errorContainer);
                 }
             },
             beforeSend: function() {
@@ -39,7 +36,7 @@ $(function () {
                 $cardnumberField.trigger('keyup');
             },
             error: function() {
-                alert('Произошла ошибка');
+                app.formValidate({error: 'Произошла ошибка'}, $errorContainer);
             }
         })
     });

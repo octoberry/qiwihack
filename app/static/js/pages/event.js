@@ -32,18 +32,8 @@ function attemptTransfer($form) {
         data = form_data($form),
         $errorContainer = $('#form-errors', $form);
 
-    //TODO add object with errors from backend
-    // example response json with error
-    var mockObjectWithErrors = {
-        'transfer_amount': ['Укажите сумму перевода'],
-        'card_source': ['Укажите номер кредитной карты'],
-        'exp_month': ['Укажите exp_month кредитной карты'],
-        'exp_year': ['Укажите exp_year кредитной карты'],
-        'cvv': ['Укажите CVV-код кредитной карты']
-    };
-
     data.card_number = data.card_number.replace(/-/g,'');
-    console.log(data);
+
     $.ajax({
         type: "POST",
         url: $form.attr('action'),
@@ -58,19 +48,13 @@ function attemptTransfer($form) {
             $('#save').html('Отправить').removeAttr('disabled');
         },
         success: function(res) {
-            console.log(res);
-            switch (res.result) {
-                case 'required_3ds':
-                    $.redirect(res);
-                    break;
-                case 'validation_failed':
-                    app.formValidate(res.errors, $errorContainer);
-                    break;
-                case 'card_auth_error':
-                    alert('Ошибка авторизации карты');
-                    break;
-                default:
-                    alert('Произошла ошибка');
+            if (res.url) {
+                $.redirect(res);
+            }
+            else if (res.errors) {
+                app.formValidate(res.errors, $errorContainer);
+            } else {
+                alert('Произошла ошибка');
             }
         },
         error: function() {

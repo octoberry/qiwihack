@@ -49,11 +49,10 @@ def create_form():
 def create():
     form = CreateEventForm(request.form)
     if not form.validate():
-        return jsonify(status='validation_failed', errors=form.errors)
+        return jsonify(errors=form.errors)
 
     if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
-        return jsonify(status='not_supported',
-                       url=url_for('not_supported', payment_type=request.form.get('payment_type')))
+        return jsonify(url=url_for('not_supported', payment_type=request.form.get('payment_type')))
 
     event_data = dict(
         description=form.description.data,
@@ -64,7 +63,7 @@ def create():
     )
     event = Events(**event_data)
     commit()
-    return jsonify(status='success', url=url_for('visa', hashid=event.hashid))
+    return jsonify(url=url_for('visa', hashid=event.hashid))
 
 
 @app.route("/visa/<path:hashid>", methods=['GET'])
@@ -84,16 +83,16 @@ def visa(hashid):
     event = get_event(hashid)
     form = CardForm(request.form)
     if not form.validate():
-        return jsonify(status='validation_failed', errors=form.errors)
+        return jsonify(errors=form.errors)
 
     card = card_object(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
-        return jsonify(status='card_auth_error')
+        return jsonify(errors={'result': 'Ошибка авторизации карты, проверьте правильность ввода'})
 
     event.rebill_anchor = rebill_anchor
     commit()
-    return jsonify(status='success', url=url_for('success', hashid=event.hashid))
+    return jsonify(url=url_for('success', hashid=event.hashid))
 
 
 @app.route('/success/<path:hashid>')
@@ -137,12 +136,12 @@ def invoke_payment(event_id):
     event = get_event(event_id)
     form = PaymentForm(request.form)
     if not form.validate():
-        return jsonify(result='validation_failed', errors=form.errors)
+        return jsonify(errors=form.errors)
 
     card = card_object(form)
     rebill_anchor = payonline.get_card_rebill_anchor(card)
     if not rebill_anchor:
-        return jsonify(result='card_auth_error')
+        return jsonify(errors={'result': 'Ошибка авторизации карты, проверьте правильность ввода'})
 
     recip_card = payonline.RecipientCard(rebill_anchor=event.rebill_anchor)
     order = payonline.Order(order_id=event.id, amount=float(form.amount.data))
@@ -164,10 +163,10 @@ def invoke_payment(event_id):
             'MD': trans.md,
             'TermUrl': url_for('complete_payment', _external=True)
         }
-        return jsonify(result='required_3ds', url=acsurl, data=data_for_3ds)
+        return jsonify(url=acsurl, data=data_for_3ds)
 
     if res.is_error:
-        return jsonify(result='payment_error')
+        return jsonify(errors={'result': 'Произошла ошибка'})
 
     return jsonify(result='payment_ok')
 
