@@ -2,12 +2,12 @@
 __author__ = 'fuse'
 
 from server import db, hashids
-from pony.orm import Required, Optional, select, LongStr
+from pony.orm import Required, Optional, select, LongStr, LongUnicode
 from datetime import datetime
 
 
 class Events(db.Entity):
-    description = Required(unicode)
+    description = Required(LongUnicode)
     amount = Required(int)
     rebill_anchor = Optional(unicode)
     image = Required(unicode)

@@ -5,21 +5,32 @@
 <meta property="og:url" content="{{ event.url }}" />
 {% endblock %}
 {% block content %}
-<div class="share-link-page">
+<div class="share-link-page creation-page">
 	<div class="spacer--big"></div>
-	<h2 class="title-h2">Ссылка</h2>
+	<h2 class="title-h2">Чтобы начать сбор средств поделитесь ссылкой со своими друзьями</h2>
+    <div class="creation-page__gift">
+        <div class="gift__photo input-item share-photo__gift" style="background-image: url(http://127.0.0.1:5000/static/uploads/thumb216939130046317777111743377133098798720Untitled-1.jpg);"></div>
+        <a class="share-link" href="http://www.peerpay.ru">PEERPAY.RU</a>
+        <div class="gift__desc input-item share-desc__gift">
+            <h2>Собираем Маше на гомаши</h2>
+            <p>Еще Аристотель в своей «Политике» говорил, что музыка, воздействуя на человека, доставляет «своего рода очищение, то есть облегчение, связанное с наслаждением», однако рондо имитирует шоу-бизнес. Показательный пример – глиссандо многопланово продолжает фузз.</p>
+        </div>
+    </div>
 	<div class="spacer--small"></div>
-	<p>Чтобы ускорить сбор средств поделитесь ссылкой со своими друзьями</p>
-	<div class="input-item">
-		<input class="input-item__text input-item__text--full-width" type="text" name="url" value="{{ event.url }}">
-	</div>
+	<h2 class="title-h2">Поделиться</h2>
 	<div class="spacer--small"></div>
 	<div class="yashare-auto-init" data-yashareL10n="ru"
 		 data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir" data-yashareTheme="counter" data-yashareLink="{{ event.url }}"></div>
-	<div class="spacer spacer--small"></div>
-	<hr class="split-line"/>
-	<div class="spacer spacer--small"></div>
-	<a href="/new" class="float-right">Собрать на новый подарок</a>
+	<div class="spacer spacer--big"></div>
+	<h2 class="title-h2">Ссылка</h2>
+	<div class="spacer--small"></div>
+	<div class="input-item">
+		<input class="input-item__text input-item__text--full-width" type="text" name="url" value="{{ event.url }}">
+	</div>
+	<div class="spacer--big"></div>
+    <div class="form-center clearfix">
+        <a class="button button--big button--red input-block" href="/new">Собрать деньги на новый подарок</a>
+    </div>
 </div>
 <script>
 	// remove image url from localStorage
