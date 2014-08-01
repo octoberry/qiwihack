@@ -7,6 +7,7 @@ UPLOAD_SIZE = 250, 250
 DATABASE = "postgres://username:password@localhost/database"
 
 DEBUG = True
+LOG_FILE = ''
 
 SALT = 'secret_peerpay_salt'
 
