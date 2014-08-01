@@ -1,7 +1,9 @@
 {% extends "index.html" %}
-{% block title %}Собираем на подарок{% endblock %}
 {% block metatags %}
 <!-- for Facebook -->
+<meta property="og:title" content="Собираем на подарок" />
+<meta property="og:description" content="{{ event.description }}" />
+<meta property="og:image" content="{{ url_for('static', filename=event.image_path, _external=True) }}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ event.url }}" />
 {% endblock %}
@@ -10,7 +12,7 @@
 	<div class="spacer--big"></div>
 	<h2 class="title-h2">Чтобы начать сбор средств поделитесь ссылкой со своими друзьями</h2>
     <div class="creation-page__gift">
-        <div class="gift__photo input-item share-photo__gift" style="background-image: url({{ event.image }});"></div>
+        <div class="gift__photo input-item share-photo__gift" style="background-image: url({{ url_for('static', filename=event.image_path) }});"></div>
         <a class="share-link" href="http://www.peerpay.ru">PEERPAY.RU</a>
         <div class="gift__desc input-item share-desc__gift">
             <h2>Собираем на подарок</h2>

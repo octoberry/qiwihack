@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'fuse'
 
-from server import db, hashids
+from server import db, hashids, app
 from pony.orm import Required, Optional, select, LongStr, LongUnicode
 from datetime import datetime
 
@@ -28,6 +28,10 @@ class Events(db.Entity):
         if len(parts) > 1:
             event_id, _ = parts
             return Events.get(id=event_id)
+
+    @property
+    def image_path(self):
+        return app.config['UPLOAD_PATH']+self.image
 
 
 class Transaction(db.Entity):

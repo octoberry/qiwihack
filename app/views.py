@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from os.path import basename
+
 __author__ = 'fuse'
 
 from server import app
@@ -54,7 +56,7 @@ def create():
     event_data = dict(
         description=form.description.data,
         amount=form.amount.data,
-        image=form.image.data,
+        image=basename(form.image.data),
         created_at=datetime.now(),
         updated_at=datetime.now()
     )
@@ -128,7 +130,7 @@ def upload():
         im = im.crop((0+(w-h)/2, 0, h+(w-h)/2, h))
     im.thumbnail(app.config['UPLOAD_SIZE'], Image.ANTIALIAS)
     im.save(app.config['UPLOAD_FOLDER'] + outfile, "PNG")
-    return jsonify(file=dict(url=app.config['UPLOAD_PATH'] + outfile))
+    return jsonify(file=dict(url=url_for('static', filename=app.config['UPLOAD_PATH'] + outfile)))
 
 
 @app.route('/payment/<int:event_id>', methods=['POST'])
