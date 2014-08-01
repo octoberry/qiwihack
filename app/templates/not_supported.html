@@ -1,11 +1,12 @@
 {% extends "index.html" %}
 {% block content %}
 <div class="spacer--big"></div>
-<h2 class="title-h2">К сожалению в данный момент платежная система не поддерживается</h2>
+<h2 class="title-h2">К сожалению {{ payment_type.upper() }} в данный момент не поддерживается</h2>
 <div class="spacer--small"></div>
-<form method="POST" action="{{ url_for('not_supported', payment_type=payment_type) }}" role="emailSubmit">
+<form method="POST" action="" role="emailSubmit">
     <input type="hidden" name="tags" value="{{ payment_type }}">
-	<p>Оставь нам свой e-mail и будь в курсе последних обновлений нашего проекта.</p>
+	<p>Привет, меня зовут Андрей, я технический директор <a target="_blank" href="http://octoberry.ru">Octoberry</a>. Мы каждый день трудимся, чтобы делать сервис лучше. Но пока не успели подключить {{ payment_type.upper() }}.</p>
+    <p>Оставь свой e-mail и я напишу как только появится поддержка этой платежной системы. Пока можешь воспользоваться переводами на карту <a href="{{ url_for('visa', hashid=hashid) }}">VISA и MasterCard</a>.</p>
 	<div class="input-item">
 		{{ form.email(class="input-item__text input-item__text--full-width", placeholder='Введите свой e-mail', id='email') }}
 		<span class="form-item__error"></span>

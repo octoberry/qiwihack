@@ -51,9 +51,6 @@ def create():
     if not form.validate():
         return jsonify(errors=form.errors)
 
-    if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
-        return jsonify(url=url_for('not_supported', payment_type=request.form.get('payment_type')))
-
     event_data = dict(
         description=form.description.data,
         amount=form.amount.data,
@@ -63,6 +60,10 @@ def create():
     )
     event = Events(**event_data)
     commit()
+
+    if request.form.get('payment_type') in app.config['DISABLED_PAYMENT_TYPES']:
+        return jsonify(url=url_for('not_supported', payment_type=request.form.get('payment_type'), hashid=event.hashid))
+
     return jsonify(url=url_for('visa', hashid=event.hashid))
 
 
@@ -199,9 +200,9 @@ def complete_payment():
     return redirect(url_for('event', hashid=event.hashid)+'?status=error')
 
 
-@app.route('/not_supported/<string:payment_type>', methods=['GET', 'POST'])
+@app.route('/not_supported/<string:payment_type>/<path:hashid>', methods=['GET', 'POST'])
 @db_session
-def not_supported(payment_type):
+def not_supported(payment_type, hashid):
     if payment_type not in app.config['DISABLED_PAYMENT_TYPES']:
         return redirect('new')
     else:
@@ -217,4 +218,4 @@ def not_supported(payment_type):
             commit()
             return render_template('email_saved.html')
         else:
-            return render_template('not_supported.html', payment_type=payment_type, form=form)
+            return render_template('not_supported.html', payment_type=payment_type, form=form, hashid=hashid)
