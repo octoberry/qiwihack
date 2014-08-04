@@ -12,3 +12,6 @@ requests==2.3.0
 wsgiref==0.1.2
 yoyo-migrations==4.2.4
 fabric
+Flask-Assets
+jsmin
+cssmin

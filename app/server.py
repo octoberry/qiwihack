@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
+from flask.ext.assets import Environment
 from pony.orm import Database
 from hashids import Hashids
 
 app = Flask(__name__)
 app.config.from_pyfile('../default_config.py')
 app.config.from_pyfile('../config.py')
+
+assets = Environment(app)
+assets.init_app(app)
 
 if not app.debug and app.config['LOG_FILE']:
     import logging
