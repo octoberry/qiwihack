@@ -20,7 +20,7 @@ from PIL import Image
 def get_event(hashid):
     hashid = hashid.strip('/')
     event = Events.get_by_hashid(hashid)
-    if not event:
+    if not event or event.hashid != hashid:
         raise NotFound()
     payonline.EVENT_ID = event.id
     return event

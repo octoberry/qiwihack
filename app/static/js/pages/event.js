@@ -22,7 +22,9 @@
         $donateAmount.html(amount.toFixed(2) + ' руб.');
     }
 
-    progressBar(currentAmount, goalAmount);
+    if (typeof currentAmount != 'undefined') {
+        progressBar(currentAmount, goalAmount);
+    }
 
 })();
 

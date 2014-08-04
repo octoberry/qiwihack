@@ -34,7 +34,6 @@
 	<h2 class="title-h2">Скинуться</h2>
 	<div class="spacer--small"></div>
 	<form action="/payment/{{ event.id }}" class="donate-form clearfix" method="post" role="donateSubmit">
-		<input type="hidden" name="card_expdate" value="">
 		<div class="input-item">
 			<label class="input-item__label" for="transfer_amount">Сумма:</label>
 			<input class="input-item__text" id="transfer_amount" name="amount" placeholder="Cумма" type="text" value="">
@@ -98,6 +97,4 @@
 		goalAmount = {{ event.amount }},
 		event_id = {{ event.id }};
 </script>
-<script src="/static/js/pages/event.js"></script>
-<script src="/static/js/expdate.js"></script>
 {% endblock %}

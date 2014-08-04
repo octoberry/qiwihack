@@ -7,4 +7,7 @@ config.py
 node_modules
 app/static/bower_components
 app/static/uploads/*
+app/static/gen
+app/static/.webassets-cache
 !app/static/uploads/.gitignore
+build
