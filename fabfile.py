@@ -31,7 +31,7 @@ def update():
     local('sudo git pull')
     local('sudo pyclean .')
 
-    local('sudo %s/bin/pip install -q -r requirements.txt' % VENV_DIR)
-    local('sudo %s/bin/yoyo-migrate -b apply migrations/' % VENV_DIR)
+    local('sudo ../.env/bin/pip install -q -r requirements.txt')
+    local('sudo ../.env/bin/yoyo-migrate -b apply migrations/')
 
     local('sudo service uwsgi restart')
