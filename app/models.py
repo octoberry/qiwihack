@@ -25,7 +25,7 @@ class Events(db.Entity):
     @staticmethod
     def get_by_hashid(hashid):
         parts = hashids.decrypt(hashid)
-        if len(parts) > 1:
+        if len(parts) == 2:
             event_id, _ = parts
             return Events.get(id=event_id)
 

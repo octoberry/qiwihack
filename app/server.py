@@ -15,6 +15,6 @@ if not app.debug and app.config['LOG_FILE']:
 
 db = Database('postgres', app.config['DATABASE'])
 
-hashids = Hashids(salt=app.config['SALT'])
+hashids = Hashids(salt=app.config['SALT'], min_length=8)
 
 from app import views
