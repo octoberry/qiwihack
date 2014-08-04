@@ -3,7 +3,7 @@ from os.path import basename
 
 __author__ = 'fuse'
 
-from server import app
+from server import app, db
 import os
 from flask import render_template, request, redirect, url_for, jsonify
 from forms import CreateEventForm, CreateEmailForm, PaymentForm, CardForm
@@ -33,6 +33,11 @@ def card_object(form):
         exp_date=form.card_expdate,
         cvv=form.card_cvv.data
     )
+
+
+@app.before_first_request
+def reset_connection():
+    db.disconnect()
 
 
 @app.route("/", methods=['GET', 'POST'])
