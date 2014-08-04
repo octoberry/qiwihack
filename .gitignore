@@ -10,3 +10,4 @@ app/static/uploads/*
 app/static/gen
 app/static/.webassets-cache
 !app/static/uploads/.gitignore
+build
