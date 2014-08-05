@@ -13,7 +13,7 @@
 	<h2 class="title-h2">О подарке</h2>
 	<div class="spacer--small"></div>
 	<div class="creation-page__gift">
-		<div class="gift__photo" style="background-image: url({{ event.image }})"></div>
+		<div class="gift__photo" style="background-image: url({{ url_for('static', filename=event.image_path) }})"></div>
 		<div class="gift__desc">
 			<div class="gift__desc_text">{{ event.description }}</div>
 		</div>
