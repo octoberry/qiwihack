@@ -33,7 +33,7 @@
 {% else %}
 	<h2 class="title-h2">Скинуться</h2>
 	<div class="spacer--small"></div>
-	<form action="/payment/{{ event.id }}" class="donate-form clearfix" method="post" role="donateSubmit">
+	<form action="/payment/{{ event.hashid }}" class="donate-form clearfix" method="post" role="donateSubmit">
 		<div class="input-item">
 			<label class="input-item__label" for="transfer_amount">Сумма:</label>
 			<input class="input-item__text" id="transfer_amount" name="amount" placeholder="Cумма" type="text" value="">
