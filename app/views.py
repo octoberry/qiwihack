@@ -138,10 +138,10 @@ def upload():
     return jsonify(file=dict(url=url_for('static', filename=app.config['UPLOAD_PATH'] + outfile)))
 
 
-@app.route('/payment/<int:event_id>', methods=['POST'])
+@app.route('/payment/<path:hashid>', methods=['POST'])
 @db_session
-def invoke_payment(event_id):
-    event = get_event(event_id)
+def invoke_payment(hashid):
+    event = get_event(hashid)
     form = PaymentForm(request.form)
     if not form.validate():
         return jsonify(errors=form.errors)
