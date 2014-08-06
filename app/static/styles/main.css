@@ -1,6 +1,6 @@
-@import url("http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic&subset=latin,cyrillic");
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,700,600&subset=latin,cyrillic-ext");
-@import url("http://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
+@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic&subset=latin,cyrillic");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,700,600&subset=latin,cyrillic-ext");
+@import url("https://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
 /* normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -218,7 +218,7 @@ th {
 }
 .input-item__label {
   display: inline-block;
-  width: 100px;
+  width: 130px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
@@ -235,14 +235,13 @@ th {
   border: 2px solid #f6f6f6;
   background: #f6f6f6;
   height: 45px;
-  width: 370px;
+  width: 340px;
   padding-left: 10px;
   box-sizing: border-box;
 }
 .input-item__text::-webkit-input-placeholder {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-color
 }
 .input-item__text:-moz-placeholder {
   font-family: 'Open Sans', sans-serif;
@@ -272,13 +271,12 @@ color
 .input-item__select {
   height: 45px;
   border: 2px solid #f6f6f6;
-  background: F6F6F6;
+  background: #F6F6F6;
   box-sizing: border-box;
 }
 .input-item__select::-webkit-input-placeholder {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-color
 }
 .input-item__select:-moz-placeholder {
   font-family: 'Open Sans', sans-serif;
@@ -309,12 +307,10 @@ color
   border: 2px solid #f6f6f6;
   background: rgba(246,246,246,0);
   box-sizing: border-box;
-  box-sizing: border-box;
 }
 .input-item__textarea::-webkit-input-placeholder {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
-color
 }
 .input-item__textarea:-moz-placeholder {
   font-family: 'Open Sans', sans-serif;
@@ -468,7 +464,8 @@ body {
   background: #fff;
   min-height: 100%;
 }
-.layout .page-wrap margin-bottom -200px:after {
+.layout .page-wrap:after {
+  margin-bottom: -40px;
   content: " ";
   display: block;
 }
@@ -658,4 +655,73 @@ body {
 }
 .donate-page .security-icon {
   vertical-align: middle;
+}
+
+.button--white {
+  background: #f0f0f0;
+}
+.button--white:hover {
+  background: #dddddd;
+}
+.button--white:active {
+  background: #bbbbbb;
+}
+.button--white:disabled {
+  background: #aaaaaa;
+}
+
+.button--box {
+  line-height: 20px;
+  padding: 20px;
+  margin-right: 10px;
+  width: 207px;
+}
+
+.button--box:last-child {
+    margin-right: 0;
+}
+
+.button--img {
+    height: 60px;
+}
+
+.input-csv {
+    width: 55px;
+}
+
+.form-center {
+    text-align: center
+}
+
+.input-block {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.creation-page__gift {
+    position: relative;
+}
+
+.creation-page__gift .share-photo__gift {
+  margin-right: 15px;
+
+}
+
+.creation-page__gift .share-desc__gift {
+    margin: 0;
+}
+
+.creation-page__gift .share-desc__gift h2 {
+  font-size: 1em;
+    padding-top: 15px;
+}
+
+.creation-page__gift .share-desc__gift p {
+  font-size: 0.8em;
+}
+
+.creation-page__gift .share-link {
+  font-size: 0.8em;
+  position: absolute;
+  bottom: 15px;
 }
