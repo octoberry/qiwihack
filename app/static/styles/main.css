@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic&subset=latin,cyrillic");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,700,600&subset=latin,cyrillic-ext");
-@import url("https://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
+@import url("http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic&subset=latin,cyrillic");
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,700,600&subset=latin,cyrillic-ext");
+@import url("http://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic-ext,latin");
 /* normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -218,7 +218,7 @@ th {
 }
 .input-item__label {
   display: inline-block;
-  width: 130px;
+  width: 100px;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #000;
@@ -235,13 +235,14 @@ th {
   border: 2px solid #f6f6f6;
   background: #f6f6f6;
   height: 45px;
-  width: 340px;
+  width: 370px;
   padding-left: 10px;
   box-sizing: border-box;
 }
 .input-item__text::-webkit-input-placeholder {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+color
 }
 .input-item__text:-moz-placeholder {
   font-family: 'Open Sans', sans-serif;
@@ -271,12 +272,13 @@ th {
 .input-item__select {
   height: 45px;
   border: 2px solid #f6f6f6;
-  background: #F6F6F6;
+  background: F6F6F6;
   box-sizing: border-box;
 }
 .input-item__select::-webkit-input-placeholder {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+color
 }
 .input-item__select:-moz-placeholder {
   font-family: 'Open Sans', sans-serif;
@@ -312,6 +314,7 @@ th {
 .input-item__textarea::-webkit-input-placeholder {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
+color
 }
 .input-item__textarea:-moz-placeholder {
   font-family: 'Open Sans', sans-serif;
@@ -427,6 +430,30 @@ a:hover {
   line-height: 45px;
   padding: 0 60px;
 }
+.overlay {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  background: #ccc;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.overlay__spinner {
+  position: absolute;
+  width: 128px;
+  height: 128px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.overlay--show {
+  display: block;
+}
 html,
 body {
   height: 100%;
@@ -441,8 +468,7 @@ body {
   background: #fff;
   min-height: 100%;
 }
-.layout .page-wrap:after {
-  margin-bottom: -40px;
+.layout .page-wrap margin-bottom -200px:after {
   content: " ";
   display: block;
 }
@@ -460,6 +486,7 @@ body {
   overflow: hidden;
 }
 .layout .content {
+  position: relative;
   height: 100%;
   border-top: 1px solid #d7d7d7;
 }
@@ -536,6 +563,57 @@ body {
 .creation-page__gift .gift__desc overflow hidden:focus {
   outline: none;
 }
+.creation-page .how-to-use > * {
+  display: inline-block;
+}
+.creation-page .how-to-use .step {
+  text-align: center;
+  font-size: 13px;
+}
+.creation-page .how-to-use .step span {
+  display: block;
+  margin-top: 12px;
+}
+.creation-page .how-to-use .step-compose span {
+  margin-top: 5px;
+}
+.creation-page .how-to-use .step-price span {
+  margin-top: 6px;
+}
+.creation-page .how-to-use .next-step {
+  width: 84px;
+  text-align: center;
+}
+.creation-page .how-to-use .next-step img {
+  margin-bottom: 54px;
+}
+.creation-page .button--white {
+  background: #f0f0f0;
+}
+.creation-page .button--white:hover {
+  background: #ddd;
+}
+.creation-page .button--white:active {
+  background: #bbb;
+}
+.creation-page .button--white:disabled {
+  background: #aaa;
+}
+.creation-page .button--box {
+  line-height: 20px;
+  padding: 20px;
+  margin-right: 10px;
+  width: 207px;
+}
+.creation-page .button--box:last-child {
+  margin-right: 0;
+}
+.creation-page .button--img {
+  height: 60px;
+}
+.creation-page .input-csv {
+  width: 55px;
+}
 .donate-page {
   padding-bottom: 100px;
 }
@@ -580,98 +658,4 @@ body {
 }
 .donate-page .security-icon {
   vertical-align: middle;
-}
-
-.button--white {
-  background: #f0f0f0;
-}
-.button--white:hover {
-  background: #dddddd;
-}
-.button--white:active {
-  background: #bbbbbb;
-}
-.button--white:disabled {
-  background: #aaaaaa;
-}
-
-.button--box {
-  line-height: 20px;
-  padding: 20px;
-  margin-right: 10px;
-  width: 207px;
-}
-
-.button--box:last-child {
-    margin-right: 0;
-}
-
-.button--img {
-    height: 60px;
-}
-
-.input-csv {
-    width: 55px;
-}
-
-.how-to-use > * {
-    display: inline-block;
-}
-.how-to-use .step {
-    text-align: center;
-    font-size: 13px;
-}
-.how-to-use .step span {
-    display: block;
-    margin-top: 12px;
-}
-.how-to-use .step-compose span {
-    margin-top: 5px;
-}
-.how-to-use .step-price span {
-    margin-top: 6px;
-}
-.how-to-use .next-step {
-    width: 84px;
-    text-align: center;
-}
-.how-to-use .next-step img {
-    margin-bottom: 54px;
-}
-
-.form-center {
-    text-align: center
-}
-
-.input-block {
-    display: inline-block;
-    text-decoration: none;
-}
-
-.creation-page__gift {
-    position: relative;
-}
-
-.creation-page__gift .share-photo__gift {
-  margin-right: 15px;
-
-}
-
-.creation-page__gift .share-desc__gift {
-    margin: 0;
-}
-
-.creation-page__gift .share-desc__gift h2 {
-  font-size: 1em;
-    padding-top: 15px;
-}
-
-.creation-page__gift .share-desc__gift p {
-  font-size: 0.8em;
-}
-
-.creation-page__gift .share-link {
-  font-size: 0.8em;
-  position: absolute;
-  bottom: 15px;
 }
