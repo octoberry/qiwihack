@@ -86,6 +86,8 @@ class Response(object):
 
     @staticmethod
     def parse_body(body):
+        if body.find('=') == -1:
+            return None
         return OrderedDict([tuple(item.split('=', 1)) for item in body.strip().split('&') if item])
 
     def get(self, key):
@@ -106,6 +108,16 @@ class Response(object):
     @property
     def required_3ds(self):
         return self.is_error and self.code == '6001'
+
+
+class ErrorResponse(object):
+
+    def __call__(self):
+        return None
+
+    @staticmethod
+    def is_error():
+        return True
 
 
 def transaction_auth(order, card):
@@ -175,8 +187,8 @@ def _post(uri, data, ext_encode_data=None, add_security_key=True):
 
     try:
         r = requests.post(base_url + uri, data=request_data)
-        print r.text
-        if r.ok:
+        if app.config['DEBUG'] and r.text:
+            print r.text
             _create_log(uri, request_data, r.text)
         else:
             print r.headers
@@ -184,10 +196,12 @@ def _post(uri, data, ext_encode_data=None, add_security_key=True):
     except:
         print 'Error Payonline'
         print traceback.format_exc()
+        return ErrorResponse()
 
 
 _SECURITY_ENCODE_KEYS = ('MerchantId', 'RebillAnchor', 'OrderId', 'Amount', 'Currency',
-                         'TransactionId', 'Operation', 'PARes', 'PD')
+                         'RecipientRebillAnchor', 'TransactionId', 'Operation', 'PARes', 'PD')
+
 
 def _gen_security_key(data):
     encode_data = OrderedDict([(k, data[k]) for k in _SECURITY_ENCODE_KEYS if k in data])
@@ -196,12 +210,13 @@ def _gen_security_key(data):
     # print encode_str
     return md5(encode_str).hexdigest()
 
+
 def _create_log(uri, request_data, response):
     if EVENT_ID:
         log = PayonlineLog(
             event_id=EVENT_ID,
             operation=_get_operation_by_uri(uri),
-            request=json.dumps(request_data),
+            request=json.dumps(_obfuscate(request_data)),
             response=response
         )
         try:
@@ -210,5 +225,19 @@ def _create_log(uri, request_data, response):
         except:
             pass
 
+
 def _get_operation_by_uri(uri):
     return uri.strip('/').split('/')[-1]
+
+
+def _obfuscate(request_data):
+    data = {}
+    for k, v in request_data.iteritems():
+        if k in ('CardCvv', 'CardExpDate'):
+            v = '*' * len(v)
+        elif k == 'CardHolderName':
+            v = ' '.join([x[0:3]+'*'*(len(x)-3) for x in v.split(' ')])
+        elif k == 'CardNumber':
+            v = v[0:4] + '*'*(len(v)-8) + v[-4:]
+        data[k] = v
+    return data
