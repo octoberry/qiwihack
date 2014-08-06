@@ -165,6 +165,33 @@ a
 	&--big
 		line-height 45px
 		padding 0 60px
+
+
+.overlay
+	display block
+	position absolute
+	height 100%
+	width 100%
+	opacity 0.5
+	background #ccc
+	top 0
+	left 0
+	display none
+
+	&__spinner
+		position absolute
+		width 128px
+		height 128px
+		margin auto
+		left 0
+		right 0
+		top 0
+		bottom 0
+
+	&--show
+		display block
+
+
 html
 body
 	height 100%
@@ -198,6 +225,7 @@ body
 			overflow hidden
 
 	.content
+		position relative
 		height 100%
 		border-top 1px solid rgba(215,215,215,1)
 
@@ -278,6 +306,64 @@ body
 
 					&:focus
 						outline none
+
+	//TODO @chuve переделать на stylus
+	.how-to-use > * {
+		display: inline-block;
+	}
+	.how-to-use .step {
+		text-align: center;
+		font-size: 13px;
+	}
+	.how-to-use .step span {
+		display: block;
+		margin-top: 12px;
+	}
+	.how-to-use .step-compose span {
+		margin-top: 5px;
+	}
+	.how-to-use .step-price span {
+		margin-top: 6px;
+	}
+	.how-to-use .next-step {
+		width: 84px;
+		text-align: center;
+	}
+	.how-to-use .next-step img {
+		margin-bottom: 54px;
+	}
+
+	.button--white {
+		background: #f0f0f0;
+	}
+	.button--white:hover {
+		background: #dddddd;
+	}
+	.button--white:active {
+		background: #bbbbbb;
+	}
+	.button--white:disabled {
+		background: #aaaaaa;
+	}
+
+	.button--box {
+		line-height: 20px;
+		padding: 20px;
+		margin-right: 10px;
+		width: 207px;
+	}
+
+	.button--box:last-child {
+		margin-right: 0;
+	}
+
+	.button--img {
+		height: 60px;
+	}
+
+	.input-csv {
+		width: 55px;
+	}
 
 .donate-page
 	padding-bottom 100px

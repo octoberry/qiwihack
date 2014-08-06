@@ -1,7 +1,9 @@
 $(function () {
     var $form = $('form[role="visaSubmit"]'),
         $cardnumberField = $('#card_number'),
-        $errorContainer = $('#form-errors');
+        $errorContainer = $('#form-errors'),
+        $overlay = $('#overlay'),
+        overlayShowClass = 'overlay--show';
 
     // show errors
     app.formValidate(app.errors, $errorContainer);
@@ -47,12 +49,15 @@ $(function () {
                 }
             },
             beforeSend: function() {
+                $overlay.addClass(overlayShowClass);
                 app.clearErrors();
             },
             complete: function() {
+                $overlay.removeClass(overlayShowClass);
                 $cardnumberField.trigger('keyup');
             },
             error: function() {
+                $overlay.removeClass(overlayShowClass);
                 app.formValidate({error: 'Произошла ошибка'}, $errorContainer);
             }
         })
