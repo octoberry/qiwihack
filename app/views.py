@@ -200,9 +200,10 @@ def complete_payment():
                     print res.body
             if trans.status == 1:
                 return redirect(url_for('event', hashid=event.hashid)+'?status=ok')
-
-        print 'Transaction not found'
-    print 'Event not found'
+        else:
+            print 'Transaction not found'
+    else:
+        print 'Event not found'
 
     return redirect(url_for('event', hashid=event.hashid)+'?status=error')
 
