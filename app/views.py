@@ -115,7 +115,7 @@ def success(hashid):
 @db_session
 def event(hashid):
     hashid = hashid.strip('/')
-    event = Events.get_by_hashid(hashid)
+    event = get_event(hashid)
     event.url = url_for('event', hashid=hashid, _external=True)
     status = request.args.get('status')
     return render_template('event.html', event=event, status=status, error=request.args.get('error'))
