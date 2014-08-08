@@ -54,6 +54,7 @@ $(function () {
             dataType: 'json',
             success: function(res) {
                 if (res.url) {
+                    localStorage.removeItem('giftImageLink'); // remove image url from localStorage
                     location.href = res.url;
                 }
                 else if (res.errors) {
