@@ -187,7 +187,7 @@ def _post(uri, data, ext_encode_data=None, add_security_key=True):
 
     try:
         r = requests.post(base_url + uri, data=request_data)
-        if app.config['DEBUG'] and r.text:
+        if r.text:
             print r.text
             _create_log(uri, request_data, r.text)
         else:
