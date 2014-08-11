@@ -59,12 +59,11 @@
 <script>
 	var app = (app) ? app : {};
 </script>
+{% block scripts %}{% endblock %}
 <script src="//yandex.st/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
 
 {% assets filters="jsmin", output="gen/packed.js", "js/vendor/*.js", "js/*.js", "js/pages/*.js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
 {% endassets %}
-
-{% block scripts %}{% endblock %}
 </html>
