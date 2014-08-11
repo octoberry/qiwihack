@@ -91,10 +91,11 @@
 </div>
 {% endif %}
 {% endblock %}
-{% block scripts %}
+
+{% block scripts_init %}
 <script>
-	var currentAmount = {{ event.income }},
-		goalAmount = {{ event.amount }},
-		event_id = {{ event.id }};
+var currentAmount = {{ event.income }},
+    goalAmount = {{ event.amount }},
+    event_id = {{ event.id }};
 </script>
 {% endblock %}
