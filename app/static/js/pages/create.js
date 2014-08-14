@@ -19,7 +19,7 @@ $(function () {
     app.formValidate(app.errors, $errorContainer);
 
     // get image url from localStorage
-    if ( localStorage.giftImageLink ) {
+    if ( localStorage.giftImageLink && $form.length ) {
         updateGift(localStorage.giftImageLink);
     }
 
